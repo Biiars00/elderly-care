@@ -9,23 +9,6 @@ const emergencyContactsController = container.resolve(
   EmergencyContactsController,
 );
 
-/**
- * @swagger
- * /contacts:
- *   get:
- *     tags: [Contacts]
- *     description: Endpoint para listar todos os contatos de emergência
- *     responses:
- *       200:
- *         description: Listar contatos de emergência
- * /contacts/contactId:
- *   get:
- *     tags: [Contacts]
- *     description: Endpoint para buscar um contato de emergência
- *     responses:
- *       201:
- *         description: Listar contatos de emergência
- */
 contacts.get('/', (req: Request, res: Response) => {
   return emergencyContactsController.getEmergencyContacts(req, res);
 });
@@ -40,6 +23,10 @@ contacts.post('/', (req: Request, res: Response) => {
 
 contacts.put('/:contactId', (req: Request, res: Response) => {
   return emergencyContactsController.updateEmergencyContact(req, res);
+});
+
+contacts.delete('/:contactId', (req: Request, res: Response) => {
+  return emergencyContactsController.removeEmergencyContact(req, res);
 });
 
 export default contacts;

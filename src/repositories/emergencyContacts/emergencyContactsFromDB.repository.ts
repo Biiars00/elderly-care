@@ -86,6 +86,18 @@ class EmergencyContactsFromDBRepository
       throw new Error('Document not found!');
     }
   }
+
+  async removeEmergencyContactFromDB(contactId: string): Promise<string> {
+    const refDB = await this.contactsDB.doc(contactId).get();
+
+    if (refDB.exists) {
+      refDB.ref.delete();
+
+      return 'Contact removed successfully!';
+    } else {
+      throw new Error('Document not found!');
+    }
+  }
 }
 
 export default EmergencyContactsFromDBRepository;

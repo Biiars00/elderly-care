@@ -66,6 +66,19 @@ class EmergencyContactsService implements IEmergencyContactsService {
 
     return updateContactOnDB;
   }
+
+  async removeEmergencyContact(contactId: string): Promise<string> {
+    const updateContactOnDB =
+      await this.emergencyContactsFromDBRepository.removeEmergencyContactFromDB(
+        contactId,
+      );
+
+    if (!updateContactOnDB) {
+      throw new Error('Contact removed successfully!');
+    }
+
+    return updateContactOnDB;
+  }
 }
 
 export default EmergencyContactsService;

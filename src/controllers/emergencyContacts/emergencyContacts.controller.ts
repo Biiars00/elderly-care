@@ -88,6 +88,27 @@ class EmergencyContactsController {
       res.status(500).send({ message: `Internal server error - ${error}` });
     }
   }
+
+  async removeEmergencyContact(req: Request, res: Response): Promise<void> {
+    try {
+      if (!req.params.contactId) {
+        throw new Error('Data not reported. Try again!');
+      }
+
+      const response =
+        await this.emergencyContactsService.removeEmergencyContact(
+          req.params.contactId,
+        );
+
+      if (!response) {
+        throw new Error('Resource not found!');
+      }
+
+      res.status(204).send(response);
+    } catch (error) {
+      res.status(500).send({ message: `Internal server error - ${error}` });
+    }
+  }
 }
 
 export default EmergencyContactsController;

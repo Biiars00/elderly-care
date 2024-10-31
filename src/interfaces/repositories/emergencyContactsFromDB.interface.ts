@@ -13,6 +13,7 @@ interface IEmergencyContactsFromDBRepository {
     name: string,
     phone: string,
   ): Promise<string>;
+  removeEmergencyContactFromDB(contactId: string): Promise<string>;
 }
 
 export default IEmergencyContactsFromDBRepository;
