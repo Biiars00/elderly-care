@@ -1,4 +1,4 @@
-import { IMedicalServiceData } from 'interfaces/repositories/medicalServicesFromDB.interface';
+import { IMedicalServiceData } from '../repositories/medicalServicesFromDB.interface';
 
 interface IMedicalServices {
   getMedicalServices(service: string): Promise<IMedicalServiceData[]>;
