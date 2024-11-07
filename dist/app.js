@@ -12,9 +12,15 @@ const contacts_router_1 = __importDefault(require("./routes/contacts.router"));
 const medicalServices_router_1 = __importDefault(require("./routes/medicalServices.router"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
 app.use(express_1.default.json());
 app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerConfig_1.default));
+app.get('/api-docs.json', (req, res) => {
+    res.json(swaggerConfig_1.default);
+});
 app.use('/contacts', contacts_router_1.default);
 app.use('/medicalServices', medicalServices_router_1.default);
 app.use((_req, res) => {
