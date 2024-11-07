@@ -10,10 +10,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url:
-          process.env.NODE_ENV_URL === 'production'
-            ? 'https://elderly-care-1f7roekco-beatrizs-projects-bc3b103e.vercel.app/api-docs'
-            : 'http://localhost:3000/api-docs',
+        url: process.env.NODE_ENV_URL_PROD || 'http://localhost:3000/api-docs',
       },
     ],
   },
