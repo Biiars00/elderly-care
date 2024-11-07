@@ -21,7 +21,6 @@ class EmergencyContactsFromDBRepository
       const docData = doc.data() as IContactsData;
 
       if (docData) {
-        console.log(docData);
         return docData;
       } else {
         throw new Error('Contact list not available!');
@@ -82,6 +81,18 @@ class EmergencyContactsFromDBRepository
       });
 
       return 'Contact updated successfully!';
+    } else {
+      throw new Error('Document not found!');
+    }
+  }
+
+  async removeEmergencyContactFromDB(contactId: string): Promise<string> {
+    const refDB = await this.contactsDB.doc(contactId).get();
+
+    if (refDB.exists) {
+      refDB.ref.delete();
+
+      return 'Contact removed successfully!';
     } else {
       throw new Error('Document not found!');
     }

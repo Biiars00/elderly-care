@@ -9,6 +9,7 @@ interface IEmergencyContactsService {
     name: string,
     phone: string,
   ): Promise<string>;
+  removeEmergencyContact(contactId: string): Promise<string>;
 }
 
 export default IEmergencyContactsService;
