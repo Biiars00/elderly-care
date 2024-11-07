@@ -1,7 +1,4 @@
-// import { medicalServices } from './';
 import { emergencyContacts } from './contacts/contacts.dependencies';
+import { medicalServices } from './medicalServices/medicalServices.dependencies';
 
-export {
-  // medicalServices,
-  emergencyContacts as container,
-};
+export { emergencyContacts, medicalServices as container };
