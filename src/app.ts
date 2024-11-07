@@ -10,10 +10,18 @@ dotenv.config();
 
 const app: Application = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  }),
+);
 app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.get('/api-docs.json', (req, res) => {
+  res.json(swaggerDocs);
+});
 
 app.use('/contacts', contacts);
 app.use('/medicalServices', medicalServicesRoutes);
