@@ -21,7 +21,6 @@ class EmergencyContactsFromDBRepository
       const docData = doc.data() as IContactsData;
 
       if (docData) {
-        console.log(docData);
         return docData;
       } else {
         throw new Error('Contact list not available!');

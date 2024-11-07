@@ -1,13 +1,14 @@
 import { inject, injectable } from 'tsyringe';
 import IEmergencyContactsService from '../../interfaces/services/emergencyContacts.interface';
-import { IContactsData } from '../../interfaces/repositories/emergencyContactsFromDB.interface';
-import EmergencyContactsFromDBRepository from '../../repositories/emergencyContacts/emergencyContactsFromDB.repository';
+import IEmergencyContactsFromDBRepository, {
+  IContactsData,
+} from '../../interfaces/repositories/emergencyContactsFromDB.interface';
 
 @injectable()
 class EmergencyContactsService implements IEmergencyContactsService {
   constructor(
     @inject('EmergencyContactsFromDBRepository')
-    private emergencyContactsFromDBRepository: EmergencyContactsFromDBRepository,
+    private emergencyContactsFromDBRepository: IEmergencyContactsFromDBRepository,
   ) {}
 
   async getEmergencyContacts(): Promise<IContactsData[]> {

@@ -27,7 +27,7 @@ class EmergencyContactsController {
   async getEmergencyContactById(req: Request, res: Response): Promise<void> {
     try {
       if (!req.params.contactId) {
-        throw new Error('Data not reported. Try again!');
+        throw new Error('Resource is missing!');
       }
 
       const response =
@@ -48,7 +48,7 @@ class EmergencyContactsController {
   async addEmergencyContact(req: Request, res: Response): Promise<void> {
     try {
       if (!req.body.name && !req.body.phone) {
-        throw new Error('Data not reported. Try again!');
+        throw new Error('Resource is missing!');
       }
 
       const response = await this.emergencyContactsService.addEmergencyContact(
@@ -69,7 +69,7 @@ class EmergencyContactsController {
   async updateEmergencyContact(req: Request, res: Response): Promise<void> {
     try {
       if (!req.params.contactId && !req.body.name && !req.body.phone) {
-        throw new Error('Data not reported. Try again!');
+        throw new Error('Resource is missing!');
       }
 
       const response =
@@ -92,7 +92,7 @@ class EmergencyContactsController {
   async removeEmergencyContact(req: Request, res: Response): Promise<void> {
     try {
       if (!req.params.contactId) {
-        throw new Error('Data not reported. Try again!');
+        throw new Error('Resource is missing!');
       }
 
       const response =
