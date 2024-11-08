@@ -26,5 +26,4 @@ const swaggerOptions = {
     apis: ['./dist/swagger/*.js'],
 };
 const swaggerDocs = (0, swagger_jsdoc_1.default)(swaggerOptions);
-console.log(swaggerDocs);
 exports.default = swaggerDocs;
