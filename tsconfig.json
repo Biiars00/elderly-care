@@ -109,6 +109,10 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src/**/*.ts",
+    "src/swagger/swaggerDocs.js",
+    "src/swagger/swaggerConfig.js"
+  ],
+  "exclude": ["node_modules"]
 }

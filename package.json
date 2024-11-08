@@ -1,11 +1,13 @@
 {
   "name": "pti-mobile-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "API para gerenciamento de contatos e serviços médicos",
+  "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon",
     "build": "tsc",
+    "start": "node dist/server.js",
+    "vercel-build": "tsc",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
