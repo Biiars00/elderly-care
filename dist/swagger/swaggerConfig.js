@@ -14,12 +14,9 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: 'http://localhost:3000',
-                description: 'Care Idosos - Local',
-            },
-            {
-                url: 'https://elderly-care-three.vercel.app',
-                description: 'Care Idosos - Produção',
+                url: process.env.NODE_ENV === 'production'
+                    ? 'https://elderly-care-three.vercel.app'
+                    : 'http://localhost:3000',
             },
         ],
     },

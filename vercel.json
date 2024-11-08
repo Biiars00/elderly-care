@@ -17,10 +17,6 @@
     {
       "src": "/swagger-ui/(.*)",
       "dest": "/swagger-ui/$1"
-    },
-    {
-      "src": "/.*",
-      "dest": "/dist/server.js"
     }
   ]
 }
