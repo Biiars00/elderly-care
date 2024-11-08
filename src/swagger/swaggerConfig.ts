@@ -10,7 +10,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: 'https://elderly-care-three.vercel.app',
+        url: 'http://localhost:3000',
         description: 'Care Idosos - Local',
       },
       {
