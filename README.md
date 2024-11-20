@@ -110,6 +110,10 @@ Antes de começar, você precisará ter os seguintes softwares instalados:
 | GET                        | /medicalServices/service/:serviceId | Buscar uma consulta ou exame            |
 | GET                        | /medicalServices/:service           | Listar todos as consultas/exames        |
 
+## Imagens do Projeto
+
+[Link do Protótipo](https://www.figma.com/proto/jukqH7LXwcVKvUYlm0RC6v/PTI-IV---SENAC-2024?node-id=3620-1908&node-type=canvas&t=IFHWgzAqsvWO7Ui7-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1)
+
 ## Licença
 
 Este projeto está licenciado sob a [MIT License](./LICENSE.txt).
