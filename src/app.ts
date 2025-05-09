@@ -1,10 +1,11 @@
+import 'reflect-metadata';
 import express, { Application } from 'express';
+import './dependencies/dependencies';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import { RegisterRoutes } from './routes/routes';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocs from './swagger/swaggerConfig';
-import contacts from './routes/contacts.router';
-import medicalServicesRoutes from './routes/medicalServices.router';
+import * as swaggerDocument from './docs/swagger.json';
 
 dotenv.config();
 
@@ -13,13 +14,9 @@ const app: Application = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-app.get('/api-docs.json', (req, res) => {
-  res.json(swaggerDocs);
-});
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use('/contacts', contacts);
-app.use('/medicalServices', medicalServicesRoutes);
+RegisterRoutes(app);
 
 app.use((_req, res) => {
   res.status(404).send({ status: 'Not Found!' });
