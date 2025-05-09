@@ -1,19 +1,23 @@
 export interface IContactsData {
-  contactId: string;
+  id: string;
   name: string;
   phone: string;
+  relationship: string;
+  isMainContact: boolean;
 }
 
 interface IEmergencyContactsFromDBRepository {
   getEmergencyContactsFromDB(): Promise<IContactsData[]>;
-  getEmergencyContactByIdFromDB(contactId: string): Promise<IContactsData>;
-  addEmergencyContactFromDB(name: string, phone: string): Promise<string>;
+  getEmergencyContactByIdFromDB(id: string): Promise<IContactsData>;
+  addEmergencyContactFromDB(name: string, phone: string, relationship: string, isMainContact: boolean): Promise<string>;
   updateEmergencyContactFromDB(
-    contactId: string,
+    id: string,
     name: string,
     phone: string,
+    relationship: string,
+    isMainContact: boolean,
   ): Promise<string>;
-  removeEmergencyContactFromDB(contactId: string): Promise<string>;
+  removeEmergencyContactFromDB(id: string): Promise<string>;
 }
 
 export default IEmergencyContactsFromDBRepository;

@@ -31,18 +31,20 @@ class EmergencyContactsFromDBRepository
   }
 
   async getEmergencyContactByIdFromDB(
-    contactId: string,
+    id: string,
   ): Promise<IContactsData> {
-    const refDB = await this.contactsDB.doc(contactId).get();
+    const refDB = await this.contactsDB.doc(id).get();
 
     if (refDB.exists) {
       const data = refDB.data();
 
       if (data) {
         return {
-          contactId: data.contactId,
+          id: data.id,
           name: data.name,
           phone: data.phone,
+          relationship: data.relationship,
+          isMainContact: data.isMainContact,
         };
       } else {
         throw new Error('Contact not found!');
@@ -55,29 +57,37 @@ class EmergencyContactsFromDBRepository
   async addEmergencyContactFromDB(
     name: string,
     phone: string,
+    relationship: string,
+    isMainContact: boolean,
   ): Promise<string> {
     const refDB = this.contactsDB;
     const docRef = await refDB.add({
       name: name,
       phone: phone,
+      relationship: relationship,
+      isMainContact: isMainContact,
     });
 
-    docRef.update({ contactId: docRef.id });
+    docRef.update({ id: docRef.id });
 
     return 'Contact added successfully!';
   }
 
   async updateEmergencyContactFromDB(
-    contactId: string,
+    id: string,
     name: string,
     phone: string,
+    relationship: string,  
+    isMainContact: boolean
   ): Promise<string> {
-    const refDB = await this.contactsDB.doc(contactId).get();
+    const refDB = await this.contactsDB.doc(id).get();
 
     if (refDB.exists) {
       refDB.ref.update({
         name: name,
         phone: phone,
+        relationship: relationship,
+        isMainContact: isMainContact,
       });
 
       return 'Contact updated successfully!';
@@ -86,8 +96,8 @@ class EmergencyContactsFromDBRepository
     }
   }
 
-  async removeEmergencyContactFromDB(contactId: string): Promise<string> {
-    const refDB = await this.contactsDB.doc(contactId).get();
+  async removeEmergencyContactFromDB(id: string): Promise<string> {
+    const refDB = await this.contactsDB.doc(id).get();
 
     if (refDB.exists) {
       refDB.ref.delete();

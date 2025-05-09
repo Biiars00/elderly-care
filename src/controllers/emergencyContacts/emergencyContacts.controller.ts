@@ -1,15 +1,19 @@
 import { inject, injectable } from 'tsyringe';
-import { Request, Response } from 'express';
 import EmergencyContactsService from '../../services/emergencyContacts/emergencyContacts.service';
+import { Body, Delete, Get, Path, Post, Put, Route, Tags } from 'tsoa';
+import { IContactsData } from '../../interfaces/repositories/emergencyContactsFromDB.interface';
 
 @injectable()
+@Route('contacts')
+@Tags('Contatos de Emergência')
 class EmergencyContactsController {
   constructor(
     @inject('EmergencyContactsService')
     private emergencyContactsService: EmergencyContactsService,
   ) {}
 
-  async getEmergencyContacts(req: Request, res: Response): Promise<void> {
+  @Get('/')
+  async getEmergencyContacts(): Promise<IContactsData[]> {
     try {
       const response =
         await this.emergencyContactsService.getEmergencyContacts();
@@ -18,95 +22,105 @@ class EmergencyContactsController {
         throw new Error('Resource not found!');
       }
 
-      res.status(200).send(response);
+      return response;
     } catch (error) {
-      res.status(500).send({ message: `Internal server error - ${error}` });
+      throw new Error(`Internal server error - ${error}`);
     }
   }
 
-  async getEmergencyContactById(req: Request, res: Response): Promise<void> {
+  @Get('/:id')
+  async getEmergencyContactById(@Path() id: string): Promise<IContactsData> {
     try {
-      if (!req.params.contactId) {
+      if (!id) {
         throw new Error('Resource is missing!');
       }
 
       const response =
-        await this.emergencyContactsService.getEmergencyContactById(
-          req.params.contactId,
-        );
+        await this.emergencyContactsService.getEmergencyContactById(id);
 
       if (!response) {
         throw new Error('Resource not found!');
       }
 
-      res.status(200).send(response);
+      return response;
     } catch (error) {
-      res.status(500).send({ message: `Internal server error - ${error}` });
+      throw new Error(`Internal server error - ${error}`);
     }
   }
 
-  async addEmergencyContact(req: Request, res: Response): Promise<void> {
+  @Post('/')
+  async addEmergencyContact(@Body() body: Omit<IContactsData, 'id'>): Promise<string> {
+    const { name, phone, relationship, isMainContact } = body
     try {
-      if (!req.body.name && !req.body.phone) {
+      if (!body) {
         throw new Error('Resource is missing!');
       }
 
       const response = await this.emergencyContactsService.addEmergencyContact(
-        req.body.name,
-        req.body.phone,
-      );
+        name, 
+        phone, 
+        relationship, 
+        isMainContact
+      ); 
 
       if (!response) {
         throw new Error('Resource not found!');
       }
 
-      res.status(201).send(response);
+      return response;
     } catch (error) {
-      res.status(500).send({ message: `Internal server error - ${error}` });
+      throw new Error(`Internal server error - ${error}`);
     }
   }
 
-  async updateEmergencyContact(req: Request, res: Response): Promise<void> {
+  @Put('/:id')
+  async updateEmergencyContact(
+    @Path() id: string, 
+    @Body() body: Omit<IContactsData, 'id'>): Promise<string> {
+      const { name, phone, relationship, isMainContact } = body
     try {
-      if (!req.params.contactId && !req.body.name && !req.body.phone) {
+      if (!id && !body) {
         throw new Error('Resource is missing!');
       }
 
       const response =
         await this.emergencyContactsService.updateEmergencyContact(
-          req.params.contactId,
-          req.body.name,
-          req.body.phone,
+          id,
+          name,
+          phone,
+          relationship,
+          isMainContact
         );
 
       if (!response) {
         throw new Error('Resource not found!');
       }
 
-      res.status(200).send(response);
+      return response;
     } catch (error) {
-      res.status(500).send({ message: `Internal server error - ${error}` });
+      throw new Error(`Internal server error - ${error}`);
     }
   }
 
-  async removeEmergencyContact(req: Request, res: Response): Promise<void> {
+  @Delete('/:id')
+  async removeEmergencyContact(@Path() id: string): Promise<string> {
     try {
-      if (!req.params.contactId) {
+      if (!id) {
         throw new Error('Resource is missing!');
       }
 
       const response =
         await this.emergencyContactsService.removeEmergencyContact(
-          req.params.contactId,
+          id,
         );
 
       if (!response) {
         throw new Error('Resource not found!');
       }
 
-      res.status(204).send(response);
+      return response;
     } catch (error) {
-      res.status(500).send({ message: `Internal server error - ${error}` });
+      throw new Error(`Internal server error - ${error}`);
     }
   }
 }

@@ -22,10 +22,10 @@ class EmergencyContactsService implements IEmergencyContactsService {
     return contactListFromDB || [];
   }
 
-  async getEmergencyContactById(contactId: string): Promise<IContactsData> {
+  async getEmergencyContactById(id: string): Promise<IContactsData> {
     const contactFromDB =
       await this.emergencyContactsFromDBRepository.getEmergencyContactByIdFromDB(
-        contactId,
+        id,
       );
 
     if (!contactFromDB) {
@@ -35,11 +35,13 @@ class EmergencyContactsService implements IEmergencyContactsService {
     return contactFromDB;
   }
 
-  async addEmergencyContact(name: string, phone: string): Promise<string> {
+  async addEmergencyContact(name: string, phone: string, relationship: string, isMainContact: boolean): Promise<string> {
     const addContactOnDB =
       await this.emergencyContactsFromDBRepository.addEmergencyContactFromDB(
         name,
         phone,
+        relationship,
+        isMainContact,
       );
 
     if (!addContactOnDB) {
@@ -50,15 +52,19 @@ class EmergencyContactsService implements IEmergencyContactsService {
   }
 
   async updateEmergencyContact(
-    contactId: string,
+    id: string,
     name: string,
     phone: string,
+    relationship: string,
+    isMainContact: boolean,
   ): Promise<string> {
     const updateContactOnDB =
       await this.emergencyContactsFromDBRepository.updateEmergencyContactFromDB(
-        contactId,
+        id,
         name,
         phone,
+        relationship,
+        isMainContact
       );
 
     if (!updateContactOnDB) {
@@ -68,10 +74,10 @@ class EmergencyContactsService implements IEmergencyContactsService {
     return updateContactOnDB;
   }
 
-  async removeEmergencyContact(contactId: string): Promise<string> {
+  async removeEmergencyContact(id: string): Promise<string> {
     const updateContactOnDB =
       await this.emergencyContactsFromDBRepository.removeEmergencyContactFromDB(
-        contactId,
+        id,
       );
 
     if (!updateContactOnDB) {
