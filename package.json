@@ -1,10 +1,10 @@
 {
-  "name": "pti-mobile-server",
+  "name": "care-idosos",
   "version": "1.0.0",
   "description": "API para gerenciamento de contatos e serviços médicos",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "nodemon",
+    "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
     "vercel-build": "tsc",
@@ -12,25 +12,19 @@
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "nodemonConfig": {
-    "watch": [
-      "src"
-    ],
-    "ext": "ts",
-    "exec": "ts-node src/server.ts"
-  },
   "keywords": [],
   "author": "Beatriz Ribeiro",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.21.1",
+    "express": "^4.21.2",
     "firebase": "^11.0.1",
     "firebase-admin": "^12.7.0",
     "reflect-metadata": "^0.2.2",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
+    "tsoa": "^6.6.0",
     "tsyringe": "^4.8.0"
   },
   "devDependencies": {
