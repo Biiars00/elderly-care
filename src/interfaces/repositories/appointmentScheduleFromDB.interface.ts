@@ -10,6 +10,14 @@ export interface IAppointmentScheduleData {
   createdAt: string
 }
 
+export interface IFullAppointmentScheduleData extends IAppointmentScheduleData{
+  doctorName: string,
+  specialty: string,
+  locationName: string,
+  locationAddress: string,
+  locationCity: string,
+}
+
 export interface IConfirmScheduleData {
   confirmed: boolean;
 }

@@ -54,7 +54,6 @@ class AppointmentScheduleFromDBRepository
     time: string, 
     createdAt: string
   ): Promise<string> {
-    console.log('REPOSITORYYYYYYYYYYYYYYYYYYYYYYYYYYY')
     const refDB = this.servicesDB;
     const docRef = await refDB.add({
       doctorId: doctorId, 

@@ -1,6 +1,9 @@
 import IAppointmentScheduleService from '../../interfaces/services/appointmentSchedule.interface';
-import IAppointmentScheduleFromDBRepository, { IAppointmentScheduleData, IConfirmScheduleData } from '../../interfaces/repositories/appointmentScheduleFromDB.interface';
+import IAppointmentScheduleFromDBRepository, { IAppointmentScheduleData, IConfirmScheduleData, IFullAppointmentScheduleData } from '../../interfaces/repositories/appointmentScheduleFromDB.interface';
 import { inject, injectable } from 'tsyringe';
+import IDoctorFromDBRepository from '../../interfaces/repositories/doctorsFromDB.interface';
+import ILocationFromDBRepository from '../../interfaces/repositories/locationFromDB.interface';
+import { app } from 'firebase-admin';
 
 
 @injectable()
@@ -8,30 +11,66 @@ class AppointmentScheduleService implements IAppointmentScheduleService {
   constructor(
     @inject('AppointmentScheduleFromDBRepository')
     private appointmentScheduleFromDBRepository: IAppointmentScheduleFromDBRepository,
+    @inject('DoctorFromDBRepository')
+    private doctorFromDBRepository: IDoctorFromDBRepository,
+    @inject('LocationFromDBRepository')
+    private locationFromDBRepository: ILocationFromDBRepository,
   ) {}
 
-  async getSchedule(): Promise<IAppointmentScheduleData[]> {
-    const serviceListFromDB =
+  async getSchedule(): Promise<IFullAppointmentScheduleData[]> {
+    const doctorData = await this.doctorFromDBRepository.getDoctorsFromDB();
+    const locationData = await this.locationFromDBRepository.getLocationsFromDB();
+    const appointmentData =
       await this.appointmentScheduleFromDBRepository.getScheduleFromDB();
 
-    if (!serviceListFromDB) {
+      
+    if (!appointmentData && !doctorData && !locationData) {
       throw new Error('Data not found!');
     }
+    
+    const appointmentList = appointmentData.map((data) => {
+      const doctor = doctorData.find((doc) => doc.doctorId === data.doctorId);
+      const location = locationData.find((loc) => loc.locationId === data.locationId);
 
-    return serviceListFromDB || [];
+      if (!doctor || !location) {
+        throw new Error('Doctor or location not found!');
+      }
+      
+      return {
+        ...data,
+        doctorName: doctor.doctorName,
+        specialty: doctor.specialty,  
+        locationName: location.locationName,
+        locationAddress: location.locationAddress,
+        locationCity: location.locationCity,
+      }
+    })
+
+    return appointmentList || [];
   }
 
-  async getScheduleById(id: string): Promise<IAppointmentScheduleData> {
-    const serviceFromDB =
-      await this.appointmentScheduleFromDBRepository.getScheduleByIdFromDB(
-        id,
-      );
+  async getScheduleById(id: string): Promise<IFullAppointmentScheduleData> {
+    const appointment =
+    await this.appointmentScheduleFromDBRepository.getScheduleByIdFromDB(
+      id,
+    );
+    
+    const doctorData = await this.doctorFromDBRepository.getDoctorByIdFromDB(appointment.doctorId);
 
-    if (!serviceFromDB) {
+    const locationData = await this.locationFromDBRepository.getLocationByIdFromDB(appointment.locationId);
+    
+    if (!appointment && !doctorData && !locationData) {
       throw new Error('Data not found!');
     }
 
-    return serviceFromDB;
+    return {
+      ...appointment,
+      doctorName: doctorData.doctorName,
+      specialty: doctorData.specialty,
+      locationName: locationData.locationName,
+      locationAddress: locationData.locationAddress,
+      locationCity: locationData.locationCity,
+    }
   }
 
   async addSchedule(
