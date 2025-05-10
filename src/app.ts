@@ -16,6 +16,10 @@ app.use(express.json());
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+app.get('/', (req, res) => {
+  res.send('Bem-vindo à API Elderly Care!! 🧓👵');
+});
+
 RegisterRoutes(app);
 
 app.use((_req, res) => {
