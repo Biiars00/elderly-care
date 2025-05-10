@@ -966,7 +966,12 @@
 	},
 	"servers": [
 		{
-			"url": "/"
+			"url": "https://elderly-care.onrender.com",
+			"description": "Produção"
+		},
+		{
+			"url": "http://localhost:3000",
+			"description": "Desenvolvimento/Local"
 		}
 	]
 }
