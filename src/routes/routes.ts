@@ -1,7 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
 import 'reflect-metadata';
 import { container } from 'tsyringe';
 import type { TsoaRoute } from '@tsoa/runtime';
@@ -11,11 +10,11 @@ import MedicationController from '../controllers/medication/medication.controlle
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import LocationController from '../controllers/location/location.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import EmergencyContactsController from '../controllers/emergencyContacts/emergencyContacts.controller';
+import EmergencyContactsController from './../controllers/emergencyContacts/emergencyContacts.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import DoctorController from '../controllers/doctor/doctor.controller';
+import DoctorController from './../controllers/doctor/doctor.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import AppointmentScheduleController from '../controllers/appointmentSchedule/appointmentSchedule.controller';
+import AppointmentScheduleController from './../controllers/appointmentSchedule/appointmentSchedule.controller';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 
 
