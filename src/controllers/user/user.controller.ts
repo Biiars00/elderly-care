@@ -3,7 +3,6 @@ import { Body, Get, Path, Post, Route, Security, Tags } from 'tsoa';
 import { IUserData } from '../../interfaces/repositories/userFromDB.interface';
 import UserService from '../../services/user/user.service';
 import { generateToken } from '../../middlewares/jwtAuthentication';
-import { authMiddleware } from '../../middlewares/auth';
 
 @injectable()
 @Route('user')
