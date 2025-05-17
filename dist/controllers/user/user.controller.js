@@ -99,12 +99,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "loginUser", null);
 __decorate([
+    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Get)('/'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getUsers", null);
 __decorate([
+    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Get)('/:userId'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),

@@ -51,12 +51,14 @@ let DoctorController = class DoctorController {
     }
 };
 __decorate([
+    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Get)('/'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], DoctorController.prototype, "getDoctors", null);
 __decorate([
+    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Get)('/:doctorId'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),

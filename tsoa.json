@@ -15,7 +15,7 @@
     },
     "iocModule": "src/ioc.ts",
     "securityDefinitions": {
-      "firebaseAuth": {
+      "jwt": {
         "type": "apiKey",
         "name": "Authorization",
         "in": "header"
@@ -23,7 +23,7 @@
     },
     "security": [
       {
-        "firebase": []
+        "jwt": []
       }
     ],
     "ignore": [

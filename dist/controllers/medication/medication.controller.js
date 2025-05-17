@@ -126,12 +126,14 @@ let MedicationController = class MedicationController {
     }
 };
 __decorate([
+    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Get)('/'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], MedicationController.prototype, "getMedications", null);
 __decorate([
+    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Get)('/:id'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),
@@ -139,6 +141,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MedicationController.prototype, "getMedicationById", null);
 __decorate([
+    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Post)('/'),
     __param(0, (0, tsoa_1.Body)()),
     __metadata("design:type", Function),
@@ -146,6 +149,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MedicationController.prototype, "addMedication", null);
 __decorate([
+    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Delete)('/:id'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),
@@ -153,6 +157,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MedicationController.prototype, "removeMedication", null);
 __decorate([
+    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Put)('/reminder/:id'),
     __param(0, (0, tsoa_1.Path)()),
     __param(1, (0, tsoa_1.Body)()),
@@ -161,6 +166,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MedicationController.prototype, "updateMedicationReminder", null);
 __decorate([
+    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Put)('/taken/:id'),
     __param(0, (0, tsoa_1.Path)()),
     __param(1, (0, tsoa_1.Body)()),
@@ -169,6 +175,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MedicationController.prototype, "updateMedicationTaken", null);
 __decorate([
+    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Put)('/reset'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -178,6 +185,7 @@ MedicationController = __decorate([
     (0, tsyringe_1.injectable)(),
     (0, tsoa_1.Route)('medication'),
     (0, tsoa_1.Tags)('Medicações'),
+    (0, tsoa_1.Security)('jwt'),
     __param(0, (0, tsyringe_1.inject)('MedicationService')),
     __metadata("design:paramtypes", [medication_service_1.default])
 ], MedicationController);

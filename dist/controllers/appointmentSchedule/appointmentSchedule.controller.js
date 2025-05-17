@@ -114,12 +114,14 @@ let AppointmentScheduleController = class AppointmentScheduleController {
     }
 };
 __decorate([
+    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Get)('/'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], AppointmentScheduleController.prototype, "getSchedule", null);
 __decorate([
+    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Get)('/:id'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),
@@ -127,6 +129,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AppointmentScheduleController.prototype, "getScheduleById", null);
 __decorate([
+    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Post)('/'),
     __param(0, (0, tsoa_1.Body)()),
     __metadata("design:type", Function),
@@ -134,6 +137,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AppointmentScheduleController.prototype, "addSchedule", null);
 __decorate([
+    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Put)('/:id'),
     __param(0, (0, tsoa_1.Path)()),
     __param(1, (0, tsoa_1.Body)()),
@@ -142,6 +146,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AppointmentScheduleController.prototype, "updateSchedule", null);
 __decorate([
+    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Delete)('/:id'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),
@@ -149,6 +154,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AppointmentScheduleController.prototype, "removeSchedule", null);
 __decorate([
+    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Put)('/confirmed/:id'),
     __param(0, (0, tsoa_1.Path)()),
     __param(1, (0, tsoa_1.Body)()),

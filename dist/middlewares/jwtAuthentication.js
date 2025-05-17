@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateToken = void 0;
 const jsonwebtoken_1 = require("jsonwebtoken");
-const secretKey = process.env.JWT_SECRET_KEY || 'defaultSecretKey';
-const expiresIn = process.env.JWT_EXPIRES_IN || '365d';
+const secretKey = process.env.JWT_SECRET_KEY || '';
+const expiresIn = process.env.JWT_EXPIRES_IN || '';
 const generateToken = ({ userId, email }) => {
     const payload = { userId, email };
     const signOptions = {
