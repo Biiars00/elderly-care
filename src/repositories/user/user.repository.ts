@@ -1,7 +1,6 @@
 import { injectable } from 'tsyringe';
 import databaseConfig from '../../database/databaseConfig';
 import IUserFromDBRepository, { IUserData } from '../../interfaces/repositories/userFromDB.interface';
-import bcrypt from 'bcryptjs';
 
 @injectable()
 class UserFromDBRepository
@@ -21,14 +20,13 @@ class UserFromDBRepository
     password: string,
   ): Promise<string> {
     const refDB = this.db;
-    const hashedPassword = await bcrypt.hash(password, 10);
 
     const docRef = await refDB.add({
       userFirstName: userFirstName,
       userLastName: userLastName,
       phone: phone,
       email: email,
-      password: hashedPassword
+      password: password
     });
 
     docRef.update({ id: docRef.id });
