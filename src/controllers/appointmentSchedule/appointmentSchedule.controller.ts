@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-import { Body, Delete, Get, Path, Post, Put, Route, Tags } from 'tsoa';
+import { Body, Delete, Get, Path, Post, Put, Route, Security, Tags } from 'tsoa';
 import AppointmentScheduleService from '../../services/appointmentSchedule/appointmentSchedule.service';
 import { IAppointmentScheduleData, IConfirmScheduleData } from '../../interfaces/repositories/appointmentScheduleFromDB.interface';
 
@@ -12,6 +12,7 @@ class AppointmentScheduleController {
     private appointmentScheduleService: AppointmentScheduleService,
   ) {}
 
+  @Security('jwt')
   @Get('/')
   async getSchedule(): Promise<IAppointmentScheduleData[]> {
     try {
@@ -27,6 +28,7 @@ class AppointmentScheduleController {
     }
   }
 
+  @Security('jwt')
   @Get('/:id')
   async getScheduleById(@Path() id: string): Promise<IAppointmentScheduleData> {
     try {
@@ -46,6 +48,7 @@ class AppointmentScheduleController {
     }
   }
 
+  @Security('jwt')
   @Post('/')
   async addSchedule(@Body() body: Omit<IAppointmentScheduleData, 'id'>
   ): Promise<string> {
@@ -74,6 +77,7 @@ class AppointmentScheduleController {
     }
   }
 
+  @Security('jwt')
   @Put('/:id')
   async updateSchedule(
     @Path() id: string, 
@@ -105,6 +109,7 @@ class AppointmentScheduleController {
     }
   }
 
+  @Security('jwt')
   @Delete('/:id')
   async removeSchedule(@Path() id: string): Promise<string> {
     try {
@@ -124,6 +129,7 @@ class AppointmentScheduleController {
     }
   }
 
+  @Security('jwt')
   @Put('/confirmed/:id')
   async confirmSchedule(
     @Path() id: string,

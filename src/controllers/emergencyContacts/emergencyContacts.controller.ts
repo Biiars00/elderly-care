@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import EmergencyContactsService from '../../services/emergencyContacts/emergencyContacts.service';
-import { Body, Delete, Get, Path, Post, Put, Route, Tags } from 'tsoa';
+import { Body, Delete, Get, Path, Post, Put, Route, Security, Tags } from 'tsoa';
 import { IContactsData } from '../../interfaces/repositories/emergencyContactsFromDB.interface';
 
 @injectable()
@@ -12,6 +12,7 @@ class EmergencyContactsController {
     private emergencyContactsService: EmergencyContactsService,
   ) {}
 
+  @Security('jwt')
   @Get('/')
   async getEmergencyContacts(): Promise<IContactsData[]> {
     try {
@@ -28,6 +29,7 @@ class EmergencyContactsController {
     }
   }
 
+  @Security('jwt')
   @Get('/:id')
   async getEmergencyContactById(@Path() id: string): Promise<IContactsData> {
     try {
@@ -48,6 +50,7 @@ class EmergencyContactsController {
     }
   }
 
+  @Security('jwt')
   @Post('/')
   async addEmergencyContact(@Body() body: Omit<IContactsData, 'id'>): Promise<string> {
     const { name, phone, relationship, isMainContact } = body
@@ -73,6 +76,7 @@ class EmergencyContactsController {
     }
   }
 
+  @Security('jwt')
   @Put('/:id')
   async updateEmergencyContact(
     @Path() id: string, 
@@ -102,6 +106,7 @@ class EmergencyContactsController {
     }
   }
 
+  @Security('jwt')
   @Delete('/:id')
   async removeEmergencyContact(@Path() id: string): Promise<string> {
     try {

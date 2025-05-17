@@ -1,17 +1,19 @@
 import { inject, injectable } from 'tsyringe';
-import { Body, Delete, Get, Path, Post, Put, Route, Tags } from 'tsoa';
+import { Body, Delete, Get, Path, Post, Put, Route, Security, Tags } from 'tsoa';
 import MedicationService from '../../services/medication/medication.service';
 import { IMedicationsData, IResetMedicationsData } from '../../interfaces/repositories/medicationFromDB.interface';
 
 @injectable()
 @Route('medication')
 @Tags('Medicações')
+@Security('jwt')
 class MedicationController {
   constructor(
     @inject('MedicationService')
     private medicationService: MedicationService,
   ) {}
 
+  @Security('jwt')
   @Get('/')
   async getMedications(): Promise<IMedicationsData[]> {
     try {
@@ -27,6 +29,7 @@ class MedicationController {
     }
   }
 
+  @Security('jwt')
   @Get('/:id')
   async getMedicationById(@Path() id: string): Promise<IMedicationsData> {
     try {
@@ -46,6 +49,7 @@ class MedicationController {
     }
   }
 
+  @Security('jwt')
   @Post('/')
   async addMedication(@Body() body: Omit<IMedicationsData, 'id'>
   ): Promise<string> {
@@ -72,6 +76,7 @@ class MedicationController {
     }
   }
 
+  @Security('jwt')
   @Delete('/:id')
   async removeMedication(@Path() id: string): Promise<string> {
     try {
@@ -91,6 +96,7 @@ class MedicationController {
     }
   }
 
+  @Security('jwt')
   @Put('/reminder/:id')
   async updateMedicationReminder(
     @Path() id: string, 
@@ -118,6 +124,7 @@ class MedicationController {
     }
   }
 
+  @Security('jwt')
   @Put('/taken/:id')
   async updateMedicationTaken(
     @Path() id: string,
@@ -142,6 +149,7 @@ class MedicationController {
     }
   }
 
+  @Security('jwt')
   @Put('/reset')
   async resetMedications(): Promise<string> {
     try {

@@ -1,7 +1,7 @@
 import { sign, Secret, SignOptions  } from "jsonwebtoken";
 
-const secretKey: Secret = process.env.JWT_SECRET_KEY || 'defaultSecretKey';
-const expiresIn = process.env.JWT_EXPIRES_IN || '365d';
+const secretKey: Secret = process.env.JWT_SECRET_KEY || '';
+const expiresIn = process.env.JWT_EXPIRES_IN || '';
 
 interface TokenPayload {
   userId: string;

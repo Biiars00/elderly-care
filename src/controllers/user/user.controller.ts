@@ -3,6 +3,7 @@ import { Body, Get, Path, Post, Route, Security, Tags } from 'tsoa';
 import { IUserData } from '../../interfaces/repositories/userFromDB.interface';
 import UserService from '../../services/user/user.service';
 import { generateToken } from '../../middlewares/jwtAuthentication';
+import { authMiddleware } from '../../middlewares/auth';
 
 @injectable()
 @Route('user')
@@ -67,6 +68,7 @@ class UserController {
     }
   }
 
+  @Security('jwt')
   @Get('/')
   async getUsers(): Promise<IUserData[]> {
     try {
@@ -82,6 +84,7 @@ class UserController {
     }
   }
 
+  @Security('jwt')
   @Get('/:userId')
   async getLocationById(@Path() userId: string): Promise<Omit<IUserData, 'password'>> {
     try {

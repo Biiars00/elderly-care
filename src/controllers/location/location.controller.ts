@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-import { Get, Path, Route, Tags } from 'tsoa';
+import { Get, Path, Route, Security, Tags } from 'tsoa';
 import LocationService from '../../services/location/location.service';
 import { ILocationData } from '../../interfaces/repositories/locationFromDB.interface';
 
@@ -12,6 +12,7 @@ class LocationController {
     private locationService: LocationService,
   ) {}
 
+  @Security('jwt')
   @Get('/')
   async getLocations(): Promise<ILocationData[]> {
     try {
@@ -27,6 +28,7 @@ class LocationController {
     }
   }
 
+  @Security('jwt')
   @Get('/:locationId')
   async getLocationById(@Path() locationId: string): Promise<ILocationData> {
     try {

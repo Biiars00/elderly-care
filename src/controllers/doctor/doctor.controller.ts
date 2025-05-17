@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-import { Get, Path, Route, Tags } from 'tsoa';
+import { Get, Path, Route, Security, Tags } from 'tsoa';
 import DoctorService from '../../services/doctor/doctor.service';
 import { IDoctorsData } from '../../interfaces/repositories/doctorsFromDB.interface';
 
@@ -12,6 +12,7 @@ class DoctorController {
     private doctorService: DoctorService,
   ) {}
 
+  @Security('jwt')
   @Get('/')
   async getDoctors(): Promise<IDoctorsData[]> {
     try {
@@ -27,6 +28,7 @@ class DoctorController {
     }
   }
 
+  @Security('jwt')
   @Get('/:doctorId')
   async getDoctorById(@Path() doctorId: string): Promise<IDoctorsData> {
     try {
