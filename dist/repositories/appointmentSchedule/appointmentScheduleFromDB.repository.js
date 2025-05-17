@@ -14,83 +14,95 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const tsyringe_1 = require("tsyringe");
 const databaseConfig_1 = __importDefault(require("../../database/databaseConfig"));
-let EmergencyContactsFromDBRepository = class EmergencyContactsFromDBRepository {
+let AppointmentScheduleFromDBRepository = class AppointmentScheduleFromDBRepository {
     constructor() {
-        this.contactsDB = databaseConfig_1.default.firestore().collection('contacts');
+        this.servicesDB = databaseConfig_1.default.firestore().collection('schedules');
     }
-    async getEmergencyContactsFromDB() {
-        const refDB = await this.contactsDB.get();
-        const contactList = refDB.docs.map((doc) => {
+    async getScheduleFromDB() {
+        const refDB = await this.servicesDB.get();
+        const scheduleList = refDB.docs.map((doc) => {
             const docData = doc.data();
             if (docData) {
                 return docData;
             }
             else {
-                throw new Error('Contact list not available!');
+                throw new Error('Document not found!');
             }
         });
-        return contactList;
+        return scheduleList;
     }
-    async getEmergencyContactByIdFromDB(id) {
-        const refDB = await this.contactsDB.doc(id).get();
+    async getScheduleByIdFromDB(id) {
+        const refDB = await this.servicesDB.doc(id).get();
         if (refDB.exists) {
             const data = refDB.data();
             if (data) {
-                return {
-                    id: data.id,
-                    name: data.name,
-                    phone: data.phone,
-                    relationship: data.relationship,
-                    isMainContact: data.isMainContact,
-                };
+                return data;
             }
             else {
-                throw new Error('Contact not found!');
+                throw new Error('Schedule not found!');
             }
         }
         else {
             throw new Error('Document not found!');
         }
     }
-    async addEmergencyContactFromDB(name, phone, relationship, isMainContact) {
-        const refDB = this.contactsDB;
+    async addScheduleFromDB(doctorId, locationId, date, time, createdAt) {
+        const refDB = this.servicesDB;
         const docRef = await refDB.add({
-            name: name,
-            phone: phone,
-            relationship: relationship,
-            isMainContact: isMainContact,
+            doctorId: doctorId,
+            locationId: locationId,
+            date: date,
+            time: time,
+            createdAt: createdAt
         });
         docRef.update({ id: docRef.id });
-        return 'Contact added successfully!';
+        return 'Schedule added successfully!';
     }
-    async updateEmergencyContactFromDB(id, name, phone, relationship, isMainContact) {
-        const refDB = await this.contactsDB.doc(id).get();
+    async updateScheduleFromDB(id, doctorId, locationId, date, time, createdAt) {
+        const refDB = await this.servicesDB.doc(id).get();
         if (refDB.exists) {
             refDB.ref.update({
-                name: name,
-                phone: phone,
-                relationship: relationship,
-                isMainContact: isMainContact,
+                doctorId: doctorId,
+                locationId: locationId,
+                date: date,
+                time: time,
+                createdAt: createdAt
             });
-            return 'Contact updated successfully!';
+            return 'Schedule updated successfully!';
         }
         else {
             throw new Error('Document not found!');
         }
     }
-    async removeEmergencyContactFromDB(id) {
-        const refDB = await this.contactsDB.doc(id).get();
+    async removeScheduleFromDB(id) {
+        const refDB = await this.servicesDB.doc(id).get();
         if (refDB.exists) {
             refDB.ref.delete();
-            return 'Contact removed successfully!';
+            return 'Schedule removed successfully!';
+        }
+        else {
+            throw new Error('Document not found!');
+        }
+    }
+    async confirmScheduleFromDB(id, confirmed) {
+        const refDB = await this.servicesDB.doc(id).get();
+        const data = refDB.data();
+        if (refDB.exists) {
+            refDB.ref.update({
+                confirmed: confirmed,
+            });
+            return {
+                ...data,
+                confirmed: confirmed
+            };
         }
         else {
             throw new Error('Document not found!');
         }
     }
 };
-EmergencyContactsFromDBRepository = __decorate([
+AppointmentScheduleFromDBRepository = __decorate([
     (0, tsyringe_1.injectable)(),
     __metadata("design:paramtypes", [])
-], EmergencyContactsFromDBRepository);
-exports.default = EmergencyContactsFromDBRepository;
+], AppointmentScheduleFromDBRepository);
+exports.default = AppointmentScheduleFromDBRepository;

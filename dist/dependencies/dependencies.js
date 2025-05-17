@@ -1,7 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.container = exports.emergencyContacts = void 0;
+exports.container = exports.location = exports.doctor = exports.medications = exports.appointmentSchedule = exports.emergencyContacts = void 0;
+const appointmentSchedule_dependencies_1 = require("./appointmentSchedule/appointmentSchedule.dependencies");
+Object.defineProperty(exports, "appointmentSchedule", { enumerable: true, get: function () { return appointmentSchedule_dependencies_1.appointmentSchedule; } });
 const contacts_dependencies_1 = require("./contacts/contacts.dependencies");
 Object.defineProperty(exports, "emergencyContacts", { enumerable: true, get: function () { return contacts_dependencies_1.emergencyContacts; } });
-const medicalServices_dependencies_1 = require("./medicalServices/medicalServices.dependencies");
-Object.defineProperty(exports, "container", { enumerable: true, get: function () { return medicalServices_dependencies_1.medicalServices; } });
+const doctor_dependencies_1 = require("./doctor/doctor.dependencies");
+Object.defineProperty(exports, "doctor", { enumerable: true, get: function () { return doctor_dependencies_1.doctor; } });
+const location_dependencies_1 = require("./location/location.dependencies");
+Object.defineProperty(exports, "location", { enumerable: true, get: function () { return location_dependencies_1.location; } });
+const medications_dependencies_1 = require("./medication/medications.dependencies");
+Object.defineProperty(exports, "medications", { enumerable: true, get: function () { return medications_dependencies_1.medications; } });
+const user_dependencies_1 = require("./user/user.dependencies");
+Object.defineProperty(exports, "container", { enumerable: true, get: function () { return user_dependencies_1.user; } });

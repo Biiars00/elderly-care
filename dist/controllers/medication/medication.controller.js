@@ -16,15 +16,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const tsyringe_1 = require("tsyringe");
-const emergencyContacts_service_1 = __importDefault(require("../../services/emergencyContacts/emergencyContacts.service"));
 const tsoa_1 = require("tsoa");
-let EmergencyContactsController = class EmergencyContactsController {
-    constructor(emergencyContactsService) {
-        this.emergencyContactsService = emergencyContactsService;
+const medication_service_1 = __importDefault(require("../../services/medication/medication.service"));
+let MedicationController = class MedicationController {
+    constructor(medicationService) {
+        this.medicationService = medicationService;
     }
-    async getEmergencyContacts() {
+    async getMedications() {
         try {
-            const response = await this.emergencyContactsService.getEmergencyContacts();
+            const response = await this.medicationService.getMedications();
             if (!response) {
                 throw new Error('Resource not found!');
             }
@@ -34,12 +34,12 @@ let EmergencyContactsController = class EmergencyContactsController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
-    async getEmergencyContactById(id) {
+    async getMedicationById(id) {
         try {
             if (!id) {
                 throw new Error('Resource is missing!');
             }
-            const response = await this.emergencyContactsService.getEmergencyContactById(id);
+            const response = await this.medicationService.getMedicationById(id);
             if (!response) {
                 throw new Error('Resource not found!');
             }
@@ -49,13 +49,13 @@ let EmergencyContactsController = class EmergencyContactsController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
-    async addEmergencyContact(body) {
-        const { name, phone, relationship, isMainContact } = body;
+    async addMedication(body) {
+        const { name, dosage, time } = body;
         try {
-            if (!body) {
+            if (!name && !dosage && !time) {
                 throw new Error('Resource is missing!');
             }
-            const response = await this.emergencyContactsService.addEmergencyContact(name, phone, relationship, isMainContact);
+            const response = await this.medicationService.addMedication(name, dosage, time);
             if (!response) {
                 throw new Error('Resource not found!');
             }
@@ -65,28 +65,56 @@ let EmergencyContactsController = class EmergencyContactsController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
-    async updateEmergencyContact(id, body) {
-        const { name, phone, relationship, isMainContact } = body;
-        try {
-            if (!id && !body) {
-                throw new Error('Resource is missing!');
-            }
-            const response = await this.emergencyContactsService.updateEmergencyContact(id, name, phone, relationship, isMainContact);
-            if (!response) {
-                throw new Error('Resource not found!');
-            }
-            return response;
-        }
-        catch (error) {
-            throw new Error(`Internal server error - ${error}`);
-        }
-    }
-    async removeEmergencyContact(id) {
+    async removeMedication(id) {
         try {
             if (!id) {
                 throw new Error('Resource is missing!');
             }
-            const response = await this.emergencyContactsService.removeEmergencyContact(id);
+            const response = await this.medicationService.removeMedication(id);
+            if (!response) {
+                throw new Error('Resource not found!');
+            }
+            return response;
+        }
+        catch (error) {
+            throw new Error(`Internal server error - ${error}`);
+        }
+    }
+    async updateMedicationReminder(id, body) {
+        const { reminder } = body;
+        try {
+            if (!id && !reminder) {
+                throw new Error('Resource is missing!');
+            }
+            const response = await this.medicationService.updateMedicationReminder(id, reminder);
+            if (!response) {
+                throw new Error('Resource not found!');
+            }
+            return response;
+        }
+        catch (error) {
+            throw new Error(`Internal server error - ${error}`);
+        }
+    }
+    async updateMedicationTaken(id, body) {
+        const { taken } = body;
+        try {
+            if (!id && !taken) {
+                throw new Error('Resource is missing!');
+            }
+            const response = await this.medicationService.updateMedicationTaken(id, taken);
+            if (!response) {
+                throw new Error('Resource not found!');
+            }
+            return response;
+        }
+        catch (error) {
+            throw new Error(`Internal server error - ${error}`);
+        }
+    }
+    async resetMedications() {
+        try {
+            const response = await this.medicationService.resetMedications();
             if (!response) {
                 throw new Error('Resource not found!');
             }
@@ -102,41 +130,55 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], EmergencyContactsController.prototype, "getEmergencyContacts", null);
+], MedicationController.prototype, "getMedications", null);
 __decorate([
     (0, tsoa_1.Get)('/:id'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], EmergencyContactsController.prototype, "getEmergencyContactById", null);
+], MedicationController.prototype, "getMedicationById", null);
 __decorate([
     (0, tsoa_1.Post)('/'),
     __param(0, (0, tsoa_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], EmergencyContactsController.prototype, "addEmergencyContact", null);
-__decorate([
-    (0, tsoa_1.Put)('/:id'),
-    __param(0, (0, tsoa_1.Path)()),
-    __param(1, (0, tsoa_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", Promise)
-], EmergencyContactsController.prototype, "updateEmergencyContact", null);
+], MedicationController.prototype, "addMedication", null);
 __decorate([
     (0, tsoa_1.Delete)('/:id'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], EmergencyContactsController.prototype, "removeEmergencyContact", null);
-EmergencyContactsController = __decorate([
+], MedicationController.prototype, "removeMedication", null);
+__decorate([
+    (0, tsoa_1.Put)('/reminder/:id'),
+    __param(0, (0, tsoa_1.Path)()),
+    __param(1, (0, tsoa_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], MedicationController.prototype, "updateMedicationReminder", null);
+__decorate([
+    (0, tsoa_1.Put)('/taken/:id'),
+    __param(0, (0, tsoa_1.Path)()),
+    __param(1, (0, tsoa_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], MedicationController.prototype, "updateMedicationTaken", null);
+__decorate([
+    (0, tsoa_1.Put)('/reset'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], MedicationController.prototype, "resetMedications", null);
+MedicationController = __decorate([
     (0, tsyringe_1.injectable)(),
-    (0, tsoa_1.Route)('contacts'),
-    (0, tsoa_1.Tags)('Contatos de Emergência'),
-    __param(0, (0, tsyringe_1.inject)('EmergencyContactsService')),
-    __metadata("design:paramtypes", [emergencyContacts_service_1.default])
-], EmergencyContactsController);
-exports.default = EmergencyContactsController;
+    (0, tsoa_1.Route)('medication'),
+    (0, tsoa_1.Tags)('Medicações'),
+    __param(0, (0, tsyringe_1.inject)('MedicationService')),
+    __metadata("design:paramtypes", [medication_service_1.default])
+], MedicationController);
+exports.default = MedicationController;

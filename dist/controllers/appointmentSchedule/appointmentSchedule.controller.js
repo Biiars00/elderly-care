@@ -16,15 +16,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const tsyringe_1 = require("tsyringe");
-const emergencyContacts_service_1 = __importDefault(require("../../services/emergencyContacts/emergencyContacts.service"));
 const tsoa_1 = require("tsoa");
-let EmergencyContactsController = class EmergencyContactsController {
-    constructor(emergencyContactsService) {
-        this.emergencyContactsService = emergencyContactsService;
+const appointmentSchedule_service_1 = __importDefault(require("../../services/appointmentSchedule/appointmentSchedule.service"));
+let AppointmentScheduleController = class AppointmentScheduleController {
+    constructor(appointmentScheduleService) {
+        this.appointmentScheduleService = appointmentScheduleService;
     }
-    async getEmergencyContacts() {
+    async getSchedule() {
         try {
-            const response = await this.emergencyContactsService.getEmergencyContacts();
+            const response = await this.appointmentScheduleService.getSchedule();
             if (!response) {
                 throw new Error('Resource not found!');
             }
@@ -34,12 +34,12 @@ let EmergencyContactsController = class EmergencyContactsController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
-    async getEmergencyContactById(id) {
+    async getScheduleById(id) {
         try {
             if (!id) {
                 throw new Error('Resource is missing!');
             }
-            const response = await this.emergencyContactsService.getEmergencyContactById(id);
+            const response = await this.appointmentScheduleService.getScheduleById(id);
             if (!response) {
                 throw new Error('Resource not found!');
             }
@@ -49,13 +49,13 @@ let EmergencyContactsController = class EmergencyContactsController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
-    async addEmergencyContact(body) {
-        const { name, phone, relationship, isMainContact } = body;
+    async addSchedule(body) {
+        const { doctorId, locationId, date, time, createdAt } = body;
         try {
-            if (!body) {
+            if (!doctorId && !locationId && !date && !time && !createdAt) {
                 throw new Error('Resource is missing!');
             }
-            const response = await this.emergencyContactsService.addEmergencyContact(name, phone, relationship, isMainContact);
+            const response = await this.appointmentScheduleService.addSchedule(doctorId, locationId, date, time, createdAt);
             if (!response) {
                 throw new Error('Resource not found!');
             }
@@ -65,13 +65,13 @@ let EmergencyContactsController = class EmergencyContactsController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
-    async updateEmergencyContact(id, body) {
-        const { name, phone, relationship, isMainContact } = body;
+    async updateSchedule(id, body) {
+        const { doctorId, locationId, date, time, createdAt } = body;
         try {
-            if (!id && !body) {
+            if (!id && !doctorId && !locationId && !date && !time && !createdAt) {
                 throw new Error('Resource is missing!');
             }
-            const response = await this.emergencyContactsService.updateEmergencyContact(id, name, phone, relationship, isMainContact);
+            const response = await this.appointmentScheduleService.updateSchedule(id, doctorId, locationId, date, time, createdAt);
             if (!response) {
                 throw new Error('Resource not found!');
             }
@@ -81,12 +81,28 @@ let EmergencyContactsController = class EmergencyContactsController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
-    async removeEmergencyContact(id) {
+    async removeSchedule(id) {
         try {
             if (!id) {
                 throw new Error('Resource is missing!');
             }
-            const response = await this.emergencyContactsService.removeEmergencyContact(id);
+            const response = await this.appointmentScheduleService.removeSchedule(id);
+            if (!response) {
+                throw new Error('Resource not found!');
+            }
+            return response;
+        }
+        catch (error) {
+            throw new Error(`Internal server error - ${error}`);
+        }
+    }
+    async confirmSchedule(id, body) {
+        const { confirmed } = body;
+        try {
+            if (!id && !confirmed) {
+                throw new Error('Resource is missing!');
+            }
+            const response = await this.appointmentScheduleService.confirmSchedule(id, confirmed);
             if (!response) {
                 throw new Error('Resource not found!');
             }
@@ -102,21 +118,21 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], EmergencyContactsController.prototype, "getEmergencyContacts", null);
+], AppointmentScheduleController.prototype, "getSchedule", null);
 __decorate([
     (0, tsoa_1.Get)('/:id'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], EmergencyContactsController.prototype, "getEmergencyContactById", null);
+], AppointmentScheduleController.prototype, "getScheduleById", null);
 __decorate([
     (0, tsoa_1.Post)('/'),
     __param(0, (0, tsoa_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], EmergencyContactsController.prototype, "addEmergencyContact", null);
+], AppointmentScheduleController.prototype, "addSchedule", null);
 __decorate([
     (0, tsoa_1.Put)('/:id'),
     __param(0, (0, tsoa_1.Path)()),
@@ -124,19 +140,27 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
-], EmergencyContactsController.prototype, "updateEmergencyContact", null);
+], AppointmentScheduleController.prototype, "updateSchedule", null);
 __decorate([
     (0, tsoa_1.Delete)('/:id'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], EmergencyContactsController.prototype, "removeEmergencyContact", null);
-EmergencyContactsController = __decorate([
+], AppointmentScheduleController.prototype, "removeSchedule", null);
+__decorate([
+    (0, tsoa_1.Put)('/confirmed/:id'),
+    __param(0, (0, tsoa_1.Path)()),
+    __param(1, (0, tsoa_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], AppointmentScheduleController.prototype, "confirmSchedule", null);
+AppointmentScheduleController = __decorate([
     (0, tsyringe_1.injectable)(),
-    (0, tsoa_1.Route)('contacts'),
-    (0, tsoa_1.Tags)('Contatos de Emergência'),
-    __param(0, (0, tsyringe_1.inject)('EmergencyContactsService')),
-    __metadata("design:paramtypes", [emergencyContacts_service_1.default])
-], EmergencyContactsController);
-exports.default = EmergencyContactsController;
+    (0, tsoa_1.Route)('appointment'),
+    (0, tsoa_1.Tags)('Agendamento de Consultas'),
+    __param(0, (0, tsyringe_1.inject)('AppointmentScheduleService')),
+    __metadata("design:paramtypes", [appointmentSchedule_service_1.default])
+], AppointmentScheduleController);
+exports.default = AppointmentScheduleController;
