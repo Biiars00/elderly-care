@@ -10,6 +10,7 @@ O **Care Idosos** é uma aplicação backend desenvolvida em **Node.js** e **Typ
 - [Estrutura de Diretórios](#estrutura-de-diretórios)
 - [Como Usar](#como-usar)
 - [Endpoints da API](#endpoints-da-api)
+- [DER (Diagrama Entidade-Relacionamento)](#der-diagrama-entidade-relacionamento)
 - [Colaboradores do Projeto](#colaboradores-do-projeto)
 - [Link do Projeto Frontend](#link-do-projeto-frontend)
 - [Licença](#licença)
@@ -85,7 +86,7 @@ Antes de começar, você precisará ter os seguintes softwares instalados:
 
 ## Endpoints da API
 
-**Deploy do projeto:** https://elderly-care.onrender.com
+### **Deploy do projeto:** https://elderly-care.onrender.com
 
 | Método                     | Endpoint                            | Descrição                               |
 | -------------------------- | ----------------------------------- | --------------------------------------- |
@@ -114,6 +115,12 @@ Antes de começar, você precisará ter os seguintes softwares instalados:
 | POST                       | /medication                         | Adicionar um novo medicamento           |
 | DELETE                     | /medication/:id                     | Remover um medicamento                  |
 | PUT                        | /medication/:id                     | Atualizar um medicamento                |
+| **Usuários**           |
+| GET                        | /user/:userId                       | Buscar um usuário  (Autenticação)       |
+| POST                       | /user                               | Adicionar um novo usuário (Autenticação)|
+
+## DER (Diagrama Entidade-Relacionamento)
+![DER](DER-PI-SENAC.png)
 
 ## Colaboradores do Projeto
 
@@ -125,9 +132,10 @@ Antes de começar, você precisará ter os seguintes softwares instalados:
 - MARLU PATROCINIO RAMOS DA SILVA
 - ODAIR GOMES SOARES
 
-## Link do Projeto Frontend
+## Links do Projeto Front-end
 
-[Care Idosos](https://care-idosos-connect.vercel.app/)
+- [Care Idosos - Deploy](https://care-idosos-connect.vercel.app/)
+- [Care Idosos - Github](https://github.com/OdairGSoares/care-idosos-connect)
 
 ## Licença
 
