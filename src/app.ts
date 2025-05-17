@@ -6,7 +6,6 @@ import cors from 'cors';
 import { RegisterRoutes } from './routes/routes';
 import swaggerUi from 'swagger-ui-express';
 import * as swaggerDocument from './docs/swagger.json';
-import { firebaseAuth } from './middlewares/firebaseAuth';
 
 dotenv.config();
 
@@ -20,9 +19,6 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get('/', (req, res) => {
   res.send('Bem-vindo à API Elderly Care!! 🧓👵');
 });
-
-app.use(firebaseAuth);
-
 RegisterRoutes(app);
 
 app.use((_req, res) => {

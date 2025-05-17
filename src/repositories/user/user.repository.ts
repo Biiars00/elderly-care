@@ -18,7 +18,7 @@ class UserFromDBRepository
     phone: string,
     email: string,
     password: string,
-  ): Promise<string> {
+  ): Promise<IUserData> {
     const refDB = this.db;
 
     const docRef = await refDB.add({
@@ -29,9 +29,32 @@ class UserFromDBRepository
       password: password
     });
 
-    docRef.update({ id: docRef.id });
+    docRef.update({ userId: docRef.id });
 
-    return 'User added successfully!';
+    return {
+      userId: docRef.id,
+      userFirstName: userFirstName,
+      userLastName: userLastName,
+      phone: phone,
+      email: email,
+      password: password
+    };
+  }
+
+  async getUsersFromDB(): Promise<IUserData[]> {
+    const refDB = await this.db.get();
+
+    const usersList = refDB.docs.map((doc) => {
+      const docData = doc.data() as IUserData;
+
+      if (docData) {
+        return docData;
+      } else {
+        throw new Error('Document not found!');
+      }
+    });
+
+    return usersList;
   }
 
   async getUserByIdFromDB(
@@ -49,6 +72,27 @@ class UserFromDBRepository
       }
     } else {
       throw new Error('Document not found!');
+    }
+  }
+
+  async getUserCheckFromDB(
+    userId: string,
+    email: string,
+    password: string
+  ): Promise<Partial<IUserData>> {
+    const refDB = await this.db.doc(userId).get();
+
+    const data = refDB.data() as IUserData;
+    console.log('data', data);
+
+    if (data && data.userId === userId && data.email === email && data.password === password) {
+      return {
+        userId: data.userId,
+        email: data.email,
+        password: data.password,
+      };
+    } else {
+      throw new Error('User not found!');
     }
   }
 }

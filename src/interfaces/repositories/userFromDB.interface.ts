@@ -14,8 +14,10 @@ interface IUserFromDBRepository {
     phone: string,
     email: string,
     password: string,
-  ): Promise<string>;
+  ): Promise<IUserData>;
+  getUsersFromDB(): Promise<IUserData[]>;
   getUserByIdFromDB(userId: string): Promise<Omit<IUserData, 'password'>>;
+  getUserCheckFromDB(userId: string, email: string, password: string): Promise<Partial<IUserData>>;
 }
 
 export default IUserFromDBRepository;

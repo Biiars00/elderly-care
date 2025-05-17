@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import IUserService from '../../interfaces/services/user.interface';
 import IUserFromDBRepository, { IUserData } from '../../interfaces/repositories/userFromDB.interface';
+import { generateToken } from '../../middlewares/jwtAuthentication';
 
 @injectable()
 class UserService implements IUserService {
@@ -15,7 +16,7 @@ async addUser(
     phone: string,
     email: string,
     password: string,
-  ): Promise<string> {
+  ): Promise<IUserData> {
     const responseDB =
       await this.userFromDBRepository.addUserFromDB(
         userFirstName, 
@@ -24,6 +25,45 @@ async addUser(
         email,
         password
       );
+
+    if (!responseDB) {
+      throw new Error('Data not found!');
+    }
+    
+    return responseDB;
+  }
+
+  async loginUser(
+    userId: string,
+    email: string,
+    password: string,
+  ): Promise<string> {
+    let accessToken = '';
+
+    const responseDB = await this.userFromDBRepository.getUserCheckFromDB(userId, email, password);
+    console.log('responseDB', responseDB);
+
+    if (!responseDB) {
+      throw new Error('User not exists!');
+    }
+
+    if (responseDB.userId === userId && responseDB.email === email && responseDB.password === password) {
+        accessToken = generateToken({
+          userId: responseDB.userId,
+          email: responseDB.email,
+      });
+    }
+
+    if (!accessToken) {
+      throw new Error('Invalid credentials!');
+    }
+
+    return accessToken;
+  }
+
+  async getUsers(): Promise<IUserData[]> {
+    const responseDB =
+      await this.userFromDBRepository.getUsersFromDB();
 
     if (!responseDB) {
       throw new Error('Data not found!');
