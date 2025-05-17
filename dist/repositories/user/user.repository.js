@@ -14,23 +14,41 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const tsyringe_1 = require("tsyringe");
 const databaseConfig_1 = __importDefault(require("../../database/databaseConfig"));
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
 let UserFromDBRepository = class UserFromDBRepository {
     constructor() {
         this.db = databaseConfig_1.default.firestore().collection('users');
     }
     async addUserFromDB(userFirstName, userLastName, phone, email, password) {
         const refDB = this.db;
-        const hashedPassword = await bcryptjs_1.default.hash(password, 10);
         const docRef = await refDB.add({
             userFirstName: userFirstName,
             userLastName: userLastName,
             phone: phone,
             email: email,
-            password: hashedPassword
+            password: password
         });
-        docRef.update({ id: docRef.id });
-        return 'User added successfully!';
+        docRef.update({ userId: docRef.id });
+        return {
+            userId: docRef.id,
+            userFirstName: userFirstName,
+            userLastName: userLastName,
+            phone: phone,
+            email: email,
+            password: password
+        };
+    }
+    async getUsersFromDB() {
+        const refDB = await this.db.get();
+        const usersList = refDB.docs.map((doc) => {
+            const docData = doc.data();
+            if (docData) {
+                return docData;
+            }
+            else {
+                throw new Error('Document not found!');
+            }
+        });
+        return usersList;
     }
     async getUserByIdFromDB(userId) {
         const refDB = await this.db.doc(userId).get();
@@ -45,6 +63,20 @@ let UserFromDBRepository = class UserFromDBRepository {
         }
         else {
             throw new Error('Document not found!');
+        }
+    }
+    async getUserCheckFromDB(userId, email, password) {
+        const refDB = await this.db.doc(userId).get();
+        const data = refDB.data();
+        if (data && data.userId === userId && data.email === email && data.password === password) {
+            return {
+                userId: data.userId,
+                email: data.email,
+                password: data.password,
+            };
+        }
+        else {
+            throw new Error('User not found!');
         }
     }
 };

@@ -13,12 +13,37 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const tsyringe_1 = require("tsyringe");
+const jwtAuthentication_1 = require("../../middlewares/jwtAuthentication");
 let UserService = class UserService {
     constructor(userFromDBRepository) {
         this.userFromDBRepository = userFromDBRepository;
     }
     async addUser(userFirstName, userLastName, phone, email, password) {
         const responseDB = await this.userFromDBRepository.addUserFromDB(userFirstName, userLastName, phone, email, password);
+        if (!responseDB) {
+            throw new Error('Data not found!');
+        }
+        return responseDB;
+    }
+    async loginUser(userId, email, password) {
+        let accessToken = '';
+        const responseDB = await this.userFromDBRepository.getUserCheckFromDB(userId, email, password);
+        if (!responseDB) {
+            throw new Error('User not exists!');
+        }
+        if (responseDB.userId === userId && responseDB.email === email && responseDB.password === password) {
+            accessToken = (0, jwtAuthentication_1.generateToken)({
+                userId: responseDB.userId,
+                email: responseDB.email,
+            });
+        }
+        if (!accessToken) {
+            throw new Error('Invalid credentials!');
+        }
+        return accessToken;
+    }
+    async getUsers() {
+        const responseDB = await this.userFromDBRepository.getUsersFromDB();
         if (!responseDB) {
             throw new Error('Data not found!');
         }

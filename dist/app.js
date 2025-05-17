@@ -44,7 +44,6 @@ const cors_1 = __importDefault(require("cors"));
 const routes_1 = require("./routes/routes");
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swaggerDocument = __importStar(require("./docs/swagger.json"));
-const firebaseAuth_1 = require("./middlewares/firebaseAuth");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
@@ -53,7 +52,6 @@ app.use('/docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.defaul
 app.get('/', (req, res) => {
     res.send('Bem-vindo à API Elderly Care!! 🧓👵');
 });
-app.use(firebaseAuth_1.firebaseAuth);
 (0, routes_1.RegisterRoutes)(app);
 app.use((_req, res) => {
     res.status(404).send({ status: 'Not Found!' });

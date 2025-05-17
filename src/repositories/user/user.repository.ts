@@ -83,7 +83,6 @@ class UserFromDBRepository
     const refDB = await this.db.doc(userId).get();
 
     const data = refDB.data() as IUserData;
-    console.log('data', data);
 
     if (data && data.userId === userId && data.email === email && data.password === password) {
       return {

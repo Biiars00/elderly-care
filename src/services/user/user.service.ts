@@ -41,7 +41,6 @@ async addUser(
     let accessToken = '';
 
     const responseDB = await this.userFromDBRepository.getUserCheckFromDB(userId, email, password);
-    console.log('responseDB', responseDB);
 
     if (!responseDB) {
       throw new Error('User not exists!');

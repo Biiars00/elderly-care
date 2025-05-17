@@ -18,6 +18,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tsyringe_1 = require("tsyringe");
 const tsoa_1 = require("tsoa");
 const user_service_1 = __importDefault(require("../../services/user/user.service"));
+const jwtAuthentication_1 = require("../../middlewares/jwtAuthentication");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -26,6 +27,38 @@ let UserController = class UserController {
         const { userFirstName, userLastName, phone, email, password } = body;
         try {
             const response = await this.userService.addUser(userFirstName, userLastName, phone, email, password);
+            if (!response) {
+                throw new Error('Resource not found!');
+            }
+            return response;
+        }
+        catch (error) {
+            throw new Error(`Internal server error - ${error}`);
+        }
+    }
+    async loginUser(body) {
+        const { userId, email, password } = body;
+        if (typeof userId !== 'string' || typeof email !== 'string' || typeof password !== 'string') {
+            throw new Error('Email and password are required.');
+        }
+        try {
+            const response = await this.userService.loginUser(userId, email, password);
+            if (!response) {
+                throw new Error('Resource not found!');
+            }
+            const accessToken = (0, jwtAuthentication_1.generateToken)({
+                userId: userId,
+                email: email,
+            });
+            return accessToken;
+        }
+        catch (error) {
+            throw new Error(`Internal server error - ${error}`);
+        }
+    }
+    async getUsers() {
+        try {
+            const response = await this.userService.getUsers();
             if (!response) {
                 throw new Error('Resource not found!');
             }
@@ -52,12 +85,25 @@ let UserController = class UserController {
     }
 };
 __decorate([
-    (0, tsoa_1.Post)('/'),
+    (0, tsoa_1.Post)('/sign-up'),
     __param(0, (0, tsoa_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "addUser", null);
+__decorate([
+    (0, tsoa_1.Post)('/login'),
+    __param(0, (0, tsoa_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "loginUser", null);
+__decorate([
+    (0, tsoa_1.Get)('/'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getUsers", null);
 __decorate([
     (0, tsoa_1.Get)('/:userId'),
     __param(0, (0, tsoa_1.Path)()),
@@ -69,7 +115,6 @@ UserController = __decorate([
     (0, tsyringe_1.injectable)(),
     (0, tsoa_1.Route)('user'),
     (0, tsoa_1.Tags)('Acesso de Usuário'),
-    (0, tsoa_1.Security)('firebaseAuth'),
     __param(0, (0, tsyringe_1.inject)('UserService')),
     __metadata("design:paramtypes", [user_service_1.default])
 ], UserController);
