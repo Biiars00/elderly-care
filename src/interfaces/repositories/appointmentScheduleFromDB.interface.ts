@@ -1,6 +1,3 @@
-import { IDoctorsData } from './doctorsFromDB.interface';
-import { ILocationData } from './locationFromDB.interface';
-
 export interface IAppointmentScheduleData {
   id: string;
   doctorId: string, 
