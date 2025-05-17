@@ -14,14 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const tsyringe_1 = require("tsyringe");
 const databaseConfig_1 = __importDefault(require("../../database/databaseConfig"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 let UserFromDBRepository = class UserFromDBRepository {
     constructor() {
         this.db = databaseConfig_1.default.firestore().collection('users');
     }
     async addUserFromDB(userFirstName, userLastName, phone, email, password) {
         const refDB = this.db;
-        const hashedPassword = await bcrypt_1.default.hash(password, 10);
+        const hashedPassword = await bcryptjs_1.default.hash(password, 10);
         const docRef = await refDB.add({
             userFirstName: userFirstName,
             userLastName: userLastName,

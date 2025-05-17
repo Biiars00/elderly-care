@@ -1,7 +1,7 @@
 import { injectable } from 'tsyringe';
 import databaseConfig from '../../database/databaseConfig';
 import IUserFromDBRepository, { IUserData } from '../../interfaces/repositories/userFromDB.interface';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 @injectable()
 class UserFromDBRepository
