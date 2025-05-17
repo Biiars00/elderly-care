@@ -117,7 +117,9 @@ Antes de começar, você precisará ter os seguintes softwares instalados:
 | PUT                        | /medication/:id                     | Atualizar um medicamento                |
 | **Usuários**           |
 | GET                        | /user/:userId                       | Buscar um usuário  (Autenticação)       |
-| POST                       | /user                               | Adicionar um novo usuário (Autenticação)|
+| POST                       | /user                               | Adicionar um novo usuário               |
+| GET                        | /user                               | Listar usuários                         |
+| POST                       | /user/login                         | Realizar login do usuário               |
 
 ## DER (Diagrama Entidade-Relacionamento)
 ![DER](DER-PI-SENAC.png)
