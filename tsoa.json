@@ -13,5 +13,24 @@
     "routes": {
       "routesDir": "src/routes"
     },
-    "iocModule": "src/ioc.ts"
+    "iocModule": "src/ioc.ts",
+    "securityDefinitions": {
+      "firebaseAuth": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    },
+    "security": [
+      {
+        "firebase": []
+      }
+    ],
+    "ignore": [
+      "**/node_modules/**",
+      "**/*.spec.ts",
+      "**/*.test.ts",
+      "**/migrations/**",
+      "**/seeders/**"
+    ]
   }
