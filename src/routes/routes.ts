@@ -3,18 +3,21 @@
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import 'reflect-metadata';
 import { container } from 'tsyringe';
+import { expressAuthenticationRecasted } from '../middlewares/authenticationTsoa';
 import type { TsoaRoute } from '@tsoa/runtime';
 import {  fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import UserController from '../controllers/user/user.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import MedicationController from '../controllers/medication/medication.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import LocationController from '../controllers/location/location.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import EmergencyContactsController from './../controllers/emergencyContacts/emergencyContacts.controller';
+import EmergencyContactsController from '../controllers/emergencyContacts/emergencyContacts.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import DoctorController from './../controllers/doctor/doctor.controller';
+import DoctorController from '../controllers/doctor/doctor.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import AppointmentScheduleController from './../controllers/appointmentSchedule/appointmentSchedule.controller';
+import AppointmentScheduleController from '../controllers/appointmentSchedule/appointmentSchedule.controller';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 
 
@@ -22,6 +25,26 @@ import type { Request as ExRequest, Response as ExResponse, RequestHandler, Rout
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
+    "Pick_IUserData.Exclude_keyofIUserData.userId__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"userFirstName":{"dataType":"string","required":true},"userLastName":{"dataType":"string","required":true},"phone":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"password":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Omit_IUserData.userId_": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_IUserData.Exclude_keyofIUserData.userId__","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Pick_IUserData.Exclude_keyofIUserData.password__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"userId":{"dataType":"string","required":true},"userFirstName":{"dataType":"string","required":true},"userLastName":{"dataType":"string","required":true},"phone":{"dataType":"string","required":true},"email":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Omit_IUserData.password_": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_IUserData.Exclude_keyofIUserData.password__","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "IMedicationsData": {
         "dataType": "refObject",
         "properties": {
@@ -88,7 +111,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_IContactsData.Exclude_keyofIContactsData.id__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"name":{"dataType":"string","required":true},"phone":{"dataType":"string","required":true},"relationship":{"dataType":"string","required":true},"isMainContact":{"dataType":"boolean","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"phone":{"dataType":"string","required":true},"name":{"dataType":"string","required":true},"relationship":{"dataType":"string","required":true},"isMainContact":{"dataType":"boolean","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Omit_IContactsData.id_": {
@@ -155,6 +178,68 @@ export function RegisterRoutes(app: Router) {
 
 
     
+        const argsUserController_addUser: Record<string, TsoaRoute.ParameterSchema> = {
+                body: {"in":"body","name":"body","required":true,"ref":"Omit_IUserData.userId_"},
+        };
+        app.post('/user',
+            authenticateMiddleware([{"firebaseAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(UserController)),
+            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.addUser)),
+
+            async function UserController_addUser(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsUserController_addUser, request, response });
+
+                const controller = container.resolve(UserController);
+
+              await templateService.apiHandler({
+                methodName: 'addUser',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsUserController_getLocationById: Record<string, TsoaRoute.ParameterSchema> = {
+                userId: {"in":"path","name":"userId","required":true,"dataType":"string"},
+        };
+        app.get('/user/:userId',
+            authenticateMiddleware([{"firebaseAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(UserController)),
+            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.getLocationById)),
+
+            async function UserController_getLocationById(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsUserController_getLocationById, request, response });
+
+                const controller = container.resolve(UserController);
+
+              await templateService.apiHandler({
+                methodName: 'getLocationById',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsMedicationController_getMedications: Record<string, TsoaRoute.ParameterSchema> = {
         };
         app.get('/medication',
@@ -169,7 +254,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsMedicationController_getMedications, request, response });
 
-                const controller = container.resolve(MedicationController)
+                const controller = container.resolve(MedicationController);
 
               await templateService.apiHandler({
                 methodName: 'getMedications',
@@ -199,7 +284,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsMedicationController_getMedicationById, request, response });
 
-                const controller = container.resolve(MedicationController)
+                const controller = container.resolve(MedicationController);
 
               await templateService.apiHandler({
                 methodName: 'getMedicationById',
@@ -229,7 +314,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsMedicationController_addMedication, request, response });
 
-                const controller = container.resolve(MedicationController)
+                const controller = container.resolve(MedicationController);
 
               await templateService.apiHandler({
                 methodName: 'addMedication',
@@ -259,7 +344,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsMedicationController_removeMedication, request, response });
 
-                const controller = container.resolve(MedicationController)
+                const controller = container.resolve(MedicationController);
 
               await templateService.apiHandler({
                 methodName: 'removeMedication',
@@ -290,7 +375,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsMedicationController_updateMedicationReminder, request, response });
 
-                const controller = container.resolve(MedicationController)
+                const controller = container.resolve(MedicationController);
 
               await templateService.apiHandler({
                 methodName: 'updateMedicationReminder',
@@ -321,7 +406,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsMedicationController_updateMedicationTaken, request, response });
 
-                const controller = container.resolve(MedicationController)
+                const controller = container.resolve(MedicationController);
 
               await templateService.apiHandler({
                 methodName: 'updateMedicationTaken',
@@ -350,7 +435,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsMedicationController_resetMedications, request, response });
 
-                const controller = container.resolve(MedicationController)
+                const controller = container.resolve(MedicationController);
 
               await templateService.apiHandler({
                 methodName: 'resetMedications',
@@ -379,7 +464,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsLocationController_getLocations, request, response });
 
-                const controller = container.resolve(LocationController)
+                const controller = container.resolve(LocationController);
 
               await templateService.apiHandler({
                 methodName: 'getLocations',
@@ -409,7 +494,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsLocationController_getLocationById, request, response });
 
-                const controller = container.resolve(LocationController)
+                const controller = container.resolve(LocationController);
 
               await templateService.apiHandler({
                 methodName: 'getLocationById',
@@ -438,7 +523,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsEmergencyContactsController_getEmergencyContacts, request, response });
 
-                const controller = container.resolve(EmergencyContactsController)
+                const controller = container.resolve(EmergencyContactsController);
 
               await templateService.apiHandler({
                 methodName: 'getEmergencyContacts',
@@ -468,7 +553,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsEmergencyContactsController_getEmergencyContactById, request, response });
 
-                const controller = container.resolve(EmergencyContactsController)
+                const controller = container.resolve(EmergencyContactsController);
 
               await templateService.apiHandler({
                 methodName: 'getEmergencyContactById',
@@ -498,7 +583,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsEmergencyContactsController_addEmergencyContact, request, response });
 
-                const controller = container.resolve(EmergencyContactsController)
+                const controller = container.resolve(EmergencyContactsController);
 
               await templateService.apiHandler({
                 methodName: 'addEmergencyContact',
@@ -529,7 +614,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsEmergencyContactsController_updateEmergencyContact, request, response });
 
-                const controller = container.resolve(EmergencyContactsController)
+                const controller = container.resolve(EmergencyContactsController);
 
               await templateService.apiHandler({
                 methodName: 'updateEmergencyContact',
@@ -559,7 +644,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsEmergencyContactsController_removeEmergencyContact, request, response });
 
-                const controller = container.resolve(EmergencyContactsController)
+                const controller = container.resolve(EmergencyContactsController);
 
               await templateService.apiHandler({
                 methodName: 'removeEmergencyContact',
@@ -588,7 +673,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsDoctorController_getDoctors, request, response });
 
-                const controller = container.resolve(DoctorController)
+                const controller = container.resolve(DoctorController);
 
               await templateService.apiHandler({
                 methodName: 'getDoctors',
@@ -618,7 +703,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsDoctorController_getDoctorById, request, response });
 
-                const controller = container.resolve(DoctorController)
+                const controller = container.resolve(DoctorController);
 
               await templateService.apiHandler({
                 methodName: 'getDoctorById',
@@ -647,7 +732,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsAppointmentScheduleController_getSchedule, request, response });
 
-                const controller = container.resolve(AppointmentScheduleController)
+                const controller = container.resolve(AppointmentScheduleController);
 
               await templateService.apiHandler({
                 methodName: 'getSchedule',
@@ -677,7 +762,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsAppointmentScheduleController_getScheduleById, request, response });
 
-                const controller = container.resolve(AppointmentScheduleController)
+                const controller = container.resolve(AppointmentScheduleController);
 
               await templateService.apiHandler({
                 methodName: 'getScheduleById',
@@ -707,7 +792,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsAppointmentScheduleController_addSchedule, request, response });
 
-                const controller = container.resolve(AppointmentScheduleController)
+                const controller = container.resolve(AppointmentScheduleController);
 
               await templateService.apiHandler({
                 methodName: 'addSchedule',
@@ -738,7 +823,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsAppointmentScheduleController_updateSchedule, request, response });
 
-                const controller = container.resolve(AppointmentScheduleController)
+                const controller = container.resolve(AppointmentScheduleController);
 
               await templateService.apiHandler({
                 methodName: 'updateSchedule',
@@ -768,7 +853,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsAppointmentScheduleController_removeSchedule, request, response });
 
-                const controller = container.resolve(AppointmentScheduleController)
+                const controller = container.resolve(AppointmentScheduleController);
 
               await templateService.apiHandler({
                 methodName: 'removeSchedule',
@@ -799,7 +884,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsAppointmentScheduleController_confirmSchedule, request, response });
 
-                const controller = container.resolve(AppointmentScheduleController)
+                const controller = container.resolve(AppointmentScheduleController);
 
               await templateService.apiHandler({
                 methodName: 'confirmSchedule',
@@ -817,6 +902,76 @@ export function RegisterRoutes(app: Router) {
 
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
+
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+    function authenticateMiddleware(security: TsoaRoute.Security[] = []) {
+        return async function runAuthenticationMiddleware(request: any, response: any, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            // keep track of failed auth attempts so we can hand back the most
+            // recent one.  This behavior was previously existing so preserving it
+            // here
+            const failedAttempts: any[] = [];
+            const pushAndRethrow = (error: any) => {
+                failedAttempts.push(error);
+                throw error;
+            };
+
+            const secMethodOrPromises: Promise<any>[] = [];
+            for (const secMethod of security) {
+                if (Object.keys(secMethod).length > 1) {
+                    const secMethodAndPromises: Promise<any>[] = [];
+
+                    for (const name in secMethod) {
+                        secMethodAndPromises.push(
+                            expressAuthenticationRecasted(request, name, secMethod[name])
+                                .catch(pushAndRethrow)
+                        );
+                    }
+
+                    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+                    secMethodOrPromises.push(Promise.all(secMethodAndPromises)
+                        .then(users => { return users[0]; }));
+                } else {
+                    for (const name in secMethod) {
+                        secMethodOrPromises.push(
+                            expressAuthenticationRecasted(request, name, secMethod[name])
+                                .catch(pushAndRethrow)
+                        );
+                    }
+                }
+            }
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            try {
+                request['user'] = await Promise.any(secMethodOrPromises);
+
+                // Response was sent in middleware, abort
+                if (response.writableEnded) {
+                    return;
+                }
+
+                next();
+            }
+            catch(err) {
+                // Show most recent error as response
+                const error = failedAttempts.pop();
+                error.status = error.status || 401;
+
+                // Response was sent in middleware, abort
+                if (response.writableEnded) {
+                    return;
+                }
+                next(error);
+            }
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        }
+    }
 
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 }
