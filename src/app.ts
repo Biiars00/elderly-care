@@ -12,7 +12,11 @@ dotenv.config();
 
 const app: Application = express();
 
-app.use(cors());
+app.use(cors({
+  origin: ["https://care-idosos-connect.vercel.app", "http://localhost:8080"], 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+}));
+
 app.use(express.json());
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
