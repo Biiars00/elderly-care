@@ -12,7 +12,7 @@ class EmergencyContactsController {
     private emergencyContactsService: EmergencyContactsService,
   ) {}
 
-  @Security('jwt')
+  // @Security('jwt')
   @Get('/')
   async getEmergencyContacts(): Promise<IContactsData[]> {
     try {
@@ -29,7 +29,7 @@ class EmergencyContactsController {
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Get('/:id')
   async getEmergencyContactById(@Path() id: string): Promise<IContactsData> {
     try {
@@ -50,7 +50,7 @@ class EmergencyContactsController {
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Post('/')
   async addEmergencyContact(@Body() body: Omit<IContactsData, 'id'>): Promise<string> {
     const { name, phone, relationship, isMainContact } = body
@@ -76,7 +76,7 @@ class EmergencyContactsController {
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Put('/:id')
   async updateEmergencyContact(
     @Path() id: string, 
@@ -106,7 +106,7 @@ class EmergencyContactsController {
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Delete('/:id')
   async removeEmergencyContact(@Path() id: string): Promise<string> {
     try {

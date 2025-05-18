@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 import { Body, Get, Path, Post, Route, Security, Tags } from 'tsoa';
 import { IUserData } from '../../interfaces/repositories/userFromDB.interface';
 import UserService from '../../services/user/user.service';
-import { generateToken } from '../../middlewares/jwtAuthentication';
+// import { generateToken } from '../../middlewares/jwtAuthentication';
 
 @injectable()
 @Route('user')
@@ -55,19 +55,19 @@ class UserController {
         throw new Error('Resource not found!');
       }
 
-      const accessToken = generateToken({
-        userId: userId,
-        email: email,
-      });
+      // const accessToken = generateToken({
+      //   userId: userId,
+      //   email: email,
+      // });
 
-      return accessToken;
+      return 'Login successful!';
 
     } catch (error) {
       throw new Error(`Internal server error - ${error}`);
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Get('/')
   async getUsers(): Promise<IUserData[]> {
     try {
@@ -83,7 +83,7 @@ class UserController {
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Get('/:userId')
   async getLocationById(@Path() userId: string): Promise<Omit<IUserData, 'password'>> {
     try {

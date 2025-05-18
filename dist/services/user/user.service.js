@@ -13,7 +13,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const tsyringe_1 = require("tsyringe");
-const jwtAuthentication_1 = require("../../middlewares/jwtAuthentication");
 let UserService = class UserService {
     constructor(userFromDBRepository) {
         this.userFromDBRepository = userFromDBRepository;
@@ -26,21 +25,21 @@ let UserService = class UserService {
         return responseDB;
     }
     async loginUser(userId, email, password) {
-        let accessToken = '';
+        // let accessToken = '';
         const responseDB = await this.userFromDBRepository.getUserCheckFromDB(userId, email, password);
         if (!responseDB) {
             throw new Error('User not exists!');
         }
-        if (responseDB.userId === userId && responseDB.email === email && responseDB.password === password) {
-            accessToken = (0, jwtAuthentication_1.generateToken)({
-                userId: responseDB.userId,
-                email: responseDB.email,
-            });
-        }
-        if (!accessToken) {
-            throw new Error('Invalid credentials!');
-        }
-        return accessToken;
+        // if (responseDB.userId === userId && responseDB.email === email && responseDB.password === password) {
+        //     accessToken = generateToken({
+        //       userId: responseDB.userId,
+        //       email: responseDB.email,
+        //   });
+        // }
+        // if (!accessToken) {
+        //   throw new Error('Invalid credentials!');
+        // }
+        return 'Login successful!';
     }
     async getUsers() {
         const responseDB = await this.userFromDBRepository.getUsersFromDB();

@@ -76,6 +76,15 @@
 					"userId": {
 						"type": "string"
 					},
+					"userFirstName": {
+						"type": "string"
+					},
+					"userLastName": {
+						"type": "string"
+					},
+					"phone": {
+						"type": "string"
+					},
 					"email": {
 						"type": "string"
 					},
@@ -380,13 +389,7 @@
 				"additionalProperties": false
 			}
 		},
-		"securitySchemes": {
-			"bearerAuth": {
-				"type": "http",
-				"scheme": "bearer",
-				"bearerFormat": "JWT"
-      		}
-		}
+		"securitySchemes": {}
 	},
 	"info": {
 		"title": "care-idosos",
@@ -485,11 +488,7 @@
 				"tags": [
 					"Acesso de Usuário"
 				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
+				"security": [],
 				"parameters": []
 			}
 		},
@@ -511,11 +510,7 @@
 				"tags": [
 					"Acesso de Usuário"
 				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",
@@ -551,7 +546,7 @@
 				],
 				"security": [
 					{
-						"bearerAuth": []
+						"jwt": []
 					}
 				],
 				"parameters": []
@@ -575,7 +570,7 @@
 				],
 				"security": [
 					{
-						"bearerAuth": []
+						"jwt": []
 					}
 				],
 				"parameters": [],
@@ -611,7 +606,7 @@
 				],
 				"security": [
 					{
-						"bearerAuth": []
+						"jwt": []
 					}
 				],
 				"parameters": [
@@ -644,7 +639,7 @@
 				],
 				"security": [
 					{
-						"bearerAuth": []
+						"jwt": []
 					}
 				],
 				"parameters": [
@@ -679,7 +674,7 @@
 				],
 				"security": [
 					{
-						"bearerAuth": []
+						"jwt": []
 					}
 				],
 				"parameters": [
@@ -724,7 +719,7 @@
 				],
 				"security": [
 					{
-						"bearerAuth": []
+						"jwt": []
 					}
 				],
 				"parameters": [
@@ -769,7 +764,7 @@
 				],
 				"security": [
 					{
-						"bearerAuth": []
+						"jwt": []
 					}
 				],
 				"parameters": []
@@ -796,11 +791,7 @@
 				"tags": [
 					"Endereços das Clínicas"
 				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
+				"security": [],
 				"parameters": []
 			}
 		},
@@ -822,11 +813,7 @@
 				"tags": [
 					"Endereços das Clínicas"
 				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",
@@ -860,11 +847,7 @@
 				"tags": [
 					"Contatos de Emergência"
 				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
+				"security": [],
 				"parameters": []
 			},
 			"post": {
@@ -884,11 +867,7 @@
 				"tags": [
 					"Contatos de Emergência"
 				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
+				"security": [],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -920,11 +899,7 @@
 				"tags": [
 					"Contatos de Emergência"
 				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",
@@ -953,11 +928,7 @@
 				"tags": [
 					"Contatos de Emergência"
 				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",
@@ -996,11 +967,7 @@
 				"tags": [
 					"Contatos de Emergência"
 				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",
@@ -1034,11 +1001,7 @@
 				"tags": [
 					"Médicos"
 				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
+				"security": [],
 				"parameters": []
 			}
 		},
@@ -1060,11 +1023,7 @@
 				"tags": [
 					"Médicos"
 				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",
@@ -1098,11 +1057,7 @@
 				"tags": [
 					"Agendamento de Consultas"
 				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
+				"security": [],
 				"parameters": []
 			},
 			"post": {
@@ -1122,11 +1077,7 @@
 				"tags": [
 					"Agendamento de Consultas"
 				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
+				"security": [],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -1158,11 +1109,7 @@
 				"tags": [
 					"Agendamento de Consultas"
 				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",
@@ -1191,11 +1138,7 @@
 				"tags": [
 					"Agendamento de Consultas"
 				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",
@@ -1234,11 +1177,7 @@
 				"tags": [
 					"Agendamento de Consultas"
 				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",
@@ -1269,11 +1208,7 @@
 				"tags": [
 					"Agendamento de Consultas"
 				],
-				"security": [
-					{
-						"bearerAuth": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",
@@ -1299,12 +1234,7 @@
 	},
 	"servers": [
 		{
-			"url": "https://elderly-care.onrender.com/docs",
-			"description": "Servidor de produção"
-		},
-		{
-			"url": "http://localhost:3000",
-			"description": "Servidor local de desenvolvimento"
-    	}	
+			"url": "/"
+		}
 	]
 }

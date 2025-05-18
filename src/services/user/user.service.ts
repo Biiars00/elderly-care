@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import IUserService from '../../interfaces/services/user.interface';
 import IUserFromDBRepository, { IUserData } from '../../interfaces/repositories/userFromDB.interface';
-import { generateToken } from '../../middlewares/jwtAuthentication';
+// import { generateToken } from '../../middlewares/jwtAuthentication';
 
 @injectable()
 class UserService implements IUserService {
@@ -38,7 +38,7 @@ async addUser(
     email: string,
     password: string,
   ): Promise<string> {
-    let accessToken = '';
+    // let accessToken = '';
 
     const responseDB = await this.userFromDBRepository.getUserCheckFromDB(userId, email, password);
 
@@ -46,18 +46,18 @@ async addUser(
       throw new Error('User not exists!');
     }
 
-    if (responseDB.userId === userId && responseDB.email === email && responseDB.password === password) {
-        accessToken = generateToken({
-          userId: responseDB.userId,
-          email: responseDB.email,
-      });
-    }
+    // if (responseDB.userId === userId && responseDB.email === email && responseDB.password === password) {
+    //     accessToken = generateToken({
+    //       userId: responseDB.userId,
+    //       email: responseDB.email,
+    //   });
+    // }
 
-    if (!accessToken) {
-      throw new Error('Invalid credentials!');
-    }
+    // if (!accessToken) {
+    //   throw new Error('Invalid credentials!');
+    // }
 
-    return accessToken;
+    return 'Login successful!';
   }
 
   async getUsers(): Promise<IUserData[]> {

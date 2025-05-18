@@ -18,7 +18,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tsyringe_1 = require("tsyringe");
 const tsoa_1 = require("tsoa");
 const user_service_1 = __importDefault(require("../../services/user/user.service"));
-const jwtAuthentication_1 = require("../../middlewares/jwtAuthentication");
+// import { generateToken } from '../../middlewares/jwtAuthentication';
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -46,16 +46,17 @@ let UserController = class UserController {
             if (!response) {
                 throw new Error('Resource not found!');
             }
-            const accessToken = (0, jwtAuthentication_1.generateToken)({
-                userId: userId,
-                email: email,
-            });
-            return accessToken;
+            // const accessToken = generateToken({
+            //   userId: userId,
+            //   email: email,
+            // });
+            return 'Login successful!';
         }
         catch (error) {
             throw new Error(`Internal server error - ${error}`);
         }
     }
+    // @Security('jwt')
     async getUsers() {
         try {
             const response = await this.userService.getUsers();
@@ -68,6 +69,7 @@ let UserController = class UserController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
+    // @Security('jwt')
     async getLocationById(userId) {
         try {
             if (!userId) {
@@ -99,14 +101,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "loginUser", null);
 __decorate([
-    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Get)('/'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getUsers", null);
 __decorate([
-    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Get)('/:userId'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),

@@ -544,7 +544,11 @@
                 "tags": [
                     "Medicações"
                 ],
-                "security": [],
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ],
                 "parameters": []
             },
             "post": {
@@ -564,7 +568,11 @@
                 "tags": [
                     "Medicações"
                 ],
-                "security": [],
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ],
                 "parameters": [],
                 "requestBody": {
                     "required": true,
@@ -596,7 +604,11 @@
                 "tags": [
                     "Medicações"
                 ],
-                "security": [],
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ],
                 "parameters": [
                     {
                         "in": "path",
@@ -625,7 +637,11 @@
                 "tags": [
                     "Medicações"
                 ],
-                "security": [],
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ],
                 "parameters": [
                     {
                         "in": "path",
@@ -656,7 +672,11 @@
                 "tags": [
                     "Medicações"
                 ],
-                "security": [],
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ],
                 "parameters": [
                     {
                         "in": "path",
@@ -697,7 +717,11 @@
                 "tags": [
                     "Medicações"
                 ],
-                "security": [],
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ],
                 "parameters": [
                     {
                         "in": "path",
@@ -738,7 +762,11 @@
                 "tags": [
                     "Medicações"
                 ],
-                "security": [],
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ],
                 "parameters": []
             }
         },

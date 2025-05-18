@@ -13,7 +13,7 @@ class MedicationController {
     private medicationService: MedicationService,
   ) {}
 
-  @Security('jwt')
+  // @Security('jwt')
   @Get('/')
   async getMedications(): Promise<IMedicationsData[]> {
     try {
@@ -29,7 +29,7 @@ class MedicationController {
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Get('/:id')
   async getMedicationById(@Path() id: string): Promise<IMedicationsData> {
     try {
@@ -49,7 +49,7 @@ class MedicationController {
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Post('/')
   async addMedication(@Body() body: Omit<IMedicationsData, 'id'>
   ): Promise<string> {
@@ -76,7 +76,7 @@ class MedicationController {
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Delete('/:id')
   async removeMedication(@Path() id: string): Promise<string> {
     try {
@@ -96,7 +96,7 @@ class MedicationController {
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Put('/reminder/:id')
   async updateMedicationReminder(
     @Path() id: string, 
@@ -124,7 +124,7 @@ class MedicationController {
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Put('/taken/:id')
   async updateMedicationTaken(
     @Path() id: string,
@@ -149,7 +149,7 @@ class MedicationController {
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Put('/reset')
   async resetMedications(): Promise<string> {
     try {

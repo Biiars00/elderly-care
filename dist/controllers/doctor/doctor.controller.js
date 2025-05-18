@@ -22,6 +22,7 @@ let DoctorController = class DoctorController {
     constructor(doctorService) {
         this.doctorService = doctorService;
     }
+    // @Security('jwt')
     async getDoctors() {
         try {
             const response = await this.doctorService.getDoctors();
@@ -34,6 +35,7 @@ let DoctorController = class DoctorController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
+    // @Security('jwt')
     async getDoctorById(doctorId) {
         try {
             if (!doctorId) {
@@ -51,14 +53,12 @@ let DoctorController = class DoctorController {
     }
 };
 __decorate([
-    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Get)('/'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], DoctorController.prototype, "getDoctors", null);
 __decorate([
-    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Get)('/:doctorId'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),

@@ -22,6 +22,7 @@ let EmergencyContactsController = class EmergencyContactsController {
     constructor(emergencyContactsService) {
         this.emergencyContactsService = emergencyContactsService;
     }
+    // @Security('jwt')
     async getEmergencyContacts() {
         try {
             const response = await this.emergencyContactsService.getEmergencyContacts();
@@ -34,6 +35,7 @@ let EmergencyContactsController = class EmergencyContactsController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
+    // @Security('jwt')
     async getEmergencyContactById(id) {
         try {
             if (!id) {
@@ -49,6 +51,7 @@ let EmergencyContactsController = class EmergencyContactsController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
+    // @Security('jwt')
     async addEmergencyContact(body) {
         const { name, phone, relationship, isMainContact } = body;
         try {
@@ -65,6 +68,7 @@ let EmergencyContactsController = class EmergencyContactsController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
+    // @Security('jwt')
     async updateEmergencyContact(id, body) {
         const { name, phone, relationship, isMainContact } = body;
         try {
@@ -81,6 +85,7 @@ let EmergencyContactsController = class EmergencyContactsController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
+    // @Security('jwt')
     async removeEmergencyContact(id) {
         try {
             if (!id) {
@@ -98,14 +103,12 @@ let EmergencyContactsController = class EmergencyContactsController {
     }
 };
 __decorate([
-    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Get)('/'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], EmergencyContactsController.prototype, "getEmergencyContacts", null);
 __decorate([
-    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Get)('/:id'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),
@@ -113,7 +116,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], EmergencyContactsController.prototype, "getEmergencyContactById", null);
 __decorate([
-    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Post)('/'),
     __param(0, (0, tsoa_1.Body)()),
     __metadata("design:type", Function),
@@ -121,7 +123,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], EmergencyContactsController.prototype, "addEmergencyContact", null);
 __decorate([
-    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Put)('/:id'),
     __param(0, (0, tsoa_1.Path)()),
     __param(1, (0, tsoa_1.Body)()),
@@ -130,7 +131,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], EmergencyContactsController.prototype, "updateEmergencyContact", null);
 __decorate([
-    (0, tsoa_1.Security)('jwt'),
     (0, tsoa_1.Delete)('/:id'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),

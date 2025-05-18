@@ -12,7 +12,7 @@ class DoctorController {
     private doctorService: DoctorService,
   ) {}
 
-  @Security('jwt')
+  // @Security('jwt')
   @Get('/')
   async getDoctors(): Promise<IDoctorsData[]> {
     try {
@@ -28,7 +28,7 @@ class DoctorController {
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Get('/:doctorId')
   async getDoctorById(@Path() doctorId: string): Promise<IDoctorsData> {
     try {

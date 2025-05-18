@@ -12,7 +12,7 @@ class AppointmentScheduleController {
     private appointmentScheduleService: AppointmentScheduleService,
   ) {}
 
-  @Security('jwt')
+  // @Security('jwt')
   @Get('/')
   async getSchedule(): Promise<IAppointmentScheduleData[]> {
     try {
@@ -28,7 +28,7 @@ class AppointmentScheduleController {
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Get('/:id')
   async getScheduleById(@Path() id: string): Promise<IAppointmentScheduleData> {
     try {
@@ -48,7 +48,7 @@ class AppointmentScheduleController {
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Post('/')
   async addSchedule(@Body() body: Omit<IAppointmentScheduleData, 'id'>
   ): Promise<string> {
@@ -77,7 +77,7 @@ class AppointmentScheduleController {
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Put('/:id')
   async updateSchedule(
     @Path() id: string, 
@@ -109,7 +109,7 @@ class AppointmentScheduleController {
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Delete('/:id')
   async removeSchedule(@Path() id: string): Promise<string> {
     try {
@@ -129,7 +129,7 @@ class AppointmentScheduleController {
     }
   }
 
-  @Security('jwt')
+  // @Security('jwt')
   @Put('/confirmed/:id')
   async confirmSchedule(
     @Path() id: string,
