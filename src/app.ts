@@ -15,6 +15,8 @@ const app: Application = express();
 app.use(cors({
   origin: ["https://care-idosos-connect.vercel.app", "http://localhost:8080"], 
   methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
 app.use(express.json());
