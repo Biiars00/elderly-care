@@ -8,6 +8,9 @@ const jsonwebtoken_1 = require("jsonwebtoken");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const secretKey = process.env.JWT_SECRET_KEY;
+if (!secretKey) {
+    throw new Error("JWT_SECRET_KEY is not defined in environment variables.");
+}
 const generateToken = ({ email }) => {
     const payload = { email };
     const signOptions = {
