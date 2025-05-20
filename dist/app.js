@@ -44,32 +44,38 @@ const cors_1 = __importDefault(require("cors"));
 const routes_1 = require("./routes/routes");
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swaggerDocument = __importStar(require("./docs/swagger.json"));
-// import { expressAuthenticationRecasted } from './middlewares/auth';
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)({
-    origin: ["https://care-idosos-connect.vercel.app", "http://localhost:8080"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    // credentials: true,
-    // allowedHeaders: ["Content-Type", "Authorization"],
-}));
 app.use(express_1.default.json());
+// const allowedOrigins = [
+//   process.env.FRONTEND_URL_DEV || '',
+//   process.env.FRONTEND_URL_PROD || '',
+//   process.env.CORS_ORIGIN_PROD || '',
+//   process.env.CORS_ORIGIN_DEV || '',
+// ];
+const allowedOrigins = [
+    "https://elderly-care.onrender.com",
+    "http://localhost:3000",
+    "https://care-idosos-connect.vercel.app",
+    "http://localhost:8080",
+];
+app.use((0, cors_1.default)({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
 app.use('/docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerDocument));
 app.get('/', (req, res) => {
     res.send('Bem-vindo à API Elderly Care!! 🧓👵');
 });
-// app.use('/user', async (req, res, next) => {
-//   if (req.method !== 'POST') {
-//     try {
-//       await expressAuthenticationRecasted(req, 'jwt', undefined, res);
-//       next();
-//     } catch (err) {
-//       res.status(401).send({ error: (err as Error).message });
-//     }
-//   } else {
-//     next();
-//   }
-// });
 (0, routes_1.RegisterRoutes)(app);
 app.use((_req, res) => {
     res.status(404).send({ status: 'Not Found!' });

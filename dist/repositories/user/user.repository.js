@@ -65,14 +65,17 @@ let UserFromDBRepository = class UserFromDBRepository {
             throw new Error('Document not found!');
         }
     }
-    async getUserCheckFromDB(userId, email, password) {
-        const refDB = await this.db.doc(userId).get();
-        const data = refDB.data();
-        if (data && data.userId === userId && data.email === email && data.password === password) {
+    async getUserCheckFromDB(email, password) {
+        const refDB = this.db
+            .where('email', '==', email)
+            .where('password', '==', password);
+        const snapshot = await refDB.get();
+        const doc = snapshot.docs[0];
+        const data = doc.data();
+        if (data) {
             return {
                 userId: data.userId,
                 email: data.email,
-                password: data.password,
             };
         }
         else {

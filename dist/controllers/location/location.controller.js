@@ -22,7 +22,6 @@ let LocationController = class LocationController {
     constructor(locationService) {
         this.locationService = locationService;
     }
-    // @Security('jwt')
     async getLocations() {
         try {
             const response = await this.locationService.getLocations();
@@ -35,7 +34,6 @@ let LocationController = class LocationController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
-    // @Security('jwt')
     async getLocationById(locationId) {
         try {
             if (!locationId) {
@@ -54,12 +52,14 @@ let LocationController = class LocationController {
 };
 __decorate([
     (0, tsoa_1.Get)('/'),
+    (0, tsoa_1.Security)('jwt'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], LocationController.prototype, "getLocations", null);
 __decorate([
     (0, tsoa_1.Get)('/:locationId'),
+    (0, tsoa_1.Security)('jwt'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

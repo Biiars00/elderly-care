@@ -24,22 +24,12 @@ let UserService = class UserService {
         }
         return responseDB;
     }
-    async loginUser(userId, email, password) {
-        // let accessToken = '';
-        const responseDB = await this.userFromDBRepository.getUserCheckFromDB(userId, email, password);
+    async loginUser(accessToken, email, password) {
+        const responseDB = await this.userFromDBRepository.getUserCheckFromDB(email, password);
         if (!responseDB) {
             throw new Error('User not exists!');
         }
-        // if (responseDB.userId === userId && responseDB.email === email && responseDB.password === password) {
-        //     accessToken = generateToken({
-        //       userId: responseDB.userId,
-        //       email: responseDB.email,
-        //   });
-        // }
-        // if (!accessToken) {
-        //   throw new Error('Invalid credentials!');
-        // }
-        return 'Login successful!';
+        return accessToken;
     }
     async getUsers() {
         const responseDB = await this.userFromDBRepository.getUsersFromDB();

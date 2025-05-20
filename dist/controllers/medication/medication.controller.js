@@ -22,7 +22,6 @@ let MedicationController = class MedicationController {
     constructor(medicationService) {
         this.medicationService = medicationService;
     }
-    // @Security('jwt')
     async getMedications() {
         try {
             const response = await this.medicationService.getMedications();
@@ -35,7 +34,6 @@ let MedicationController = class MedicationController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
-    // @Security('jwt')
     async getMedicationById(id) {
         try {
             if (!id) {
@@ -51,7 +49,6 @@ let MedicationController = class MedicationController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
-    // @Security('jwt')
     async addMedication(body) {
         const { name, dosage, time } = body;
         try {
@@ -68,7 +65,6 @@ let MedicationController = class MedicationController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
-    // @Security('jwt')
     async removeMedication(id) {
         try {
             if (!id) {
@@ -84,7 +80,6 @@ let MedicationController = class MedicationController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
-    // @Security('jwt')
     async updateMedicationReminder(id, body) {
         const { reminder } = body;
         try {
@@ -101,7 +96,6 @@ let MedicationController = class MedicationController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
-    // @Security('jwt')
     async updateMedicationTaken(id, body) {
         const { taken } = body;
         try {
@@ -118,7 +112,6 @@ let MedicationController = class MedicationController {
             throw new Error(`Internal server error - ${error}`);
         }
     }
-    // @Security('jwt')
     async resetMedications() {
         try {
             const response = await this.medicationService.resetMedications();
@@ -134,12 +127,14 @@ let MedicationController = class MedicationController {
 };
 __decorate([
     (0, tsoa_1.Get)('/'),
+    (0, tsoa_1.Security)('jwt'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], MedicationController.prototype, "getMedications", null);
 __decorate([
     (0, tsoa_1.Get)('/:id'),
+    (0, tsoa_1.Security)('jwt'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -147,6 +142,7 @@ __decorate([
 ], MedicationController.prototype, "getMedicationById", null);
 __decorate([
     (0, tsoa_1.Post)('/'),
+    (0, tsoa_1.Security)('jwt'),
     __param(0, (0, tsoa_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -154,6 +150,7 @@ __decorate([
 ], MedicationController.prototype, "addMedication", null);
 __decorate([
     (0, tsoa_1.Delete)('/:id'),
+    (0, tsoa_1.Security)('jwt'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -161,6 +158,7 @@ __decorate([
 ], MedicationController.prototype, "removeMedication", null);
 __decorate([
     (0, tsoa_1.Put)('/reminder/:id'),
+    (0, tsoa_1.Security)('jwt'),
     __param(0, (0, tsoa_1.Path)()),
     __param(1, (0, tsoa_1.Body)()),
     __metadata("design:type", Function),
@@ -169,6 +167,7 @@ __decorate([
 ], MedicationController.prototype, "updateMedicationReminder", null);
 __decorate([
     (0, tsoa_1.Put)('/taken/:id'),
+    (0, tsoa_1.Security)('jwt'),
     __param(0, (0, tsoa_1.Path)()),
     __param(1, (0, tsoa_1.Body)()),
     __metadata("design:type", Function),
@@ -177,6 +176,7 @@ __decorate([
 ], MedicationController.prototype, "updateMedicationTaken", null);
 __decorate([
     (0, tsoa_1.Put)('/reset'),
+    (0, tsoa_1.Security)('jwt'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
@@ -185,7 +185,6 @@ MedicationController = __decorate([
     (0, tsyringe_1.injectable)(),
     (0, tsoa_1.Route)('medication'),
     (0, tsoa_1.Tags)('Medicações'),
-    (0, tsoa_1.Security)('jwt'),
     __param(0, (0, tsyringe_1.inject)('MedicationService')),
     __metadata("design:paramtypes", [medication_service_1.default])
 ], MedicationController);

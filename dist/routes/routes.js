@@ -22,6 +22,7 @@ const emergencyContacts_controller_1 = __importDefault(require("../controllers/e
 const doctor_controller_1 = __importDefault(require("../controllers/doctor/doctor.controller"));
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const appointmentSchedule_controller_1 = __importDefault(require("../controllers/appointmentSchedule/appointmentSchedule.controller"));
+const expressAuthentication_1 = require("../middlewares/expressAuthentication");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const models = {
     "IUserData": {
@@ -233,7 +234,7 @@ function RegisterRoutes(app) {
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     const argsUserController_getUsers = {};
-    app.get('/user', ...((0, runtime_1.fetchMiddlewares)(user_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(user_controller_1.default.prototype.getUsers)), async function UserController_getUsers(request, response, next) {
+    app.get('/user', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(user_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(user_controller_1.default.prototype.getUsers)), async function UserController_getUsers(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -256,7 +257,7 @@ function RegisterRoutes(app) {
     const argsUserController_getLocationById = {
         userId: { "in": "path", "name": "userId", "required": true, "dataType": "string" },
     };
-    app.get('/user/:userId', ...((0, runtime_1.fetchMiddlewares)(user_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(user_controller_1.default.prototype.getLocationById)), async function UserController_getLocationById(request, response, next) {
+    app.get('/user/:userId', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(user_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(user_controller_1.default.prototype.getLocationById)), async function UserController_getLocationById(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -277,7 +278,7 @@ function RegisterRoutes(app) {
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     const argsMedicationController_getMedications = {};
-    app.get('/medication', ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default.prototype.getMedications)), async function MedicationController_getMedications(request, response, next) {
+    app.get('/medication', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default.prototype.getMedications)), async function MedicationController_getMedications(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -300,7 +301,7 @@ function RegisterRoutes(app) {
     const argsMedicationController_getMedicationById = {
         id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
     };
-    app.get('/medication/:id', ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default.prototype.getMedicationById)), async function MedicationController_getMedicationById(request, response, next) {
+    app.get('/medication/:id', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default.prototype.getMedicationById)), async function MedicationController_getMedicationById(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -323,7 +324,7 @@ function RegisterRoutes(app) {
     const argsMedicationController_addMedication = {
         body: { "in": "body", "name": "body", "required": true, "ref": "Omit_IMedicationsData.id_" },
     };
-    app.post('/medication', ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default.prototype.addMedication)), async function MedicationController_addMedication(request, response, next) {
+    app.post('/medication', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default.prototype.addMedication)), async function MedicationController_addMedication(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -346,7 +347,7 @@ function RegisterRoutes(app) {
     const argsMedicationController_removeMedication = {
         id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
     };
-    app.delete('/medication/:id', ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default.prototype.removeMedication)), async function MedicationController_removeMedication(request, response, next) {
+    app.delete('/medication/:id', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default.prototype.removeMedication)), async function MedicationController_removeMedication(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -370,7 +371,7 @@ function RegisterRoutes(app) {
         id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
         body: { "in": "body", "name": "body", "required": true, "ref": "Omit_IResetMedicationsData.taken_" },
     };
-    app.put('/medication/reminder/:id', ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default.prototype.updateMedicationReminder)), async function MedicationController_updateMedicationReminder(request, response, next) {
+    app.put('/medication/reminder/:id', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default.prototype.updateMedicationReminder)), async function MedicationController_updateMedicationReminder(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -394,7 +395,7 @@ function RegisterRoutes(app) {
         id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
         body: { "in": "body", "name": "body", "required": true, "ref": "Omit_IResetMedicationsData.reminder_" },
     };
-    app.put('/medication/taken/:id', ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default.prototype.updateMedicationTaken)), async function MedicationController_updateMedicationTaken(request, response, next) {
+    app.put('/medication/taken/:id', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default.prototype.updateMedicationTaken)), async function MedicationController_updateMedicationTaken(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -415,7 +416,7 @@ function RegisterRoutes(app) {
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     const argsMedicationController_resetMedications = {};
-    app.put('/medication/reset', ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default.prototype.resetMedications)), async function MedicationController_resetMedications(request, response, next) {
+    app.put('/medication/reset', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(medication_controller_1.default.prototype.resetMedications)), async function MedicationController_resetMedications(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -436,7 +437,7 @@ function RegisterRoutes(app) {
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     const argsLocationController_getLocations = {};
-    app.get('/location', ...((0, runtime_1.fetchMiddlewares)(location_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(location_controller_1.default.prototype.getLocations)), async function LocationController_getLocations(request, response, next) {
+    app.get('/location', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(location_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(location_controller_1.default.prototype.getLocations)), async function LocationController_getLocations(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -459,7 +460,7 @@ function RegisterRoutes(app) {
     const argsLocationController_getLocationById = {
         locationId: { "in": "path", "name": "locationId", "required": true, "dataType": "string" },
     };
-    app.get('/location/:locationId', ...((0, runtime_1.fetchMiddlewares)(location_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(location_controller_1.default.prototype.getLocationById)), async function LocationController_getLocationById(request, response, next) {
+    app.get('/location/:locationId', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(location_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(location_controller_1.default.prototype.getLocationById)), async function LocationController_getLocationById(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -480,7 +481,7 @@ function RegisterRoutes(app) {
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     const argsEmergencyContactsController_getEmergencyContacts = {};
-    app.get('/contacts', ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default.prototype.getEmergencyContacts)), async function EmergencyContactsController_getEmergencyContacts(request, response, next) {
+    app.get('/contacts', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default.prototype.getEmergencyContacts)), async function EmergencyContactsController_getEmergencyContacts(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -503,7 +504,7 @@ function RegisterRoutes(app) {
     const argsEmergencyContactsController_getEmergencyContactById = {
         id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
     };
-    app.get('/contacts/:id', ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default.prototype.getEmergencyContactById)), async function EmergencyContactsController_getEmergencyContactById(request, response, next) {
+    app.get('/contacts/:id', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default.prototype.getEmergencyContactById)), async function EmergencyContactsController_getEmergencyContactById(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -526,7 +527,7 @@ function RegisterRoutes(app) {
     const argsEmergencyContactsController_addEmergencyContact = {
         body: { "in": "body", "name": "body", "required": true, "ref": "Omit_IContactsData.id_" },
     };
-    app.post('/contacts', ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default.prototype.addEmergencyContact)), async function EmergencyContactsController_addEmergencyContact(request, response, next) {
+    app.post('/contacts', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default.prototype.addEmergencyContact)), async function EmergencyContactsController_addEmergencyContact(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -550,7 +551,7 @@ function RegisterRoutes(app) {
         id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
         body: { "in": "body", "name": "body", "required": true, "ref": "Omit_IContactsData.id_" },
     };
-    app.put('/contacts/:id', ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default.prototype.updateEmergencyContact)), async function EmergencyContactsController_updateEmergencyContact(request, response, next) {
+    app.put('/contacts/:id', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default.prototype.updateEmergencyContact)), async function EmergencyContactsController_updateEmergencyContact(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -573,7 +574,7 @@ function RegisterRoutes(app) {
     const argsEmergencyContactsController_removeEmergencyContact = {
         id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
     };
-    app.delete('/contacts/:id', ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default.prototype.removeEmergencyContact)), async function EmergencyContactsController_removeEmergencyContact(request, response, next) {
+    app.delete('/contacts/:id', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(emergencyContacts_controller_1.default.prototype.removeEmergencyContact)), async function EmergencyContactsController_removeEmergencyContact(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -594,7 +595,7 @@ function RegisterRoutes(app) {
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     const argsDoctorController_getDoctors = {};
-    app.get('/doctor', ...((0, runtime_1.fetchMiddlewares)(doctor_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(doctor_controller_1.default.prototype.getDoctors)), async function DoctorController_getDoctors(request, response, next) {
+    app.get('/doctor', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(doctor_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(doctor_controller_1.default.prototype.getDoctors)), async function DoctorController_getDoctors(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -617,7 +618,7 @@ function RegisterRoutes(app) {
     const argsDoctorController_getDoctorById = {
         doctorId: { "in": "path", "name": "doctorId", "required": true, "dataType": "string" },
     };
-    app.get('/doctor/:doctorId', ...((0, runtime_1.fetchMiddlewares)(doctor_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(doctor_controller_1.default.prototype.getDoctorById)), async function DoctorController_getDoctorById(request, response, next) {
+    app.get('/doctor/:doctorId', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(doctor_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(doctor_controller_1.default.prototype.getDoctorById)), async function DoctorController_getDoctorById(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -638,7 +639,7 @@ function RegisterRoutes(app) {
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     const argsAppointmentScheduleController_getSchedule = {};
-    app.get('/appointment', ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default.prototype.getSchedule)), async function AppointmentScheduleController_getSchedule(request, response, next) {
+    app.get('/appointment', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default.prototype.getSchedule)), async function AppointmentScheduleController_getSchedule(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -661,7 +662,7 @@ function RegisterRoutes(app) {
     const argsAppointmentScheduleController_getScheduleById = {
         id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
     };
-    app.get('/appointment/:id', ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default.prototype.getScheduleById)), async function AppointmentScheduleController_getScheduleById(request, response, next) {
+    app.get('/appointment/:id', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default.prototype.getScheduleById)), async function AppointmentScheduleController_getScheduleById(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -684,7 +685,7 @@ function RegisterRoutes(app) {
     const argsAppointmentScheduleController_addSchedule = {
         body: { "in": "body", "name": "body", "required": true, "ref": "Omit_IAppointmentScheduleData.id_" },
     };
-    app.post('/appointment', ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default.prototype.addSchedule)), async function AppointmentScheduleController_addSchedule(request, response, next) {
+    app.post('/appointment', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default.prototype.addSchedule)), async function AppointmentScheduleController_addSchedule(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -708,7 +709,7 @@ function RegisterRoutes(app) {
         id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
         body: { "in": "body", "name": "body", "required": true, "ref": "Omit_IAppointmentScheduleData.id_" },
     };
-    app.put('/appointment/:id', ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default.prototype.updateSchedule)), async function AppointmentScheduleController_updateSchedule(request, response, next) {
+    app.put('/appointment/:id', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default.prototype.updateSchedule)), async function AppointmentScheduleController_updateSchedule(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -731,7 +732,7 @@ function RegisterRoutes(app) {
     const argsAppointmentScheduleController_removeSchedule = {
         id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
     };
-    app.delete('/appointment/:id', ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default.prototype.removeSchedule)), async function AppointmentScheduleController_removeSchedule(request, response, next) {
+    app.delete('/appointment/:id', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default.prototype.removeSchedule)), async function AppointmentScheduleController_removeSchedule(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -755,7 +756,7 @@ function RegisterRoutes(app) {
         id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
         body: { "in": "body", "name": "body", "required": true, "ref": "IConfirmScheduleData" },
     };
-    app.put('/appointment/confirmed/:id', ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default.prototype.confirmSchedule)), async function AppointmentScheduleController_confirmSchedule(request, response, next) {
+    app.put('/appointment/confirmed/:id', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default)), ...((0, runtime_1.fetchMiddlewares)(appointmentSchedule_controller_1.default.prototype.confirmSchedule)), async function AppointmentScheduleController_confirmSchedule(request, response, next) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
         try {
@@ -776,6 +777,59 @@ function RegisterRoutes(app) {
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    function authenticateMiddleware(security = []) {
+        return async function runAuthenticationMiddleware(request, response, next) {
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            // keep track of failed auth attempts so we can hand back the most
+            // recent one.  This behavior was previously existing so preserving it
+            // here
+            const failedAttempts = [];
+            const pushAndRethrow = (error) => {
+                failedAttempts.push(error);
+                throw error;
+            };
+            const secMethodOrPromises = [];
+            for (const secMethod of security) {
+                if (Object.keys(secMethod).length > 1) {
+                    const secMethodAndPromises = [];
+                    for (const name in secMethod) {
+                        secMethodAndPromises.push((0, expressAuthentication_1.expressAuthentication)(request, name, secMethod[name])
+                            .catch(pushAndRethrow));
+                    }
+                    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+                    secMethodOrPromises.push(Promise.all(secMethodAndPromises)
+                        .then(users => { return users[0]; }));
+                }
+                else {
+                    for (const name in secMethod) {
+                        secMethodOrPromises.push((0, expressAuthentication_1.expressAuthentication)(request, name, secMethod[name])
+                            .catch(pushAndRethrow));
+                    }
+                }
+            }
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            try {
+                request['user'] = await Promise.any(secMethodOrPromises);
+                // Response was sent in middleware, abort
+                if (response.writableEnded) {
+                    return;
+                }
+                next();
+            }
+            catch (err) {
+                // Show most recent error as response
+                const error = failedAttempts.pop();
+                error.status = error.status || 401;
+                // Response was sent in middleware, abort
+                if (response.writableEnded) {
+                    return;
+                }
+                next(error);
+            }
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        };
+    }
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 }
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
