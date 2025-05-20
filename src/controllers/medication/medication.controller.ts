@@ -6,15 +6,14 @@ import { IMedicationsData, IResetMedicationsData } from '../../interfaces/reposi
 @injectable()
 @Route('medication')
 @Tags('Medicações')
-@Security('jwt')
 class MedicationController {
   constructor(
     @inject('MedicationService')
     private medicationService: MedicationService,
   ) {}
 
-  // @Security('jwt')
   @Get('/')
+  @Security('jwt')
   async getMedications(): Promise<IMedicationsData[]> {
     try {
       const response = await this.medicationService.getMedications();
@@ -29,8 +28,8 @@ class MedicationController {
     }
   }
 
-  // @Security('jwt')
   @Get('/:id')
+  @Security('jwt')
   async getMedicationById(@Path() id: string): Promise<IMedicationsData> {
     try {
       if (!id) {
@@ -49,8 +48,8 @@ class MedicationController {
     }
   }
 
-  // @Security('jwt')
   @Post('/')
+  @Security('jwt')
   async addMedication(@Body() body: Omit<IMedicationsData, 'id'>
   ): Promise<string> {
     const { name, dosage, time } = body;
@@ -76,8 +75,8 @@ class MedicationController {
     }
   }
 
-  // @Security('jwt')
   @Delete('/:id')
+  @Security('jwt')
   async removeMedication(@Path() id: string): Promise<string> {
     try {
       if (!id) {
@@ -96,8 +95,8 @@ class MedicationController {
     }
   }
 
-  // @Security('jwt')
   @Put('/reminder/:id')
+  @Security('jwt')
   async updateMedicationReminder(
     @Path() id: string, 
     @Body() body: Omit<IResetMedicationsData, 'taken'>
@@ -124,8 +123,8 @@ class MedicationController {
     }
   }
 
-  // @Security('jwt')
   @Put('/taken/:id')
+  @Security('jwt')
   async updateMedicationTaken(
     @Path() id: string,
     @Body() body: Omit<IResetMedicationsData, 'reminder'>
@@ -149,8 +148,8 @@ class MedicationController {
     }
   }
 
-  // @Security('jwt')
   @Put('/reset')
+  @Security('jwt')
   async resetMedications(): Promise<string> {
     try {
       const response = await this.medicationService.resetMedications();

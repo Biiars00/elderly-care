@@ -1,21 +1,23 @@
-// import { sign, Secret, SignOptions  } from "jsonwebtoken";
+import { sign, Secret, SignOptions  } from "jsonwebtoken";
+import dotenv from "dotenv";
 
-// const secretKey: Secret = process.env.JWT_SECRET_KEY || '';
-// const expiresIn = process.env.JWT_EXPIRES_IN || '';
+dotenv.config();
 
-// interface TokenPayload {
-//   userId: string;
-//   email: string;
-// }
+const secretKey: Secret = process.env.JWT_SECRET_KEY as Secret;
+const expiresIn = process.env.JWT_EXPIRES_IN;
 
-// export const generateToken = ({ userId, email }: TokenPayload): string => {
-//     const payload = { userId, email};
+interface TokenPayload {
+  email: string;
+}
 
-//     const signOptions: SignOptions = {
-//     expiresIn: expiresIn as SignOptions['expiresIn'],
-//   };
+export const generateToken = ({ email }: TokenPayload): string => {
+    const payload = { email};
 
-//     const token = sign(payload, secretKey, signOptions);
+    const signOptions: SignOptions = {
+    expiresIn: expiresIn as SignOptions['expiresIn'],
+  };
 
-//     return token;
-// };
+    const token = sign(payload, secretKey, signOptions);
+
+    return token;
+};

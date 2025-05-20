@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 import { Body, Get, Path, Post, Route, Security, Tags } from 'tsoa';
 import { IUserData } from '../../interfaces/repositories/userFromDB.interface';
 import UserService from '../../services/user/user.service';
-// import { generateToken } from '../../middlewares/jwtAuthentication';
+import { generateToken } from '../../middlewares/jwtAuthentication';
 
 @injectable()
 @Route('user')
@@ -38,15 +38,23 @@ class UserController {
 
   @Post('/login')
   async loginUser(@Body() body: Partial<IUserData>): Promise<string> {
-    const { userId, email, password } = body;
+    const { email, password } = body;
 
-    if (typeof userId !== 'string' || typeof email !== 'string' || typeof password !== 'string') {
+    if (typeof email !== 'string' || typeof password !== 'string') {
       throw new Error('Email and password are required.');
+    }
+
+    const accessToken = generateToken({
+      email: email,
+    });
+
+    if (!accessToken) {
+      throw new Error('Invalid credentials!');
     }
 
     try {
       const response = await this.userService.loginUser(
-        userId,
+        accessToken,
         email, 
         password
       );
@@ -55,20 +63,15 @@ class UserController {
         throw new Error('Resource not found!');
       }
 
-      // const accessToken = generateToken({
-      //   userId: userId,
-      //   email: email,
-      // });
-
-      return 'Login successful!';
+      return response;
 
     } catch (error) {
       throw new Error(`Internal server error - ${error}`);
     }
   }
 
-  // @Security('jwt')
   @Get('/')
+  @Security('jwt')
   async getUsers(): Promise<IUserData[]> {
     try {
       const response = await this.userService.getUsers();
@@ -83,8 +86,8 @@ class UserController {
     }
   }
 
-  // @Security('jwt')
   @Get('/:userId')
+  @Security('jwt')
   async getLocationById(@Path() userId: string): Promise<Omit<IUserData, 'password'>> {
     try {
       if (!userId) {

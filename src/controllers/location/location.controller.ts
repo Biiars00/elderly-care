@@ -12,8 +12,8 @@ class LocationController {
     private locationService: LocationService,
   ) {}
 
-  // @Security('jwt')
   @Get('/')
+  @Security('jwt')
   async getLocations(): Promise<ILocationData[]> {
     try {
       const response = await this.locationService.getLocations();
@@ -28,8 +28,8 @@ class LocationController {
     }
   }
 
-  // @Security('jwt')
   @Get('/:locationId')
+  @Security('jwt')
   async getLocationById(@Path() locationId: string): Promise<ILocationData> {
     try {
       if (!locationId) {

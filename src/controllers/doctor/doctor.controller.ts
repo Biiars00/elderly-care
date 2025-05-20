@@ -12,8 +12,8 @@ class DoctorController {
     private doctorService: DoctorService,
   ) {}
 
-  // @Security('jwt')
   @Get('/')
+  @Security('jwt')
   async getDoctors(): Promise<IDoctorsData[]> {
     try {
       const response = await this.doctorService.getDoctors();
@@ -28,8 +28,8 @@ class DoctorController {
     }
   }
 
-  // @Security('jwt')
   @Get('/:doctorId')
+  @Security('jwt')
   async getDoctorById(@Path() doctorId: string): Promise<IDoctorsData> {
     try {
       if (!doctorId) {

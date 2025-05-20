@@ -10,7 +10,7 @@ interface IUserService {
   ): Promise<IUserData>;
   getUsers(): Promise<IUserData[]>;
   getUserById(userId: string): Promise<Omit<IUserData, 'password'>>;
-  loginUser(userId: string, email: string, password: string,): Promise<string>;
+  loginUser(accessToken: string, email: string, password: string,): Promise<string>;
 }
 
 export default IUserService;

@@ -18,6 +18,7 @@ import DoctorController from '../controllers/doctor/doctor.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import AppointmentScheduleController from '../controllers/appointmentSchedule/appointmentSchedule.controller';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
+import { expressAuthentication } from '../middlewares/expressAuthentication';
 
 
 
@@ -258,6 +259,7 @@ export function RegisterRoutes(app: Router) {
         const argsUserController_getUsers: Record<string, TsoaRoute.ParameterSchema> = {
         };
         app.get('/user',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(UserController)),
             ...(fetchMiddlewares<RequestHandler>(UserController.prototype.getUsers)),
 
@@ -288,6 +290,7 @@ export function RegisterRoutes(app: Router) {
                 userId: {"in":"path","name":"userId","required":true,"dataType":"string"},
         };
         app.get('/user/:userId',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(UserController)),
             ...(fetchMiddlewares<RequestHandler>(UserController.prototype.getLocationById)),
 
@@ -317,6 +320,7 @@ export function RegisterRoutes(app: Router) {
         const argsMedicationController_getMedications: Record<string, TsoaRoute.ParameterSchema> = {
         };
         app.get('/medication',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(MedicationController)),
             ...(fetchMiddlewares<RequestHandler>(MedicationController.prototype.getMedications)),
 
@@ -347,6 +351,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"string"},
         };
         app.get('/medication/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(MedicationController)),
             ...(fetchMiddlewares<RequestHandler>(MedicationController.prototype.getMedicationById)),
 
@@ -377,6 +382,7 @@ export function RegisterRoutes(app: Router) {
                 body: {"in":"body","name":"body","required":true,"ref":"Omit_IMedicationsData.id_"},
         };
         app.post('/medication',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(MedicationController)),
             ...(fetchMiddlewares<RequestHandler>(MedicationController.prototype.addMedication)),
 
@@ -407,6 +413,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"string"},
         };
         app.delete('/medication/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(MedicationController)),
             ...(fetchMiddlewares<RequestHandler>(MedicationController.prototype.removeMedication)),
 
@@ -438,6 +445,7 @@ export function RegisterRoutes(app: Router) {
                 body: {"in":"body","name":"body","required":true,"ref":"Omit_IResetMedicationsData.taken_"},
         };
         app.put('/medication/reminder/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(MedicationController)),
             ...(fetchMiddlewares<RequestHandler>(MedicationController.prototype.updateMedicationReminder)),
 
@@ -469,6 +477,7 @@ export function RegisterRoutes(app: Router) {
                 body: {"in":"body","name":"body","required":true,"ref":"Omit_IResetMedicationsData.reminder_"},
         };
         app.put('/medication/taken/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(MedicationController)),
             ...(fetchMiddlewares<RequestHandler>(MedicationController.prototype.updateMedicationTaken)),
 
@@ -498,6 +507,7 @@ export function RegisterRoutes(app: Router) {
         const argsMedicationController_resetMedications: Record<string, TsoaRoute.ParameterSchema> = {
         };
         app.put('/medication/reset',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(MedicationController)),
             ...(fetchMiddlewares<RequestHandler>(MedicationController.prototype.resetMedications)),
 
@@ -527,6 +537,7 @@ export function RegisterRoutes(app: Router) {
         const argsLocationController_getLocations: Record<string, TsoaRoute.ParameterSchema> = {
         };
         app.get('/location',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(LocationController)),
             ...(fetchMiddlewares<RequestHandler>(LocationController.prototype.getLocations)),
 
@@ -557,6 +568,7 @@ export function RegisterRoutes(app: Router) {
                 locationId: {"in":"path","name":"locationId","required":true,"dataType":"string"},
         };
         app.get('/location/:locationId',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(LocationController)),
             ...(fetchMiddlewares<RequestHandler>(LocationController.prototype.getLocationById)),
 
@@ -586,6 +598,7 @@ export function RegisterRoutes(app: Router) {
         const argsEmergencyContactsController_getEmergencyContacts: Record<string, TsoaRoute.ParameterSchema> = {
         };
         app.get('/contacts',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(EmergencyContactsController)),
             ...(fetchMiddlewares<RequestHandler>(EmergencyContactsController.prototype.getEmergencyContacts)),
 
@@ -616,6 +629,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"string"},
         };
         app.get('/contacts/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(EmergencyContactsController)),
             ...(fetchMiddlewares<RequestHandler>(EmergencyContactsController.prototype.getEmergencyContactById)),
 
@@ -627,7 +641,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsEmergencyContactsController_getEmergencyContactById, request, response });
 
-               const controller = container.resolve(EmergencyContactsController);
+                const controller = container.resolve(EmergencyContactsController);
 
               await templateService.apiHandler({
                 methodName: 'getEmergencyContactById',
@@ -646,6 +660,7 @@ export function RegisterRoutes(app: Router) {
                 body: {"in":"body","name":"body","required":true,"ref":"Omit_IContactsData.id_"},
         };
         app.post('/contacts',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(EmergencyContactsController)),
             ...(fetchMiddlewares<RequestHandler>(EmergencyContactsController.prototype.addEmergencyContact)),
 
@@ -677,6 +692,7 @@ export function RegisterRoutes(app: Router) {
                 body: {"in":"body","name":"body","required":true,"ref":"Omit_IContactsData.id_"},
         };
         app.put('/contacts/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(EmergencyContactsController)),
             ...(fetchMiddlewares<RequestHandler>(EmergencyContactsController.prototype.updateEmergencyContact)),
 
@@ -707,6 +723,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"string"},
         };
         app.delete('/contacts/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(EmergencyContactsController)),
             ...(fetchMiddlewares<RequestHandler>(EmergencyContactsController.prototype.removeEmergencyContact)),
 
@@ -736,6 +753,7 @@ export function RegisterRoutes(app: Router) {
         const argsDoctorController_getDoctors: Record<string, TsoaRoute.ParameterSchema> = {
         };
         app.get('/doctor',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(DoctorController)),
             ...(fetchMiddlewares<RequestHandler>(DoctorController.prototype.getDoctors)),
 
@@ -766,6 +784,7 @@ export function RegisterRoutes(app: Router) {
                 doctorId: {"in":"path","name":"doctorId","required":true,"dataType":"string"},
         };
         app.get('/doctor/:doctorId',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(DoctorController)),
             ...(fetchMiddlewares<RequestHandler>(DoctorController.prototype.getDoctorById)),
 
@@ -795,6 +814,7 @@ export function RegisterRoutes(app: Router) {
         const argsAppointmentScheduleController_getSchedule: Record<string, TsoaRoute.ParameterSchema> = {
         };
         app.get('/appointment',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(AppointmentScheduleController)),
             ...(fetchMiddlewares<RequestHandler>(AppointmentScheduleController.prototype.getSchedule)),
 
@@ -825,6 +845,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"string"},
         };
         app.get('/appointment/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(AppointmentScheduleController)),
             ...(fetchMiddlewares<RequestHandler>(AppointmentScheduleController.prototype.getScheduleById)),
 
@@ -836,7 +857,7 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args: argsAppointmentScheduleController_getScheduleById, request, response });
 
-               const controller = container.resolve(AppointmentScheduleController);
+                const controller = container.resolve(AppointmentScheduleController);
 
               await templateService.apiHandler({
                 methodName: 'getScheduleById',
@@ -855,6 +876,7 @@ export function RegisterRoutes(app: Router) {
                 body: {"in":"body","name":"body","required":true,"ref":"Omit_IAppointmentScheduleData.id_"},
         };
         app.post('/appointment',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(AppointmentScheduleController)),
             ...(fetchMiddlewares<RequestHandler>(AppointmentScheduleController.prototype.addSchedule)),
 
@@ -886,6 +908,7 @@ export function RegisterRoutes(app: Router) {
                 body: {"in":"body","name":"body","required":true,"ref":"Omit_IAppointmentScheduleData.id_"},
         };
         app.put('/appointment/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(AppointmentScheduleController)),
             ...(fetchMiddlewares<RequestHandler>(AppointmentScheduleController.prototype.updateSchedule)),
 
@@ -916,6 +939,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"string"},
         };
         app.delete('/appointment/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(AppointmentScheduleController)),
             ...(fetchMiddlewares<RequestHandler>(AppointmentScheduleController.prototype.removeSchedule)),
 
@@ -947,6 +971,7 @@ export function RegisterRoutes(app: Router) {
                 body: {"in":"body","name":"body","required":true,"ref":"IConfirmScheduleData"},
         };
         app.put('/appointment/confirmed/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(AppointmentScheduleController)),
             ...(fetchMiddlewares<RequestHandler>(AppointmentScheduleController.prototype.confirmSchedule)),
 
@@ -979,6 +1004,73 @@ export function RegisterRoutes(app: Router) {
 
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
+    function authenticateMiddleware(security: TsoaRoute.Security[] = []) {
+        return async function runAuthenticationMiddleware(request: any, response: any, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            // keep track of failed auth attempts so we can hand back the most
+            // recent one.  This behavior was previously existing so preserving it
+            // here
+            const failedAttempts: any[] = [];
+            const pushAndRethrow = (error: any) => {
+                failedAttempts.push(error);
+                throw error;
+            };
+
+            const secMethodOrPromises: Promise<any>[] = [];
+            for (const secMethod of security) {
+                if (Object.keys(secMethod).length > 1) {
+                    const secMethodAndPromises: Promise<any>[] = [];
+
+                    for (const name in secMethod) {
+                        secMethodAndPromises.push(
+                            expressAuthentication(request, name, secMethod[name])
+                                .catch(pushAndRethrow)
+                        );
+                    }
+
+                    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+                    secMethodOrPromises.push(Promise.all(secMethodAndPromises)
+                        .then(users => { return users[0]; }));
+                } else {
+                    for (const name in secMethod) {
+                        secMethodOrPromises.push(
+                            expressAuthentication(request, name, secMethod[name])
+                                .catch(pushAndRethrow)
+                        );
+                    }
+                }
+            }
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            try {
+                request['user'] = await Promise.any(secMethodOrPromises);
+
+                // Response was sent in middleware, abort
+                if (response.writableEnded) {
+                    return;
+                }
+
+                next();
+            }
+            catch(err) {
+                // Show most recent error as response
+                const error = failedAttempts.pop();
+                error.status = error.status || 401;
+
+                // Response was sent in middleware, abort
+                if (response.writableEnded) {
+                    return;
+                }
+                next(error);
+            }
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        }
+    }
 
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 }
