@@ -37,10 +37,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
+const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
 require("./dependencies/dependencies");
 const dotenv_1 = __importDefault(require("dotenv"));
-const cors_1 = __importDefault(require("cors"));
 const routes_1 = require("./routes/routes");
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swaggerDocument = __importStar(require("./docs/swagger.json"));

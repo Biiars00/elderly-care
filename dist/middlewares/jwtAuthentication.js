@@ -8,11 +8,10 @@ const jsonwebtoken_1 = require("jsonwebtoken");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const secretKey = process.env.JWT_SECRET_KEY;
-const expiresIn = process.env.JWT_EXPIRES_IN;
 const generateToken = ({ email }) => {
     const payload = { email };
     const signOptions = {
-        expiresIn: expiresIn,
+        expiresIn: '7d',
     };
     const token = (0, jsonwebtoken_1.sign)(payload, secretKey, signOptions);
     return token;
