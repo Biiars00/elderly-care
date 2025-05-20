@@ -40,19 +40,19 @@ class UserController {
   async loginUser(@Body() body: Partial<IUserData>): Promise<string> {
     const { email, password } = body;
 
-    if (typeof email !== 'string' || typeof password !== 'string') {
-      throw new Error('Email and password are required.');
-    }
-
-    const accessToken = generateToken({
-      email: email,
-    });
-
-    if (!accessToken) {
-      throw new Error('Invalid credentials!');
-    }
-
     try {
+      if (typeof email !== 'string' || typeof password !== 'string') {
+        throw new Error('Email and password are required.');
+      }
+
+      const accessToken = generateToken({
+        email: email,
+      });
+
+      if (!accessToken) {
+        throw new Error('Invalid credentials!');
+      }
+
       const response = await this.userService.loginUser(
         accessToken,
         email, 
