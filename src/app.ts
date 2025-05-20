@@ -11,18 +11,11 @@ dotenv.config();
 
 const app: Application = express();
 
-// const allowedOrigins = [
-//   process.env.FRONTEND_URL_DEV || '',
-//   process.env.FRONTEND_URL_PROD || '',
-//   process.env.CORS_ORIGIN_PROD || '',
-//   process.env.CORS_ORIGIN_DEV || '',
-// ];
-
 const allowedOrigins = [
-  "https://elderly-care.onrender.com",
-  "http://localhost:3000",
-  "https://care-idosos-connect.vercel.app",
-  "http://localhost:8080",
+  process.env.FRONTEND_URL_DEV || '',
+  process.env.FRONTEND_URL_PROD || '',
+  process.env.CORS_ORIGIN_PROD || '',
+  process.env.CORS_ORIGIN_DEV || '',
 ];
 
 app.use(
