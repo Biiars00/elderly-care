@@ -5,6 +5,10 @@ dotenv.config();
 
 const secretKey = process.env.JWT_SECRET_KEY;
 
+if (!secretKey) {
+  throw new Error("JWT_SECRET_KEY is not defined in environment variables.");
+}
+
 interface TokenPayload {
   email: string;
 }
@@ -16,7 +20,7 @@ export const generateToken = ({ email }: TokenPayload): string => {
     expiresIn: '7d',
   };
 
-  const token = sign(payload, secretKey! as Secret, signOptions);
+  const token = sign(payload, secretKey as Secret, signOptions);
 
   return token;
 };
