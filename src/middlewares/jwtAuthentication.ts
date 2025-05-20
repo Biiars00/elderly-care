@@ -16,7 +16,7 @@ export const generateToken = ({ email }: TokenPayload): string => {
     expiresIn: '7d',
   };
 
-  const token = sign(payload, secretKey as Secret, signOptions);
+  const token = sign(payload, secretKey! as Secret, signOptions);
 
   return token;
 };
