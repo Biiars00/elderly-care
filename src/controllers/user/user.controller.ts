@@ -38,7 +38,9 @@ class UserController {
 
   @Post('/login')
   async loginUser(@Body() body: Partial<IUserData>): Promise<string> {
+    console.log("controlleeeeerrrrrrrrrrr")
     const { email, password } = body;
+    console.log(email, password)
 
     try {
       if (typeof email !== 'string' || typeof password !== 'string') {

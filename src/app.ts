@@ -1,8 +1,8 @@
 import 'reflect-metadata';
-import express, { Application, Request, Response } from 'express';
+import cors from 'cors';
+import express, { Application } from 'express';
 import './dependencies/dependencies';
 import dotenv from 'dotenv';
-import cors from 'cors';
 import { RegisterRoutes } from './routes/routes';
 import swaggerUi from 'swagger-ui-express';
 import * as swaggerDocument from './docs/swagger.json';

@@ -38,16 +38,16 @@ let UserController = class UserController {
     }
     async loginUser(body) {
         const { email, password } = body;
-        if (typeof email !== 'string' || typeof password !== 'string') {
-            throw new Error('Email and password are required.');
-        }
-        const accessToken = (0, jwtAuthentication_1.generateToken)({
-            email: email,
-        });
-        if (!accessToken) {
-            throw new Error('Invalid credentials!');
-        }
         try {
+            if (typeof email !== 'string' || typeof password !== 'string') {
+                throw new Error('Email and password are required.');
+            }
+            const accessToken = (0, jwtAuthentication_1.generateToken)({
+                email: email,
+            });
+            if (!accessToken) {
+                throw new Error('Invalid credentials!');
+            }
             const response = await this.userService.loginUser(accessToken, email, password);
             if (!response) {
                 throw new Error('Resource not found!');

@@ -71,7 +71,7 @@
 				"$ref": "#/components/schemas/Pick_IUserData.Exclude_keyofIUserData.userId__",
 				"description": "Construct a type with the properties of T except for those in type K."
 			},
-			"Partial_IUserData_": {
+			"LoginRequest": {
 				"properties": {
 					"email": {
 						"type": "string"
@@ -80,6 +80,7 @@
 						"type": "string"
 					}
 				},
+				"required": ["email", "password"],
 				"type": "object",
 				"description": "Make all properties in T optional"
 			},
@@ -454,7 +455,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_IUserData_"
+								"$ref": "#/components/schemas/LoginRequest"
 							}
 						}
 					}
