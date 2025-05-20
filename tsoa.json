@@ -1,5 +1,6 @@
 {
-    "entryFile": "src/server.ts",
+  "authenticationModule": "src/middlewares/expressAuthentication.ts",  
+  "entryFile": "src/server.ts",
     "noImplicitAdditionalProperties": "throw-on-extras",
     "controllerPathGlobs": ["src/controllers/**/*.controller.ts"],
     "spec": {
@@ -14,6 +15,18 @@
       "routesDir": "src/routes"
     },
     "iocModule": "src/ioc.ts",
+    "securityDefinitions": {
+      "jwt": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    },
+    "security": [
+      {
+        "jwt": []
+      }
+    ],
     "ignore": [
       "**/node_modules/**",
       "**/*.spec.ts",
