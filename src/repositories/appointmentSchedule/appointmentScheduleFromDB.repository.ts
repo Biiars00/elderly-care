@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import databaseConfig from '../../database/databaseConfig';
-import IAppointmentScheduleFromDBRepository, { IAppointmentScheduleData, IConfirmScheduleData } from '../../interfaces/repositories/appointmentScheduleFromDB.interface';
+import IAppointmentScheduleFromDBRepository, { IAppointmentData, IAppointmentScheduleData, IConfirmScheduleData } from '../../interfaces/repositories/appointmentScheduleFromDB.interface';
 
 @injectable()
 class AppointmentScheduleFromDBRepository
@@ -59,20 +59,16 @@ class AppointmentScheduleFromDBRepository
   }
 
   async addScheduleFromDB(
-    doctorId: string, 
-    locationId: string,
-    date: string,
-    time: string, 
-    createdAt: string,
+    data: IAppointmentData,
     userId: string
   ): Promise<string> {
     const refDB = this.servicesDB;
     const docRef = await refDB.add({
-      doctorId: doctorId, 
-      locationId: locationId,
-      date: date,
-      time: time, 
-      createdAt: createdAt,
+      doctorId: data.doctorId, 
+      locationId: data.locationId,
+      date: data.date,
+      time: data.time, 
+      createdAt: data.createdAt,
       userId: userId
     });
 
@@ -83,11 +79,7 @@ class AppointmentScheduleFromDBRepository
 
   async updateScheduleFromDB(
     id: string,
-    doctorId: string, 
-    locationId: string,
-    date: string,
-    time: string, 
-    createdAt: string,
+    data: IAppointmentData,
     userId: string,
   ): Promise<string> {
     const refDB = this.servicesDB.doc(id);
@@ -97,19 +89,19 @@ class AppointmentScheduleFromDBRepository
       throw new Error('Schedule not found!');
     }
 
-    const data = docRef.data() as IAppointmentScheduleData;
+    const dataAppointment = docRef.data() as IAppointmentScheduleData;
 
 
-    if (data.userId !== userId) {
+    if (dataAppointment.userId !== userId) {
       throw new Error('Unauthorized to update this schedule!');
     }
       refDB.update({
         userId: userId,
-        doctorId: doctorId, 
-        locationId: locationId,
-        date: date,
-        time: time, 
-        createdAt: createdAt
+        doctorId: data.doctorId, 
+        locationId: data.locationId,
+        date: data.date,
+        time: data.time, 
+        createdAt: data.createdAt
       });
 
       return 'Schedule updated successfully!';

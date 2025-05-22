@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import { Body, Delete, Get, Path, Post, Put, Route, Security, Tags, Request as Request } from 'tsoa';
 import AppointmentScheduleService from '../../services/appointmentSchedule/appointmentSchedule.service';
-import { IAppointmentScheduleData, IConfirmScheduleData } from '../../interfaces/repositories/appointmentScheduleFromDB.interface';
+import { IAppointmentData, IAppointmentScheduleData, IConfirmScheduleData } from '../../interfaces/repositories/appointmentScheduleFromDB.interface';
 import { AuthenticatedRequest } from 'express';
 
 @injectable()
@@ -53,22 +53,18 @@ class AppointmentScheduleController {
 
   @Post('/')
   @Security('jwt')
-  async addSchedule(@Request() req: AuthenticatedRequest, @Body() body: Omit<IAppointmentScheduleData, 'id'>
+  async addSchedule(@Request() req: AuthenticatedRequest, @Body() body: IAppointmentData
   ): Promise<string> {
     const { doctorId, locationId, date, time, createdAt } = body;
 
     try {
-      if (!doctorId && !locationId && !date && !time && !createdAt) {
+      if (!doctorId || !locationId || !date || !time || !createdAt) {
         throw new Error('Resource is missing!');
       }
 
       const userId = req.user.userId;
       const response = await this.appointmentScheduleService.addSchedule(
-        doctorId, 
-        locationId, 
-        date, 
-        time, 
-        createdAt,
+        body,
         userId!
       );
 
@@ -87,23 +83,19 @@ class AppointmentScheduleController {
   async updateSchedule(
     @Request() req: AuthenticatedRequest,
     @Path() id: string, 
-    @Body() body: Omit<IAppointmentScheduleData, 'id'>
+    @Body() body: IAppointmentData
   ): Promise<string> {
     const { doctorId, locationId, date, time, createdAt } = body;
 
     try {
-      if (!id && !doctorId && !locationId && !date && !time && !createdAt) {
+      if (!id || !body) {
         throw new Error('Resource is missing!');
       }
 
       const userId = req.user.userId;
       const response = await this.appointmentScheduleService.updateSchedule(
         id,
-        doctorId, 
-        locationId, 
-        date, 
-        time, 
-        createdAt,
+        body,
         userId!
       );
 

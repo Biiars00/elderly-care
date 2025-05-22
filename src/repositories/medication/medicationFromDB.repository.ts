@@ -1,7 +1,6 @@
 import { injectable } from 'tsyringe';
 import databaseConfig from '../../database/databaseConfig';
-import IAppointmentScheduleFromDBRepository, { IAppointmentScheduleData, IConfirmScheduleData } from '../../interfaces/repositories/appointmentScheduleFromDB.interface';
-import IMedicationFromDBRepository, { IMedicationsData } from '../../interfaces/repositories/medicationFromDB.interface';
+import IMedicationFromDBRepository, { IMedicationsData, IMedicationsDataWithoutId } from '../../interfaces/repositories/medicationFromDB.interface';
 
 @injectable()
 class MedicationFromDBRepository
@@ -50,9 +49,7 @@ class MedicationFromDBRepository
   }
 
   async addMedicationFromDB(
-    name: string, 
-    dosage: number,
-    time: string, 
+    data: IMedicationsDataWithoutId,
     userId: string
   ): Promise<string> {
     const refDB = this.db;
@@ -61,7 +58,7 @@ class MedicationFromDBRepository
 
     const docData = await refDB.get();
     docData.docs.map((doc) => {
-      if (name === doc.data().name) {
+      if (data.name === doc.data().name) {
         console.error('Medication already exists!');
         throw new Error('Medication already exists!');
       }
@@ -69,9 +66,9 @@ class MedicationFromDBRepository
 
     await docRef.set({
       id: id,
-      name: name,
-      dosage: dosage,
-      time: time,
+      name: data.name,
+      dosage: data.dosage,
+      time: data.time,
       userId: userId,
 
     })

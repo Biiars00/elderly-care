@@ -1,5 +1,5 @@
 import IAppointmentScheduleService from '../../interfaces/services/appointmentSchedule.interface';
-import IAppointmentScheduleFromDBRepository, { IAppointmentScheduleData, IConfirmScheduleData, IFullAppointmentScheduleData } from '../../interfaces/repositories/appointmentScheduleFromDB.interface';
+import IAppointmentScheduleFromDBRepository, { IAppointmentData, IAppointmentScheduleData, IConfirmScheduleData, IFullAppointmentScheduleData } from '../../interfaces/repositories/appointmentScheduleFromDB.interface';
 import { inject, injectable } from 'tsyringe';
 import IDoctorFromDBRepository from '../../interfaces/repositories/doctorsFromDB.interface';
 import ILocationFromDBRepository from '../../interfaces/repositories/locationFromDB.interface';
@@ -73,20 +73,12 @@ class AppointmentScheduleService implements IAppointmentScheduleService {
   }
 
   async addSchedule(
-    doctorId: string, 
-    locationId: string, 
-    date: string, 
-    time: string, 
-    createdAt: string,
+    data: IAppointmentData,
     userId: string
   ): Promise<string> {
     const addScheduleOnDB =
       await this.appointmentScheduleFromDBRepository.addScheduleFromDB(
-        doctorId, 
-        locationId, 
-        date, 
-        time, 
-        createdAt,
+        data,
         userId
       );
 
@@ -99,21 +91,13 @@ class AppointmentScheduleService implements IAppointmentScheduleService {
 
   async updateSchedule(
     id: string,
-    doctorId: string, 
-    locationId: string, 
-    date: string, 
-    time: string, 
-    createdAt: string,
+    data: IAppointmentData,
     userId: string
   ): Promise<string> {
     const updateScheduleOnDB =
       await this.appointmentScheduleFromDBRepository.updateScheduleFromDB(
         id,
-        doctorId, 
-        locationId, 
-        date, 
-        time, 
-        createdAt,
+        data,
         userId
       );
 

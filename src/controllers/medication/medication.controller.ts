@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import { Body, Delete, Get, Path, Post, Put, Route, Security, Tags, Request as Request } from 'tsoa';
 import MedicationService from '../../services/medication/medication.service';
-import { IMedicationsData, IResetMedicationsData } from '../../interfaces/repositories/medicationFromDB.interface';
+import { IMedicationsData, IMedicationsDataWithoutId } from '../../interfaces/repositories/medicationFromDB.interface';
 import { AuthenticatedRequest } from 'express';
 
 @injectable()
@@ -54,7 +54,7 @@ class MedicationController {
 
   @Post('/')
   @Security('jwt')
-  async addMedication(@Request() req: AuthenticatedRequest, @Body() body: Omit<IMedicationsData, 'id'>
+  async addMedication(@Request() req: AuthenticatedRequest, @Body() body: IMedicationsDataWithoutId
   ): Promise<string> {
     const { name, dosage, time } = body;
 
@@ -66,9 +66,7 @@ class MedicationController {
       }
 
       const response = await this.medicationService.addMedication(
-        name, 
-        dosage,  
-        time, 
+        body,
         userId!
       );
 
@@ -109,7 +107,7 @@ class MedicationController {
   async updateMedicationReminder(
     @Request() req: AuthenticatedRequest,
     @Path() id: string, 
-    @Body() body: Omit<IResetMedicationsData, 'taken'>
+    @Body() body: { reminder: boolean}
   ): Promise<string> {
     const { reminder } = body;
     
@@ -140,7 +138,7 @@ class MedicationController {
   async updateMedicationTaken(
     @Request() req: AuthenticatedRequest,
     @Path() id: string,
-    @Body() body: Omit<IResetMedicationsData, 'reminder'>
+    @Body() body: { taken: boolean }
   ): Promise<string> {
     const { taken } = body;
     const userId = req.user.userId;

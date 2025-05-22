@@ -2,6 +2,7 @@ import { inject, injectable } from 'tsyringe';
 import IEmergencyContactsService from '../../interfaces/services/emergencyContacts.interface';
 import IEmergencyContactsFromDBRepository, {
   IContactsData,
+  IContactsDataWithoutId,
 } from '../../interfaces/repositories/emergencyContactsFromDB.interface';
 
 @injectable()
@@ -36,13 +37,10 @@ class EmergencyContactsService implements IEmergencyContactsService {
     return contactFromDB;
   }
 
-  async addEmergencyContact(name: string, phone: string, relationship: string, isMainContact: boolean, userId: string): Promise<string> {
+  async addEmergencyContact(data: IContactsDataWithoutId, userId: string): Promise<string> {
     const addContactOnDB =
       await this.emergencyContactsFromDBRepository.addEmergencyContactFromDB(
-        name,
-        phone,
-        relationship,
-        isMainContact,
+        data,
         userId
       );
 
@@ -55,19 +53,13 @@ class EmergencyContactsService implements IEmergencyContactsService {
 
   async updateEmergencyContact(
     id: string,
-    name: string,
-    phone: string,
-    relationship: string,
-    isMainContact: boolean,
+    data: IContactsDataWithoutId,
     userId: string
   ): Promise<string> {
     const updateContactOnDB =
       await this.emergencyContactsFromDBRepository.updateEmergencyContactFromDB(
         id,
-        name,
-        phone,
-        relationship,
-        isMainContact,
+        data,
         userId
       );
 

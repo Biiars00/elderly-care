@@ -1,16 +1,12 @@
-import { IUserData } from "../../interfaces/repositories/userFromDB.interface";
+import { IUserData, IUserDataLogin, IUserDataWithoutPassword, IUserDataWithoutUserId } from "../../interfaces/repositories/userFromDB.interface";
 
 interface IUserService {
   addUser(
-    userFirstName: string, 
-    userLastName: string,
-    phone: string,
-    email: string,
-    password: string,
+    data: IUserDataWithoutUserId
   ): Promise<IUserData>;
   getUsers(): Promise<IUserData[]>;
-  getUserById(userId: string): Promise<Omit<IUserData, 'password'>>;
-  loginUser(email: string, password: string,): Promise<string>;
+  getUserById(userId: string): Promise<IUserDataWithoutPassword>;
+  loginUser(data: IUserDataLogin): Promise<string>;
 }
 
 export default IUserService;

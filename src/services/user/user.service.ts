@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import IUserService from '../../interfaces/services/user.interface';
-import IUserFromDBRepository, { IUserData } from '../../interfaces/repositories/userFromDB.interface';
+import IUserFromDBRepository, { IUserData, IUserDataLogin, IUserDataWithoutPassword, IUserDataWithoutUserId } from '../../interfaces/repositories/userFromDB.interface';
 import { generateToken } from '../../middlewares/jwtAuthentication';
 
 @injectable()
@@ -11,20 +11,10 @@ class UserService implements IUserService {
   ) {}
 
 async addUser(
-    userFirstName: string, 
-    userLastName: string,
-    phone: string,
-    email: string,
-    password: string,
+    data: IUserDataWithoutUserId
   ): Promise<IUserData> {
     const responseDB =
-      await this.userFromDBRepository.addUserFromDB(
-        userFirstName, 
-        userLastName, 
-        phone, 
-        email,
-        password
-      );
+      await this.userFromDBRepository.addUserFromDB(data);
 
     if (!responseDB) {
       throw new Error('Data not found!');
@@ -34,12 +24,11 @@ async addUser(
   }
 
   async loginUser(
-    email: string,
-    password: string,
+    data: IUserDataLogin
   ): Promise<string> {
     let accessToken = "";
 
-    const responseDB = await this.userFromDBRepository.getUserCheckFromDB(email, password);
+    const responseDB = await this.userFromDBRepository.getUserCheckFromDB(data);
 
     if (!responseDB) {
       throw new Error("User not exists!");
@@ -47,8 +36,8 @@ async addUser(
     
     if (
       responseDB.userId && 
-      responseDB.email === email &&
-      responseDB.password === password
+      responseDB.email === data.email &&
+      responseDB.password === data.password
     ) {
       accessToken = generateToken({
         userId: responseDB.userId,
@@ -74,7 +63,7 @@ async addUser(
     return responseDB;
   }
 
-  async getUserById(userId: string): Promise<Omit<IUserData, "password">> {
+  async getUserById(userId: string): Promise<IUserDataWithoutPassword> {
     const responseDB =
       await this.userFromDBRepository.getUserByIdFromDB(
         userId,

@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import EmergencyContactsService from '../../services/emergencyContacts/emergencyContacts.service';
 import { Body, Delete, Get, Path, Post, Put, Route, Security, Tags, Request as Request } from 'tsoa';
-import { IContactsData } from '../../interfaces/repositories/emergencyContactsFromDB.interface';
+import { IContactsData, IContactsDataWithoutId } from '../../interfaces/repositories/emergencyContactsFromDB.interface';
 import { AuthenticatedRequest } from 'express';
 
 @injectable()
@@ -55,7 +55,7 @@ class EmergencyContactsController {
 
   @Post('/')
   @Security('jwt')
-  async addEmergencyContact(@Request() req: AuthenticatedRequest, @Body() body: Omit<IContactsData, 'id'>): Promise<string> {
+  async addEmergencyContact(@Request() req: AuthenticatedRequest, @Body() body: IContactsDataWithoutId): Promise<string> {
     const { name, phone, relationship, isMainContact } = body
     try {
       if (!body) {
@@ -63,11 +63,8 @@ class EmergencyContactsController {
       }
 
       const userId = req.user.userId;
-      const response = await this.emergencyContactsService.addEmergencyContact(
-        name, 
-        phone, 
-        relationship, 
-        isMainContact,
+      const response = await this.emergencyContactsService.addEmergencyContact( 
+        body,
         userId!
       ); 
 
@@ -86,7 +83,7 @@ class EmergencyContactsController {
   async updateEmergencyContact(
     @Request() req: AuthenticatedRequest,
     @Path() id: string, 
-    @Body() body: Omit<IContactsData, 'id'>): Promise<string> {
+    @Body() body: IContactsDataWithoutId): Promise<string> {
       const { name, phone, relationship, isMainContact } = body
     try {
       if (!id && !body) {
@@ -97,10 +94,7 @@ class EmergencyContactsController {
       const response =
         await this.emergencyContactsService.updateEmergencyContact(
           id,
-          name,
-          phone,
-          relationship,
-          isMainContact,
+          body,
           userId!
         );
 

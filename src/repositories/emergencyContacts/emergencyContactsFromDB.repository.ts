@@ -2,6 +2,7 @@ import { injectable } from 'tsyringe';
 import databaseConfig from '../../database/databaseConfig';
 import IEmergencyContactsFromDBRepository, {
   IContactsData,
+  IContactsDataWithoutId,
 } from '../../interfaces/repositories/emergencyContactsFromDB.interface';
 
 @injectable()
@@ -57,19 +58,16 @@ class EmergencyContactsFromDBRepository
   }
 
   async addEmergencyContactFromDB(
-    name: string,
-    phone: string,
-    relationship: string,
-    isMainContact: boolean,
+    data: IContactsDataWithoutId,
     userId: string
   ): Promise<string> {
     const refDB = this.contactsDB;
     const docRef = await refDB.add({
       userId: userId,
-      name: name,
-      phone: phone,
-      relationship: relationship,
-      isMainContact: isMainContact,
+      name: data.name,
+      phone: data.phone,
+      relationship: data.relationship,
+      isMainContact: data.isMainContact,
     });
 
     docRef.update({ id: docRef.id });
@@ -79,27 +77,24 @@ class EmergencyContactsFromDBRepository
 
   async updateEmergencyContactFromDB(
     id: string,
-    name: string,
-    phone: string,
-    relationship: string,  
-    isMainContact: boolean,
+    data: IContactsDataWithoutId,
     userId: string
   ): Promise<string> {
       const refDB = this.contactsDB;
       refDB.where('userId', '==', userId).get();
       
-      const docRef = refDB.doc(id).update({ 
-        name: name,
-        phone: phone,
-        relationship: relationship,
-        isMainContact: isMainContact,
+      refDB.doc(id).update({ 
+        name: data.name,
+        phone: data.phone,
+        relationship: data.relationship,
+        isMainContact: data.isMainContact,
       });
 
       return 'Playlist name updated successfully!';
       } 
 
   async removeEmergencyContactFromDB(id: string, userId: string): Promise<string> {
-    const refDB = await this.contactsDB.doc(id);
+    const refDB = this.contactsDB.doc(id);
     const docSnap = await refDB.get();
 
     if (!docSnap.exists) {

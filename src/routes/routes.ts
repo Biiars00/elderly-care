@@ -38,29 +38,37 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_IUserData.Exclude_keyofIUserData.userId__": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"userFirstName":{"dataType":"string","required":true},"userLastName":{"dataType":"string","required":true},"phone":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"password":{"dataType":"string","required":true}},"validators":{}},
+    "IUserDataWithoutUserId": {
+        "dataType": "refObject",
+        "properties": {
+            "userFirstName": {"dataType":"string","required":true},
+            "userLastName": {"dataType":"string","required":true},
+            "phone": {"dataType":"string","required":true},
+            "email": {"dataType":"string","required":true},
+            "password": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Omit_IUserData.userId_": {
-        "dataType": "refAlias",
-        "type": {"ref":"Pick_IUserData.Exclude_keyofIUserData.userId__","validators":{}},
+    "IUserDataLogin": {
+        "dataType": "refObject",
+        "properties": {
+            "email": {"dataType":"string","required":true},
+            "password": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_IUserData_": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"userId":{"dataType":"string"},"userFirstName":{"dataType":"string"},"userLastName":{"dataType":"string"},"phone":{"dataType":"string"},"email":{"dataType":"string"},"password":{"dataType":"string"}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_IUserData.Exclude_keyofIUserData.password__": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"userId":{"dataType":"string","required":true},"userFirstName":{"dataType":"string","required":true},"userLastName":{"dataType":"string","required":true},"phone":{"dataType":"string","required":true},"email":{"dataType":"string","required":true}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Omit_IUserData.password_": {
-        "dataType": "refAlias",
-        "type": {"ref":"Pick_IUserData.Exclude_keyofIUserData.password__","validators":{}},
+    "IUserDataWithoutPassword": {
+        "dataType": "refObject",
+        "properties": {
+            "userId": {"dataType":"string","required":true},
+            "userFirstName": {"dataType":"string","required":true},
+            "userLastName": {"dataType":"string","required":true},
+            "phone": {"dataType":"string","required":true},
+            "email": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "IMedicationsData": {
@@ -74,34 +82,14 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_IMedicationsData.Exclude_keyofIMedicationsData.id__": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"name":{"dataType":"string","required":true},"dosage":{"dataType":"double","required":true},"time":{"dataType":"string","required":true}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Omit_IMedicationsData.id_": {
-        "dataType": "refAlias",
-        "type": {"ref":"Pick_IMedicationsData.Exclude_keyofIMedicationsData.id__","validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_IResetMedicationsData.Exclude_keyofIResetMedicationsData.taken__": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"reminder":{"dataType":"boolean","required":true}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Omit_IResetMedicationsData.taken_": {
-        "dataType": "refAlias",
-        "type": {"ref":"Pick_IResetMedicationsData.Exclude_keyofIResetMedicationsData.taken__","validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_IResetMedicationsData.Exclude_keyofIResetMedicationsData.reminder__": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"taken":{"dataType":"boolean","required":true}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Omit_IResetMedicationsData.reminder_": {
-        "dataType": "refAlias",
-        "type": {"ref":"Pick_IResetMedicationsData.Exclude_keyofIResetMedicationsData.reminder__","validators":{}},
+    "IMedicationsDataWithoutId": {
+        "dataType": "refObject",
+        "properties": {
+            "name": {"dataType":"string","required":true},
+            "dosage": {"dataType":"double","required":true},
+            "time": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ILocationData": {
@@ -127,14 +115,15 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_IContactsData.Exclude_keyofIContactsData.id__": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"phone":{"dataType":"string","required":true},"name":{"dataType":"string","required":true},"relationship":{"dataType":"string","required":true},"isMainContact":{"dataType":"boolean","required":true}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Omit_IContactsData.id_": {
-        "dataType": "refAlias",
-        "type": {"ref":"Pick_IContactsData.Exclude_keyofIContactsData.id__","validators":{}},
+    "IContactsDataWithoutId": {
+        "dataType": "refObject",
+        "properties": {
+            "name": {"dataType":"string","required":true},
+            "phone": {"dataType":"string","required":true},
+            "relationship": {"dataType":"string","required":true},
+            "isMainContact": {"dataType":"boolean","required":true},
+        },
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "IDoctorsData": {
@@ -162,14 +151,16 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_IAppointmentScheduleData.Exclude_keyofIAppointmentScheduleData.id__": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"userId":{"dataType":"string","required":true},"time":{"dataType":"string","required":true},"doctorId":{"dataType":"string","required":true},"locationId":{"dataType":"string","required":true},"date":{"dataType":"string","required":true},"createdAt":{"dataType":"string","required":true}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Omit_IAppointmentScheduleData.id_": {
-        "dataType": "refAlias",
-        "type": {"ref":"Pick_IAppointmentScheduleData.Exclude_keyofIAppointmentScheduleData.id__","validators":{}},
+    "IAppointmentData": {
+        "dataType": "refObject",
+        "properties": {
+            "doctorId": {"dataType":"string","required":true},
+            "locationId": {"dataType":"string","required":true},
+            "date": {"dataType":"string","required":true},
+            "time": {"dataType":"string","required":true},
+            "createdAt": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "IConfirmScheduleData": {
@@ -198,7 +189,7 @@ export function RegisterRoutes(app: Router) {
 
     
         const argsUserController_addUser: Record<string, TsoaRoute.ParameterSchema> = {
-                body: {"in":"body","name":"body","required":true,"ref":"Omit_IUserData.userId_"},
+                body: {"in":"body","name":"body","required":true,"ref":"IUserDataWithoutUserId"},
         };
         app.post('/user/sign-up',
             ...(fetchMiddlewares<RequestHandler>(UserController)),
@@ -228,7 +219,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsUserController_loginUser: Record<string, TsoaRoute.ParameterSchema> = {
-                body: {"in":"body","name":"body","required":true,"ref":"Partial_IUserData_"},
+                body: {"in":"body","name":"body","required":true,"ref":"IUserDataLogin"},
         };
         app.post('/user/login',
             ...(fetchMiddlewares<RequestHandler>(UserController)),
@@ -381,7 +372,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsMedicationController_addMedication: Record<string, TsoaRoute.ParameterSchema> = {
                 req: {"in":"request","name":"req","required":true,"dataType":"object"},
-                body: {"in":"body","name":"body","required":true,"ref":"Omit_IMedicationsData.id_"},
+                body: {"in":"body","name":"body","required":true,"ref":"IMedicationsDataWithoutId"},
         };
         app.post('/medication',
             authenticateMiddleware([{"jwt":[]}]),
@@ -446,7 +437,7 @@ export function RegisterRoutes(app: Router) {
         const argsMedicationController_updateMedicationReminder: Record<string, TsoaRoute.ParameterSchema> = {
                 req: {"in":"request","name":"req","required":true,"dataType":"object"},
                 id: {"in":"path","name":"id","required":true,"dataType":"string"},
-                body: {"in":"body","name":"body","required":true,"ref":"Omit_IResetMedicationsData.taken_"},
+                body: {"in":"body","name":"body","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"reminder":{"dataType":"boolean","required":true}}},
         };
         app.put('/medication/reminder/:id',
             authenticateMiddleware([{"jwt":[]}]),
@@ -479,7 +470,7 @@ export function RegisterRoutes(app: Router) {
         const argsMedicationController_updateMedicationTaken: Record<string, TsoaRoute.ParameterSchema> = {
                 req: {"in":"request","name":"req","required":true,"dataType":"object"},
                 id: {"in":"path","name":"id","required":true,"dataType":"string"},
-                body: {"in":"body","name":"body","required":true,"ref":"Omit_IResetMedicationsData.reminder_"},
+                body: {"in":"body","name":"body","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"taken":{"dataType":"boolean","required":true}}},
         };
         app.put('/medication/taken/:id',
             authenticateMiddleware([{"jwt":[]}]),
@@ -666,7 +657,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsEmergencyContactsController_addEmergencyContact: Record<string, TsoaRoute.ParameterSchema> = {
                 req: {"in":"request","name":"req","required":true,"dataType":"object"},
-                body: {"in":"body","name":"body","required":true,"ref":"Omit_IContactsData.id_"},
+                body: {"in":"body","name":"body","required":true,"ref":"IContactsDataWithoutId"},
         };
         app.post('/contacts',
             authenticateMiddleware([{"jwt":[]}]),
@@ -699,7 +690,7 @@ export function RegisterRoutes(app: Router) {
         const argsEmergencyContactsController_updateEmergencyContact: Record<string, TsoaRoute.ParameterSchema> = {
                 req: {"in":"request","name":"req","required":true,"dataType":"object"},
                 id: {"in":"path","name":"id","required":true,"dataType":"string"},
-                body: {"in":"body","name":"body","required":true,"ref":"Omit_IContactsData.id_"},
+                body: {"in":"body","name":"body","required":true,"ref":"IContactsDataWithoutId"},
         };
         app.put('/contacts/:id',
             authenticateMiddleware([{"jwt":[]}]),
@@ -887,7 +878,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAppointmentScheduleController_addSchedule: Record<string, TsoaRoute.ParameterSchema> = {
                 req: {"in":"request","name":"req","required":true,"dataType":"object"},
-                body: {"in":"body","name":"body","required":true,"ref":"Omit_IAppointmentScheduleData.id_"},
+                body: {"in":"body","name":"body","required":true,"ref":"IAppointmentData"},
         };
         app.post('/appointment',
             authenticateMiddleware([{"jwt":[]}]),
@@ -920,7 +911,7 @@ export function RegisterRoutes(app: Router) {
         const argsAppointmentScheduleController_updateSchedule: Record<string, TsoaRoute.ParameterSchema> = {
                 req: {"in":"request","name":"req","required":true,"dataType":"object"},
                 id: {"in":"path","name":"id","required":true,"dataType":"string"},
-                body: {"in":"body","name":"body","required":true,"ref":"Omit_IAppointmentScheduleData.id_"},
+                body: {"in":"body","name":"body","required":true,"ref":"IAppointmentData"},
         };
         app.put('/appointment/:id',
             authenticateMiddleware([{"jwt":[]}]),

@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import IMedicationService from '../../interfaces/services/medication.interface';
-import IMedicationFromDBRepository, { IMedicationsData } from '../../interfaces/repositories/medicationFromDB.interface';
+import IMedicationFromDBRepository, { IMedicationsData, IMedicationsDataWithoutId } from '../../interfaces/repositories/medicationFromDB.interface';
 
 @injectable()
 class MedicationService implements IMedicationService {
@@ -35,16 +35,12 @@ class MedicationService implements IMedicationService {
   }
 
   async addMedication(
-    name: string, 
-    dosage: number, 
-    time: string,
+    data: IMedicationsDataWithoutId,
     userId: string
   ): Promise<string> {
     const responseDB =
       await this.medicationFromDBRepository.addMedicationFromDB(
-        name, 
-        dosage, 
-        time, 
+        data,
         userId
       );
 
