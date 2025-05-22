@@ -2,7 +2,6 @@ import { inject, injectable } from 'tsyringe';
 import { Body, Get, Path, Post, Route, Security, Tags } from 'tsoa';
 import { IUserData } from '../../interfaces/repositories/userFromDB.interface';
 import UserService from '../../services/user/user.service';
-import { generateToken } from '../../middlewares/jwtAuthentication';
 
 @injectable()
 @Route('user')
@@ -45,16 +44,7 @@ class UserController {
         throw new Error('Email and password are required.');
       }
 
-      const accessToken = generateToken({
-        email: email,
-      });
-
-      if (!accessToken) {
-        throw new Error('Invalid credentials!');
-      }
-
       const response = await this.userService.loginUser(
-        accessToken,
         email, 
         password
       );
@@ -71,7 +61,6 @@ class UserController {
   }
 
   @Get('/')
-  @Security('jwt')
   async getUsers(): Promise<IUserData[]> {
     try {
       const response = await this.userService.getUsers();
@@ -87,7 +76,6 @@ class UserController {
   }
 
   @Get('/:userId')
-  @Security('jwt')
   async getLocationById(@Path() userId: string): Promise<Omit<IUserData, 'password'>> {
     try {
       if (!userId) {

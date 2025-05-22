@@ -14,8 +14,8 @@ class EmergencyContactsFromDBRepository
     this.contactsDB = databaseConfig.firestore().collection('contacts');
   }
 
-  async getEmergencyContactsFromDB(): Promise<IContactsData[]> {
-    const refDB = await this.contactsDB.get();
+  async getEmergencyContactsFromDB(userId: string): Promise<IContactsData[]> {
+    const refDB = await this.contactsDB.where('userId', '==', userId).get();
 
     const contactList = refDB.docs.map((doc) => {
       const docData = doc.data() as IContactsData;
@@ -32,10 +32,12 @@ class EmergencyContactsFromDBRepository
 
   async getEmergencyContactByIdFromDB(
     id: string,
+    userId: string
   ): Promise<IContactsData> {
     const refDB = await this.contactsDB.doc(id).get();
-
-    if (refDB.exists) {
+    const data = refDB.data() as IContactsData;
+    const userRefDB = await this.contactsDB.where('userId', '==', userId).get();
+    if (refDB.exists && userRefDB.docs.length > 0) {
       const data = refDB.data();
 
       if (data) {
@@ -59,9 +61,11 @@ class EmergencyContactsFromDBRepository
     phone: string,
     relationship: string,
     isMainContact: boolean,
+    userId: string
   ): Promise<string> {
     const refDB = this.contactsDB;
     const docRef = await refDB.add({
+      userId: userId,
       name: name,
       phone: phone,
       relationship: relationship,
@@ -78,35 +82,40 @@ class EmergencyContactsFromDBRepository
     name: string,
     phone: string,
     relationship: string,  
-    isMainContact: boolean
+    isMainContact: boolean,
+    userId: string
   ): Promise<string> {
-    const refDB = await this.contactsDB.doc(id).get();
-
-    if (refDB.exists) {
-      refDB.ref.update({
+      const refDB = this.contactsDB;
+      refDB.where('userId', '==', userId).get();
+      
+      const docRef = refDB.doc(id).update({ 
         name: name,
         phone: phone,
         relationship: relationship,
         isMainContact: isMainContact,
       });
 
-      return 'Contact updated successfully!';
-    } else {
+      return 'Playlist name updated successfully!';
+      } 
+
+  async removeEmergencyContactFromDB(id: string, userId: string): Promise<string> {
+    const refDB = await this.contactsDB.doc(id);
+    const docSnap = await refDB.get();
+
+    if (!docSnap.exists) {
       throw new Error('Document not found!');
+    } 
+
+    const data = docSnap.data();
+    if (data?.userId !== userId) {
+      throw new Error('Unauthorized to delete this contact!');
     }
-  }
 
-  async removeEmergencyContactFromDB(id: string): Promise<string> {
-    const refDB = await this.contactsDB.doc(id).get();
+    await refDB.delete(); 
 
-    if (refDB.exists) {
-      refDB.ref.delete();
-
-      return 'Contact removed successfully!';
-    } else {
-      throw new Error('Document not found!');
-    }
+    return 'Contact removed successfully!';
   }
 }
+
 
 export default EmergencyContactsFromDBRepository;

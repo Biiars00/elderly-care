@@ -1,7 +1,8 @@
 import { inject, injectable } from 'tsyringe';
-import { Body, Delete, Get, Path, Post, Put, Route, Security, Tags } from 'tsoa';
+import { Body, Delete, Get, Path, Post, Put, Route, Security, Tags, Request as Request } from 'tsoa';
 import MedicationService from '../../services/medication/medication.service';
 import { IMedicationsData, IResetMedicationsData } from '../../interfaces/repositories/medicationFromDB.interface';
+import { AuthenticatedRequest } from 'express';
 
 @injectable()
 @Route('medication')
@@ -14,9 +15,10 @@ class MedicationController {
 
   @Get('/')
   @Security('jwt')
-  async getMedications(): Promise<IMedicationsData[]> {
+  async getMedications(@Request() req: AuthenticatedRequest): Promise<IMedicationsData[]> {
     try {
-      const response = await this.medicationService.getMedications();
+      const userId = req.user.userId;
+      const response = await this.medicationService.getMedications(userId!);
 
       if (!response) {
         throw new Error('Resource not found!');
@@ -30,13 +32,15 @@ class MedicationController {
 
   @Get('/:id')
   @Security('jwt')
-  async getMedicationById(@Path() id: string): Promise<IMedicationsData> {
+  async getMedicationById(@Request() req: AuthenticatedRequest, @Path() id: string): Promise<IMedicationsData> {
     try {
+      const userId = req.user.userId;
+
       if (!id) {
         throw new Error('Resource is missing!');
       }
 
-      const response = await this.medicationService.getMedicationById(id);
+      const response = await this.medicationService.getMedicationById(id, userId!);
 
       if (!response) {
         throw new Error('Resource not found!');
@@ -50,11 +54,13 @@ class MedicationController {
 
   @Post('/')
   @Security('jwt')
-  async addMedication(@Body() body: Omit<IMedicationsData, 'id'>
+  async addMedication(@Request() req: AuthenticatedRequest, @Body() body: Omit<IMedicationsData, 'id'>
   ): Promise<string> {
     const { name, dosage, time } = body;
 
     try {
+      const userId = req.user.userId;
+
       if (!name && !dosage && !time) {
         throw new Error('Resource is missing!');
       }
@@ -63,6 +69,7 @@ class MedicationController {
         name, 
         dosage,  
         time, 
+        userId!
       );
 
       if (!response) {
@@ -77,13 +84,15 @@ class MedicationController {
 
   @Delete('/:id')
   @Security('jwt')
-  async removeMedication(@Path() id: string): Promise<string> {
+  async removeMedication(@Request() req: AuthenticatedRequest, @Path() id: string): Promise<string> {
     try {
+      const userId = req.user.userId;
+
       if (!id) {
         throw new Error('Resource is missing!');
       }
 
-      const response = await this.medicationService.removeMedication(id);
+      const response = await this.medicationService.removeMedication(id, userId!);
 
       if (!response) {
         throw new Error('Resource not found!');
@@ -98,6 +107,7 @@ class MedicationController {
   @Put('/reminder/:id')
   @Security('jwt')
   async updateMedicationReminder(
+    @Request() req: AuthenticatedRequest,
     @Path() id: string, 
     @Body() body: Omit<IResetMedicationsData, 'taken'>
   ): Promise<string> {
@@ -107,10 +117,12 @@ class MedicationController {
       if (!id && !reminder) {
         throw new Error('Resource is missing!');
       }
-
+      
+      const userId = req.user.userId;
       const response = await this.medicationService.updateMedicationReminder(
         id,
         reminder, 
+        userId!
       );
 
       if (!response) {
@@ -126,17 +138,19 @@ class MedicationController {
   @Put('/taken/:id')
   @Security('jwt')
   async updateMedicationTaken(
+    @Request() req: AuthenticatedRequest,
     @Path() id: string,
     @Body() body: Omit<IResetMedicationsData, 'reminder'>
   ): Promise<string> {
     const { taken } = body;
+    const userId = req.user.userId;
 
     try {
       if (!id && !taken) {
         throw new Error('Resource is missing!');
       }
 
-      const response = await this.medicationService.updateMedicationTaken(id, taken);
+      const response = await this.medicationService.updateMedicationTaken(id, taken, userId!);
 
       if (!response) {
         throw new Error('Resource not found!');
@@ -150,9 +164,10 @@ class MedicationController {
 
   @Put('/reset')
   @Security('jwt')
-  async resetMedications(): Promise<string> {
+  async resetMedications(@Request() req: AuthenticatedRequest): Promise<string> {
     try {
-      const response = await this.medicationService.resetMedications();
+      const userId = req.user.userId;
+      const response = await this.medicationService.resetMedications(userId!);
 
       if (!response) {
         throw new Error('Resource not found!');

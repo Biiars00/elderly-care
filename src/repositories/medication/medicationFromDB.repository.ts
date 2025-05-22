@@ -13,9 +13,8 @@ class MedicationFromDBRepository
     this.db = databaseConfig.firestore().collection('medications');
   }
 
-  async getMedicationsFromDB(
-  ): Promise<IMedicationsData[]> {
-      const refDB = await this.db.get();
+  async getMedicationsFromDB(userId: string): Promise<IMedicationsData[]> {
+      const refDB = await this.db.where('userId', '==', userId).get();
 
       const medicationList = refDB.docs.map((doc) => {
         const docData = doc.data() as IMedicationsData;
@@ -32,11 +31,13 @@ class MedicationFromDBRepository
 
   async getMedicationByIdFromDB(
     id: string,
+    userId: string
   ): Promise<IMedicationsData> {
-    const refDB = await this.db.doc(id).get();
+    const querySnapshot = await this.db.where('userId', '==', userId).get();
+    const doc = querySnapshot.docs.find((doc) => doc.id === id);
 
-    if (refDB.exists) {
-      const data = refDB.data() as IMedicationsData;
+    if (doc && doc.exists) {
+      const data = doc.data() as IMedicationsData;
 
       if (data) {
         return data;
@@ -52,15 +53,28 @@ class MedicationFromDBRepository
     name: string, 
     dosage: number,
     time: string, 
+    userId: string
   ): Promise<string> {
     const refDB = this.db;
-    const docRef = await refDB.add({
-        name: name, 
-        dosage: dosage,
-        time: time, 
-    });
+    const docRef = refDB.doc();
+    const id = docRef.id;
 
-    docRef.update({ id: docRef.id });
+    const docData = await refDB.get();
+    docData.docs.map((doc) => {
+      if (name === doc.data().name) {
+        console.error('Medication already exists!');
+        throw new Error('Medication already exists!');
+      }
+    })
+
+    await docRef.set({
+      id: id,
+      name: name,
+      dosage: dosage,
+      time: time,
+      userId: userId,
+
+    })
 
     return 'Medication added successfully!';
   }
@@ -80,47 +94,45 @@ class MedicationFromDBRepository
   async updateMedicationReminderFromDB(
     id: string,
     reminder: boolean, 
+    userId: string
   ): Promise<string> {
-    const refDB = await this.db.doc(id).get();
-
-    const data = refDB.data() as IMedicationsData;
-
-    if (refDB.exists) {
-      refDB.ref.update({
-        ...data,
-        reminder: reminder,
-      });
-
-      return 'Medication reminder has been updated successfully!';
-    } else {
+    const refDB = await this.db.where('userId', '==', userId).get();
+    const docRef = refDB.docs.find((doc) => doc.id === id);
+    
+    if (!docRef) {
       throw new Error('Document not found!');
     }
+
+    docRef.ref.update({
+        reminder: reminder, 
+    });
+
+    return 'Medication updated successfully!';
   }
 
   async updateMedicationTakenFromDB(
     id: string,
     taken: boolean, 
+    userId: string
   ): Promise<string> {
-    const refDB = await this.db.doc(id).get();
-
-    const data = refDB.data() as IMedicationsData;
-
-    if (refDB.exists) {
-      refDB.ref.update({
-        ...data,
-        taken: taken,
-      });
-
-      return 'The medication taken has been successfully updated!';
-    } else {
+    const refDB = await this.db.where('userId', '==', userId).get();
+    const docRef = refDB.docs.find((doc) => doc.id === id);
+    
+    if (!docRef) {
       throw new Error('Document not found!');
     }
+
+    docRef.ref.update({
+      taken: taken
+    });
+
+    return 'Medication updated successfully!';
   }
 
-  async resetMedicationsFromDB(): Promise<string> {
-    const refDB = await this.db.get();
+  async resetMedicationsFromDB(userId: string): Promise<string> {
+    const refDB = await this.db.where('userId', '==', userId).get();
 
-    const updateMedicationList = refDB.docs.map((doc) => {
+    refDB.docs.map((doc) => {
       const data = doc.data() as IMedicationsData;
 
       if (data) {

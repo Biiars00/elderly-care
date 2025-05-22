@@ -11,13 +11,13 @@ export interface IResetMedicationsData {
 }
   
 interface IMedicationFromDBRepository {
-    getMedicationsFromDB(): Promise<IMedicationsData[]>;
-    getMedicationByIdFromDB(id: string): Promise<IMedicationsData>;
-    addMedicationFromDB(name: string, dosage: number, time: string): Promise<string>;
-    removeMedicationFromDB(id: string): Promise<string>;
-    updateMedicationReminderFromDB(id: string, reminder: boolean): Promise<string>;
-    updateMedicationTakenFromDB(id: string, taken: boolean): Promise<string>;
-    resetMedicationsFromDB(): Promise<string>;
+    getMedicationsFromDB(userId: string): Promise<IMedicationsData[]>;
+    getMedicationByIdFromDB(id: string, userId: string): Promise<IMedicationsData>;
+    addMedicationFromDB(name: string, dosage: number, time: string, userId: string): Promise<string>;
+    removeMedicationFromDB(id: string, userId: string): Promise<string>;
+    updateMedicationReminderFromDB(id: string, reminder: boolean, userId: string): Promise<string>;
+    updateMedicationTakenFromDB(id: string, taken: boolean, userId: string): Promise<string>;
+    resetMedicationsFromDB(userId: string): Promise<string>;
 }
   
 export default IMedicationFromDBRepository;

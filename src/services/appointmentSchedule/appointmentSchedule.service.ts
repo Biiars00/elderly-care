@@ -3,8 +3,6 @@ import IAppointmentScheduleFromDBRepository, { IAppointmentScheduleData, IConfir
 import { inject, injectable } from 'tsyringe';
 import IDoctorFromDBRepository from '../../interfaces/repositories/doctorsFromDB.interface';
 import ILocationFromDBRepository from '../../interfaces/repositories/locationFromDB.interface';
-import { app } from 'firebase-admin';
-
 
 @injectable()
 class AppointmentScheduleService implements IAppointmentScheduleService {
@@ -17,11 +15,11 @@ class AppointmentScheduleService implements IAppointmentScheduleService {
     private locationFromDBRepository: ILocationFromDBRepository,
   ) {}
 
-  async getSchedule(): Promise<IFullAppointmentScheduleData[]> {
+  async getSchedule(userId: string): Promise<IFullAppointmentScheduleData[]> {
     const doctorData = await this.doctorFromDBRepository.getDoctorsFromDB();
     const locationData = await this.locationFromDBRepository.getLocationsFromDB();
     const appointmentData =
-      await this.appointmentScheduleFromDBRepository.getScheduleFromDB();
+      await this.appointmentScheduleFromDBRepository.getScheduleFromDB(userId);
 
       
     if (!appointmentData && !doctorData && !locationData) {
@@ -49,10 +47,11 @@ class AppointmentScheduleService implements IAppointmentScheduleService {
     return appointmentList || [];
   }
 
-  async getScheduleById(id: string): Promise<IFullAppointmentScheduleData> {
+  async getScheduleById(id: string, userId: string): Promise<IFullAppointmentScheduleData> {
     const appointment =
     await this.appointmentScheduleFromDBRepository.getScheduleByIdFromDB(
       id,
+      userId
     );
     
     const doctorData = await this.doctorFromDBRepository.getDoctorByIdFromDB(appointment.doctorId);
@@ -78,7 +77,8 @@ class AppointmentScheduleService implements IAppointmentScheduleService {
     locationId: string, 
     date: string, 
     time: string, 
-    createdAt: string
+    createdAt: string,
+    userId: string
   ): Promise<string> {
     const addScheduleOnDB =
       await this.appointmentScheduleFromDBRepository.addScheduleFromDB(
@@ -86,7 +86,8 @@ class AppointmentScheduleService implements IAppointmentScheduleService {
         locationId, 
         date, 
         time, 
-        createdAt
+        createdAt,
+        userId
       );
 
     if (!addScheduleOnDB) {
@@ -102,7 +103,8 @@ class AppointmentScheduleService implements IAppointmentScheduleService {
     locationId: string, 
     date: string, 
     time: string, 
-    createdAt: string
+    createdAt: string,
+    userId: string
   ): Promise<string> {
     const updateScheduleOnDB =
       await this.appointmentScheduleFromDBRepository.updateScheduleFromDB(
@@ -111,7 +113,8 @@ class AppointmentScheduleService implements IAppointmentScheduleService {
         locationId, 
         date, 
         time, 
-        createdAt
+        createdAt,
+        userId
       );
 
     if (!updateScheduleOnDB) {
@@ -121,10 +124,11 @@ class AppointmentScheduleService implements IAppointmentScheduleService {
     return 'Appointment schedule updated successfully!';
   }
 
-  async removeSchedule(id: string): Promise<string> {
+  async removeSchedule(id: string, userId: string): Promise<string> {
     const removeScheduleFromDB =
       await this.appointmentScheduleFromDBRepository.removeScheduleFromDB(
         id,
+        userId
       );
 
     if (!removeScheduleFromDB) {
@@ -134,11 +138,12 @@ class AppointmentScheduleService implements IAppointmentScheduleService {
     return 'Appointment schedule removed successfully!';
   }
 
-  async confirmSchedule(id: string, confirmed: boolean): Promise<IConfirmScheduleData> {
+  async confirmSchedule(id: string, confirmed: boolean, userId: string): Promise<IConfirmScheduleData> {
     const confirmAppointmentFromDB =
       await this.appointmentScheduleFromDBRepository.confirmScheduleFromDB(
         id,
-        confirmed
+        confirmed,
+        userId
       );
 
     if (!confirmAppointmentFromDB) {

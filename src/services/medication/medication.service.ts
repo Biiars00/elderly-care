@@ -9,9 +9,9 @@ class MedicationService implements IMedicationService {
     private medicationFromDBRepository: IMedicationFromDBRepository,
   ) {}
 
-  async getMedications(): Promise<IMedicationsData[]> {
+  async getMedications(userId: string): Promise<IMedicationsData[]> {
     const responseDB =
-      await this.medicationFromDBRepository.getMedicationsFromDB();
+      await this.medicationFromDBRepository.getMedicationsFromDB(userId);
 
     if (!responseDB) {
       throw new Error('Data not found!');
@@ -20,10 +20,11 @@ class MedicationService implements IMedicationService {
     return responseDB || [];
   }
 
-  async getMedicationById(id: string): Promise<IMedicationsData> {
+  async getMedicationById(id: string, userId: string): Promise<IMedicationsData> {
     const responseDB =
       await this.medicationFromDBRepository.getMedicationByIdFromDB(
         id,
+        userId
       );
 
     if (!responseDB) {
@@ -36,13 +37,15 @@ class MedicationService implements IMedicationService {
   async addMedication(
     name: string, 
     dosage: number, 
-    time: string
+    time: string,
+    userId: string
   ): Promise<string> {
     const responseDB =
       await this.medicationFromDBRepository.addMedicationFromDB(
         name, 
         dosage, 
         time, 
+        userId
       );
 
     if (!responseDB) {
@@ -54,10 +57,12 @@ class MedicationService implements IMedicationService {
 
   async removeMedication(
     id: string,
+    userId: string
   ): Promise<string> {
     const responseDB =
       await this.medicationFromDBRepository.removeMedicationFromDB(
         id,
+        userId
       );
 
     if (!responseDB) {
@@ -67,11 +72,12 @@ class MedicationService implements IMedicationService {
     return responseDB;
   }
 
-  async updateMedicationReminder(id: string, reminder: boolean): Promise<string> {
+  async updateMedicationReminder(id: string, reminder: boolean, userId: string): Promise<string> {
     const responseDB =
       await this.medicationFromDBRepository.updateMedicationReminderFromDB(
         id,
         reminder,
+        userId
       );
 
     if (!responseDB) {
@@ -81,11 +87,12 @@ class MedicationService implements IMedicationService {
     return responseDB;
   }
 
-  async updateMedicationTaken(id: string, taken: boolean): Promise<string> {
+  async updateMedicationTaken(id: string, taken: boolean, userId: string): Promise<string> {
     const responseDB =
       await this.medicationFromDBRepository.updateMedicationTakenFromDB(
         id,
         taken,
+        userId
       );
 
     if (!responseDB) {
@@ -95,9 +102,9 @@ class MedicationService implements IMedicationService {
     return responseDB;
   }
 
-  async resetMedications(): Promise<string> {
+  async resetMedications(userId: string): Promise<string> {
     const responseDB =
-      await this.medicationFromDBRepository.resetMedicationsFromDB();
+      await this.medicationFromDBRepository.resetMedicationsFromDB(userId);
 
     if (!responseDB) {
       throw new Error('Data not found!');

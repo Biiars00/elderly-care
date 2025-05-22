@@ -1,7 +1,8 @@
 import { inject, injectable } from 'tsyringe';
 import EmergencyContactsService from '../../services/emergencyContacts/emergencyContacts.service';
-import { Body, Delete, Get, Path, Post, Put, Route, Security, Tags } from 'tsoa';
+import { Body, Delete, Get, Path, Post, Put, Route, Security, Tags, Request as Request } from 'tsoa';
 import { IContactsData } from '../../interfaces/repositories/emergencyContactsFromDB.interface';
+import { AuthenticatedRequest } from 'express';
 
 @injectable()
 @Route('contacts')
@@ -14,10 +15,11 @@ class EmergencyContactsController {
 
   @Get('/')
   @Security('jwt')
-  async getEmergencyContacts(): Promise<IContactsData[]> {
+  async getEmergencyContacts(@Request() req: AuthenticatedRequest): Promise<IContactsData[]> {
     try {
+      const userId = req.user.userId;
       const response =
-        await this.emergencyContactsService.getEmergencyContacts();
+        await this.emergencyContactsService.getEmergencyContacts(userId!);
 
       if (!response) {
         throw new Error('Resource not found!');
@@ -31,14 +33,15 @@ class EmergencyContactsController {
 
   @Get('/:id')
   @Security('jwt')
-  async getEmergencyContactById(@Path() id: string): Promise<IContactsData> {
+  async getEmergencyContactById(@Request() req: AuthenticatedRequest, @Path() id: string): Promise<IContactsData> {
     try {
       if (!id) {
         throw new Error('Resource is missing!');
       }
 
+      const userId = req.user.userId;
       const response =
-        await this.emergencyContactsService.getEmergencyContactById(id);
+        await this.emergencyContactsService.getEmergencyContactById(id, userId!);
 
       if (!response) {
         throw new Error('Resource not found!');
@@ -52,18 +55,20 @@ class EmergencyContactsController {
 
   @Post('/')
   @Security('jwt')
-  async addEmergencyContact(@Body() body: Omit<IContactsData, 'id'>): Promise<string> {
+  async addEmergencyContact(@Request() req: AuthenticatedRequest, @Body() body: Omit<IContactsData, 'id'>): Promise<string> {
     const { name, phone, relationship, isMainContact } = body
     try {
       if (!body) {
         throw new Error('Resource is missing!');
       }
 
+      const userId = req.user.userId;
       const response = await this.emergencyContactsService.addEmergencyContact(
         name, 
         phone, 
         relationship, 
-        isMainContact
+        isMainContact,
+        userId!
       ); 
 
       if (!response) {
@@ -79,6 +84,7 @@ class EmergencyContactsController {
   @Put('/:id')
   @Security('jwt')
   async updateEmergencyContact(
+    @Request() req: AuthenticatedRequest,
     @Path() id: string, 
     @Body() body: Omit<IContactsData, 'id'>): Promise<string> {
       const { name, phone, relationship, isMainContact } = body
@@ -87,13 +93,15 @@ class EmergencyContactsController {
         throw new Error('Resource is missing!');
       }
 
+      const userId = req.user.userId;
       const response =
         await this.emergencyContactsService.updateEmergencyContact(
           id,
           name,
           phone,
           relationship,
-          isMainContact
+          isMainContact,
+          userId!
         );
 
       if (!response) {
@@ -108,15 +116,17 @@ class EmergencyContactsController {
 
   @Delete('/:id')
   @Security('jwt')
-  async removeEmergencyContact(@Path() id: string): Promise<string> {
+  async removeEmergencyContact(@Request() req: AuthenticatedRequest, @Path() id: string): Promise<string> {
     try {
       if (!id) {
         throw new Error('Resource is missing!');
       }
 
+      const userId = req.user.userId;
       const response =
         await this.emergencyContactsService.removeEmergencyContact(
           id,
+          userId!
         );
 
       if (!response) {

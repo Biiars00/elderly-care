@@ -1,4 +1,5 @@
 export interface IAppointmentScheduleData {
+  userId: string;
   id: string;
   doctorId: string, 
   locationId: string, 
@@ -20,14 +21,15 @@ export interface IConfirmScheduleData {
 }
 
 interface IAppointmentScheduleFromDBRepository {
-  getScheduleFromDB(): Promise<IAppointmentScheduleData[]>;
-  getScheduleByIdFromDB(id: string): Promise<IAppointmentScheduleData>;
+  getScheduleFromDB(userId: string): Promise<IAppointmentScheduleData[]>;
+  getScheduleByIdFromDB(id: string, userId: string): Promise<IAppointmentScheduleData>;
   addScheduleFromDB(
     doctorId: string, 
     locationId: string, 
     date: string, 
     time: string, 
-    createdAt: string
+    createdAt: string,
+    userId: string
   ): Promise<string>;
   updateScheduleFromDB(
     id: string,
@@ -35,10 +37,11 @@ interface IAppointmentScheduleFromDBRepository {
     locationId: string, 
     date: string, 
     time: string, 
-    createdAt: string
+    createdAt: string,
+    userId: string
   ): Promise<string>;
-  removeScheduleFromDB(id: string): Promise<string>;
-  confirmScheduleFromDB(id: string, confirmed: boolean): Promise<IConfirmScheduleData>;
+  removeScheduleFromDB(id: string, userId: string): Promise<string>;
+  confirmScheduleFromDB(id: string, confirmed: boolean, userId: string): Promise<IConfirmScheduleData>;
 }
 
 export default IAppointmentScheduleFromDBRepository;

@@ -47,8 +47,9 @@ class UserFromDBRepository
     const usersList = refDB.docs.map((doc) => {
       const docData = doc.data() as IUserData;
 
+
       if (docData) {
-        return docData;
+        return { ...docData, password: docData.password };
       } else {
         throw new Error('Document not found!');
       }
@@ -82,7 +83,7 @@ class UserFromDBRepository
     const refDB = this.db
       .where('email', '==', email)
       .where('password', '==', password);
-    
+
     const snapshot = await refDB.get();
     const doc = snapshot.docs[0];
     const data = doc.data() as IUserData;
@@ -91,6 +92,7 @@ class UserFromDBRepository
       return {
         userId: data.userId,
         email: data.email,
+        password: data.password,
       };
     } else {
       throw new Error('User not found!');

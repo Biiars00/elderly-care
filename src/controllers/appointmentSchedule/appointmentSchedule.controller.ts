@@ -1,7 +1,8 @@
 import { inject, injectable } from 'tsyringe';
-import { Body, Delete, Get, Path, Post, Put, Route, Security, Tags } from 'tsoa';
+import { Body, Delete, Get, Path, Post, Put, Route, Security, Tags, Request as Request } from 'tsoa';
 import AppointmentScheduleService from '../../services/appointmentSchedule/appointmentSchedule.service';
 import { IAppointmentScheduleData, IConfirmScheduleData } from '../../interfaces/repositories/appointmentScheduleFromDB.interface';
+import { AuthenticatedRequest } from 'express';
 
 @injectable()
 @Route('appointment')
@@ -14,9 +15,10 @@ class AppointmentScheduleController {
 
   @Get('/')
   @Security('jwt')
-  async getSchedule(): Promise<IAppointmentScheduleData[]> {
+  async getSchedule(@Request() req: AuthenticatedRequest): Promise<IAppointmentScheduleData[]> {
     try {
-      const response = await this.appointmentScheduleService.getSchedule();
+      const userId = req.user.userId;
+      const response = await this.appointmentScheduleService.getSchedule(userId!);
 
       if (!response) {
         throw new Error('Resource not found!');
@@ -30,13 +32,14 @@ class AppointmentScheduleController {
 
   @Get('/:id')
   @Security('jwt')
-  async getScheduleById(@Path() id: string): Promise<IAppointmentScheduleData> {
+  async getScheduleById(@Request() req: AuthenticatedRequest, @Path() id: string): Promise<IAppointmentScheduleData> {
     try {
       if (!id) {
         throw new Error('Resource is missing!');
       }
 
-      const response = await this.appointmentScheduleService.getScheduleById(id);
+      const userId = req.user.userId;
+      const response = await this.appointmentScheduleService.getScheduleById(id, userId!);
 
       if (!response) {
         throw new Error('Resource not found!');
@@ -50,7 +53,7 @@ class AppointmentScheduleController {
 
   @Post('/')
   @Security('jwt')
-  async addSchedule(@Body() body: Omit<IAppointmentScheduleData, 'id'>
+  async addSchedule(@Request() req: AuthenticatedRequest, @Body() body: Omit<IAppointmentScheduleData, 'id'>
   ): Promise<string> {
     const { doctorId, locationId, date, time, createdAt } = body;
 
@@ -59,12 +62,14 @@ class AppointmentScheduleController {
         throw new Error('Resource is missing!');
       }
 
+      const userId = req.user.userId;
       const response = await this.appointmentScheduleService.addSchedule(
         doctorId, 
         locationId, 
         date, 
         time, 
-        createdAt
+        createdAt,
+        userId!
       );
 
       if (!response) {
@@ -80,6 +85,7 @@ class AppointmentScheduleController {
   @Put('/:id')
   @Security('jwt')
   async updateSchedule(
+    @Request() req: AuthenticatedRequest,
     @Path() id: string, 
     @Body() body: Omit<IAppointmentScheduleData, 'id'>
   ): Promise<string> {
@@ -90,6 +96,7 @@ class AppointmentScheduleController {
         throw new Error('Resource is missing!');
       }
 
+      const userId = req.user.userId;
       const response = await this.appointmentScheduleService.updateSchedule(
         id,
         doctorId, 
@@ -97,6 +104,7 @@ class AppointmentScheduleController {
         date, 
         time, 
         createdAt,
+        userId!
       );
 
       if (!response) {
@@ -111,13 +119,14 @@ class AppointmentScheduleController {
 
   @Delete('/:id')
   @Security('jwt')
-  async removeSchedule(@Path() id: string): Promise<string> {
+  async removeSchedule(@Request() req: AuthenticatedRequest, @Path() id: string): Promise<string> {
     try {
       if (!id) {
         throw new Error('Resource is missing!');
       }
 
-      const response = await this.appointmentScheduleService.removeSchedule(id);
+      const userId = req.user.userId;
+      const response = await this.appointmentScheduleService.removeSchedule(id, userId!);
 
       if (!response) {
         throw new Error('Resource not found!');
@@ -132,6 +141,7 @@ class AppointmentScheduleController {
   @Put('/confirmed/:id')
   @Security('jwt')
   async confirmSchedule(
+    @Request() req: AuthenticatedRequest,
     @Path() id: string,
     @Body() body: IConfirmScheduleData
   ): Promise<IConfirmScheduleData> {
@@ -142,7 +152,8 @@ class AppointmentScheduleController {
         throw new Error('Resource is missing!');
       }
 
-      const response = await this.appointmentScheduleService.confirmSchedule(id, confirmed);
+      const userId = req.user.userId;
+      const response = await this.appointmentScheduleService.confirmSchedule(id, confirmed, userId!);
 
       if (!response) {
         throw new Error('Resource not found!');

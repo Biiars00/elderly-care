@@ -7,6 +7,15 @@ export interface IUserData {
     password: string,
 };
 
+export interface IOmitPasswordFromUserData {
+    userId: string, 
+    userFirstName: string, 
+    userLastName: string
+    phone: string,
+    email: string,
+};
+
+
 interface IUserFromDBRepository {
   addUserFromDB(
     userFirstName: string, 

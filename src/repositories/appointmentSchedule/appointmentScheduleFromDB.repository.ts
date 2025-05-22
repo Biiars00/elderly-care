@@ -12,9 +12,8 @@ class AppointmentScheduleFromDBRepository
     this.servicesDB = databaseConfig.firestore().collection('schedules');
   }
 
-  async getScheduleFromDB(
-  ): Promise<IAppointmentScheduleData[]> {
-      const refDB = await this.servicesDB.get();
+  async getScheduleFromDB(userId: string): Promise<IAppointmentScheduleData[]> {
+      const refDB = await this.servicesDB.where('userId', '==', userId).get();
 
       const scheduleList = refDB.docs.map((doc) => {
         const docData = doc.data() as IAppointmentScheduleData;
@@ -31,13 +30,25 @@ class AppointmentScheduleFromDBRepository
 
   async getScheduleByIdFromDB(
     id: string,
+    userId: string
   ): Promise<IAppointmentScheduleData> {
-    const refDB = await this.servicesDB.doc(id).get();
+    const refDB = this.servicesDB.doc(id);
+    const docSnap = await refDB.get();
 
-    if (refDB.exists) {
-      const data = refDB.data() as IAppointmentScheduleData;
+    if (!docSnap.exists) {
+    throw new Error('Schedule not found!');
+  }
+
+    if (docSnap.exists) {
+      const data = docSnap.data() as IAppointmentScheduleData;
 
       if (data) {
+        const data = docSnap.data() as IAppointmentScheduleData;
+
+        if (data.userId !== userId) {
+          throw new Error('Unauthorized to access this schedule!');
+        }
+
         return data;
       } else {
         throw new Error('Schedule not found!');
@@ -52,7 +63,8 @@ class AppointmentScheduleFromDBRepository
     locationId: string,
     date: string,
     time: string, 
-    createdAt: string
+    createdAt: string,
+    userId: string
   ): Promise<string> {
     const refDB = this.servicesDB;
     const docRef = await refDB.add({
@@ -60,7 +72,8 @@ class AppointmentScheduleFromDBRepository
       locationId: locationId,
       date: date,
       time: time, 
-      createdAt: createdAt
+      createdAt: createdAt,
+      userId: userId
     });
 
     docRef.update({ id: docRef.id });
@@ -74,12 +87,24 @@ class AppointmentScheduleFromDBRepository
     locationId: string,
     date: string,
     time: string, 
-    createdAt: string
+    createdAt: string,
+    userId: string,
   ): Promise<string> {
-    const refDB = await this.servicesDB.doc(id).get();
+    const refDB = this.servicesDB.doc(id);
+    const docRef = await this.servicesDB.doc(id).get();
+    
+    if (!docRef.exists) {
+      throw new Error('Schedule not found!');
+    }
 
-    if (refDB.exists) {
-      refDB.ref.update({
+    const data = docRef.data() as IAppointmentScheduleData;
+
+
+    if (data.userId !== userId) {
+      throw new Error('Unauthorized to update this schedule!');
+    }
+      refDB.update({
+        userId: userId,
         doctorId: doctorId, 
         locationId: locationId,
         date: date,
@@ -88,16 +113,14 @@ class AppointmentScheduleFromDBRepository
       });
 
       return 'Schedule updated successfully!';
-    } else {
-      throw new Error('Document not found!');
-    }
   }
 
-  async removeScheduleFromDB(id: string): Promise<string> {
-    const refDB = await this.servicesDB.doc(id).get();
+  async removeScheduleFromDB(id: string, userId: string): Promise<string> {
+    const refDB = this.servicesDB.doc(id);
+    const doc = await refDB.get();
 
-    if (refDB.exists) {
-      refDB.ref.delete();
+    if (doc.exists && doc.data()?.userId === userId) {
+      await refDB.delete();
 
       return 'Schedule removed successfully!';
     } else {
@@ -105,7 +128,7 @@ class AppointmentScheduleFromDBRepository
     }
   }
 
-  async confirmScheduleFromDB(id: string, confirmed: boolean): Promise<IConfirmScheduleData> {
+  async confirmScheduleFromDB(id: string, confirmed: boolean, userId: string): Promise<IConfirmScheduleData> {
     const refDB = await this.servicesDB.doc(id).get();
 
     const data = refDB.data() as IAppointmentScheduleData;

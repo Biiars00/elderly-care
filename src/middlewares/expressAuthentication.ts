@@ -1,10 +1,12 @@
-import { Request } from 'express';
+import { AuthenticatedRequest, Request } from 'express';
 import { verify } from 'jsonwebtoken';
 
 declare module 'express' {
-  export interface Request {
-    userId?: string;
-    email?: string;
+  export interface  AuthenticatedRequest extends Request {
+    user: {
+      userId?: string;
+      email?: string;
+    }
   }
 }
 
@@ -29,8 +31,14 @@ export async function expressAuthentication(
 
     const decoded = verify(token, JWT_SECRET_KEY) as { userId: string; email: string };
 
-    request.userId = decoded.userId;
-    request.email = decoded.email;
+    if (!decoded) {
+      throw new Error("Invalid token");
+    }
+
+    (request as AuthenticatedRequest).user = {
+      userId: decoded.userId,
+      email: decoded.email,
+    }
 
     return decoded;
   } catch (error) {
