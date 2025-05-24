@@ -39,7 +39,7 @@ interface IUserFromDBRepository {
   addUserFromDB(
     data: IUserDataWithoutUserId
   ): Promise<IUserData>;
-  getUsersFromDB(): Promise<IUserData[]>;
+  getUsersFromDB(): Promise<IUserDataWithoutPassword[]>;
   getUserByIdFromDB(userId: string): Promise<IUserDataWithoutPassword>;
   getUserCheckFromDB(data: IUserDataLogin): Promise<IUserDataCheck>;
 }

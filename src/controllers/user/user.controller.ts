@@ -60,7 +60,7 @@ class UserController {
   }
 
   @Get('/')
-  async getUsers(): Promise<IUserData[]> {
+  async getUsers(): Promise<IUserDataWithoutPassword[]> {
     try {
       const response = await this.userService.getUsers();
 

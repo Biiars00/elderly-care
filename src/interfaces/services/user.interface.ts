@@ -4,7 +4,7 @@ interface IUserService {
   addUser(
     data: IUserDataWithoutUserId
   ): Promise<IUserData>;
-  getUsers(): Promise<IUserData[]>;
+  getUsers(): Promise<IUserDataWithoutPassword[]>;
   getUserById(userId: string): Promise<IUserDataWithoutPassword>;
   loginUser(data: IUserDataLogin): Promise<string>;
 }

@@ -52,7 +52,7 @@ async addUser(
     return accessToken;
   }
 
-  async getUsers(): Promise<IUserData[]> {
+  async getUsers(): Promise<IUserDataWithoutPassword[]> {
     const responseDB =
       await this.userFromDBRepository.getUsersFromDB();
 
@@ -60,7 +60,19 @@ async addUser(
       throw new Error('Data not found!');
     }
 
-    return responseDB;
+    const data = responseDB.map((user) => {
+      const userData = {
+        userId: user.userId,
+        userFirstName: user.userFirstName,
+        userLastName: user.userLastName,
+        phone: user.phone,
+        email: user.email
+      }
+      
+      return userData;
+    })
+
+    return data;
   }
 
   async getUserById(userId: string): Promise<IUserDataWithoutPassword> {
@@ -73,7 +85,15 @@ async addUser(
       throw new Error('Data not found!');
     }
 
-    return responseDB;
+    const data = {
+      userId: responseDB.userId,
+      userFirstName: responseDB.userFirstName,
+      userLastName: responseDB.userLastName,
+      phone: responseDB.phone,
+      email: responseDB.email
+    }
+
+    return data;
   }
 }
 
