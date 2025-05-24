@@ -12,6 +12,12 @@ export interface IUserDataLogin {
     password: string,
 };
 
+export interface IUserToken {
+    userId: string,
+    token: string,
+    email: string,
+};
+
 export interface IUserDataCheck {
     userId: string,
     email: string,

@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import IUserService from '../../interfaces/services/user.interface';
-import IUserFromDBRepository, { IUserData, IUserDataLogin, IUserDataWithoutPassword, IUserDataWithoutUserId } from '../../interfaces/repositories/userFromDB.interface';
+import IUserFromDBRepository, { IUserData, IUserDataLogin, IUserDataWithoutPassword, IUserDataWithoutUserId, IUserToken } from '../../interfaces/repositories/userFromDB.interface';
 import { generateToken } from '../../middlewares/jwtAuthentication';
 
 @injectable()
@@ -25,7 +25,7 @@ async addUser(
 
   async loginUser(
     data: IUserDataLogin
-  ): Promise<string> {
+  ): Promise<IUserToken> {
     let accessToken = "";
 
     const responseDB = await this.userFromDBRepository.getUserCheckFromDB(data);
@@ -49,7 +49,11 @@ async addUser(
       throw new Error("Invalid credentials!");
     }
 
-    return accessToken;
+    return {
+      userId: responseDB.userId,
+      email: responseDB.email,
+      token: accessToken,
+    };
   }
 
   async getUsers(): Promise<IUserDataWithoutPassword[]> {
