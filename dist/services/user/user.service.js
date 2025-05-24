@@ -42,7 +42,11 @@ let UserService = class UserService {
         if (!accessToken) {
             throw new Error("Invalid credentials!");
         }
-        return accessToken;
+        return {
+            userId: responseDB.userId,
+            email: responseDB.email,
+            token: accessToken,
+        };
     }
     async getUsers() {
         const responseDB = await this.userFromDBRepository.getUsersFromDB();
