@@ -51,6 +51,7 @@ const allowedOrigins = [
     process.env.FRONTEND_URL_PROD || '',
     process.env.CORS_ORIGIN_PROD || '',
     process.env.CORS_ORIGIN_DEV || '',
+    process.env.GIT_PAGES || '',
 ];
 app.use((0, cors_1.default)({
     origin: function (origin, callback) {
