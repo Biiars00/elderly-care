@@ -18,8 +18,8 @@ let MedicationFromDBRepository = class MedicationFromDBRepository {
     constructor() {
         this.db = databaseConfig_1.default.firestore().collection('medications');
     }
-    async getMedicationsFromDB() {
-        const refDB = await this.db.get();
+    async getMedicationsFromDB(userId) {
+        const refDB = await this.db.where('userId', '==', userId).get();
         const medicationList = refDB.docs.map((doc) => {
             const docData = doc.data();
             if (docData) {
@@ -31,10 +31,11 @@ let MedicationFromDBRepository = class MedicationFromDBRepository {
         });
         return medicationList;
     }
-    async getMedicationByIdFromDB(id) {
-        const refDB = await this.db.doc(id).get();
-        if (refDB.exists) {
-            const data = refDB.data();
+    async getMedicationByIdFromDB(id, userId) {
+        const querySnapshot = await this.db.where('userId', '==', userId).get();
+        const doc = querySnapshot.docs.find((doc) => doc.id === id);
+        if (doc && doc.exists) {
+            const data = doc.data();
             if (data) {
                 return data;
             }
@@ -46,14 +47,24 @@ let MedicationFromDBRepository = class MedicationFromDBRepository {
             throw new Error('Document not found!');
         }
     }
-    async addMedicationFromDB(name, dosage, time) {
+    async addMedicationFromDB(data, userId) {
         const refDB = this.db;
-        const docRef = await refDB.add({
-            name: name,
-            dosage: dosage,
-            time: time,
+        const docRef = refDB.doc();
+        const id = docRef.id;
+        const docData = await refDB.get();
+        docData.docs.map((doc) => {
+            if (data.name === doc.data().name) {
+                console.error('Medication already exists!');
+                throw new Error('Medication already exists!');
+            }
         });
-        docRef.update({ id: docRef.id });
+        await docRef.set({
+            id: id,
+            name: data.name,
+            dosage: data.dosage,
+            time: data.time,
+            userId: userId,
+        });
         return 'Medication added successfully!';
     }
     async removeMedicationFromDB(id) {
@@ -66,37 +77,31 @@ let MedicationFromDBRepository = class MedicationFromDBRepository {
             throw new Error('Document not found!');
         }
     }
-    async updateMedicationReminderFromDB(id, reminder) {
-        const refDB = await this.db.doc(id).get();
-        const data = refDB.data();
-        if (refDB.exists) {
-            refDB.ref.update({
-                ...data,
-                reminder: reminder,
-            });
-            return 'Medication reminder has been updated successfully!';
-        }
-        else {
+    async updateMedicationReminderFromDB(id, reminder, userId) {
+        const refDB = await this.db.where('userId', '==', userId).get();
+        const docRef = refDB.docs.find((doc) => doc.id === id);
+        if (!docRef) {
             throw new Error('Document not found!');
         }
+        docRef.ref.update({
+            reminder: reminder,
+        });
+        return 'Medication updated successfully!';
     }
-    async updateMedicationTakenFromDB(id, taken) {
-        const refDB = await this.db.doc(id).get();
-        const data = refDB.data();
-        if (refDB.exists) {
-            refDB.ref.update({
-                ...data,
-                taken: taken,
-            });
-            return 'The medication taken has been successfully updated!';
-        }
-        else {
+    async updateMedicationTakenFromDB(id, taken, userId) {
+        const refDB = await this.db.where('userId', '==', userId).get();
+        const docRef = refDB.docs.find((doc) => doc.id === id);
+        if (!docRef) {
             throw new Error('Document not found!');
         }
+        docRef.ref.update({
+            taken: taken
+        });
+        return 'Medication updated successfully!';
     }
-    async resetMedicationsFromDB() {
-        const refDB = await this.db.get();
-        const updateMedicationList = refDB.docs.map((doc) => {
+    async resetMedicationsFromDB(userId) {
+        const refDB = await this.db.where('userId', '==', userId).get();
+        refDB.docs.map((doc) => {
             const data = doc.data();
             if (data) {
                 doc.ref.update({

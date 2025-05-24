@@ -8,13 +8,14 @@ const jsonwebtoken_1 = require("jsonwebtoken");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const secretKey = process.env.JWT_SECRET_KEY;
+const expiresIn = process.env.JWT_EXPIRES_IN;
 if (!secretKey) {
     throw new Error("JWT_SECRET_KEY is not defined in environment variables.");
 }
-const generateToken = ({ email }) => {
-    const payload = { email };
+const generateToken = ({ userId, email }) => {
+    const payload = { userId, email };
     const signOptions = {
-        expiresIn: '7d',
+        expiresIn: expiresIn,
     };
     const token = (0, jsonwebtoken_1.sign)(payload, secretKey, signOptions);
     return token;

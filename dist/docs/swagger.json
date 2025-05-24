@@ -23,9 +23,6 @@
                     },
                     "email": {
                         "type": "string"
-                    },
-                    "password": {
-                        "type": "string"
                     }
                 },
                 "required": [
@@ -71,7 +68,7 @@
                 "$ref": "#/components/schemas/Pick_IUserData.Exclude_keyofIUserData.userId__",
                 "description": "Construct a type with the properties of T except for those in type K."
             },
-            "LoginRequest": {
+            "Partial_IUserData_": {
                 "properties": {
                     "email": {
                         "type": "string"
@@ -80,7 +77,6 @@
                         "type": "string"
                     }
                 },
-                "required": ["email", "password"],
                 "type": "object",
                 "description": "Make all properties in T optional"
             },
@@ -303,6 +299,9 @@
             },
             "IAppointmentScheduleData": {
                 "properties": {
+                    "userId": {
+                        "type": "string"
+                    },
                     "id": {
                         "type": "string"
                     },
@@ -323,6 +322,7 @@
                     }
                 },
                 "required": [
+                    "userId",
                     "id",
                     "doctorId",
                     "locationId",
@@ -335,6 +335,9 @@
             },
             "Pick_IAppointmentScheduleData.Exclude_keyofIAppointmentScheduleData.id__": {
                 "properties": {
+                    "userId": {
+                        "type": "string"
+                    },
                     "time": {
                         "type": "string"
                     },
@@ -352,6 +355,7 @@
                     }
                 },
                 "required": [
+                    "userId",
                     "time",
                     "doctorId",
                     "locationId",
@@ -455,7 +459,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/LoginRequest"
+                                "$ref": "#/components/schemas/Partial_IUserData_"
                             }
                         }
                     }
@@ -483,11 +487,7 @@
                 "tags": [
                     "Acesso de Usuário"
                 ],
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ],
+                "security": [],
                 "parameters": []
             }
         },
@@ -509,11 +509,7 @@
                 "tags": [
                     "Acesso de Usuário"
                 ],
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ],
+                "security": [],
                 "parameters": [
                     {
                         "in": "path",
@@ -1301,8 +1297,8 @@
             "description": "Produção"
         },
         {
-            "url": "http://localhost:3000",
-            "description": "Local/Desenvolvimento"
+            "url": "https://localhost:3000",
+            "description": "Produção"
         }
     ]
 }

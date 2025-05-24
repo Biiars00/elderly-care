@@ -18,8 +18,8 @@ let AppointmentScheduleFromDBRepository = class AppointmentScheduleFromDBReposit
     constructor() {
         this.servicesDB = databaseConfig_1.default.firestore().collection('schedules');
     }
-    async getScheduleFromDB() {
-        const refDB = await this.servicesDB.get();
+    async getScheduleFromDB(userId) {
+        const refDB = await this.servicesDB.where('userId', '==', userId).get();
         const scheduleList = refDB.docs.map((doc) => {
             const docData = doc.data();
             if (docData) {
@@ -31,11 +31,19 @@ let AppointmentScheduleFromDBRepository = class AppointmentScheduleFromDBReposit
         });
         return scheduleList;
     }
-    async getScheduleByIdFromDB(id) {
-        const refDB = await this.servicesDB.doc(id).get();
-        if (refDB.exists) {
-            const data = refDB.data();
+    async getScheduleByIdFromDB(id, userId) {
+        const refDB = this.servicesDB.doc(id);
+        const docSnap = await refDB.get();
+        if (!docSnap.exists) {
+            throw new Error('Schedule not found!');
+        }
+        if (docSnap.exists) {
+            const data = docSnap.data();
             if (data) {
+                const data = docSnap.data();
+                if (data.userId !== userId) {
+                    throw new Error('Unauthorized to access this schedule!');
+                }
                 return data;
             }
             else {
@@ -46,45 +54,51 @@ let AppointmentScheduleFromDBRepository = class AppointmentScheduleFromDBReposit
             throw new Error('Document not found!');
         }
     }
-    async addScheduleFromDB(doctorId, locationId, date, time, createdAt) {
+    async addScheduleFromDB(data, userId) {
         const refDB = this.servicesDB;
         const docRef = await refDB.add({
-            doctorId: doctorId,
-            locationId: locationId,
-            date: date,
-            time: time,
-            createdAt: createdAt
+            doctorId: data.doctorId,
+            locationId: data.locationId,
+            date: data.date,
+            time: data.time,
+            createdAt: data.createdAt,
+            userId: userId
         });
         docRef.update({ id: docRef.id });
         return 'Schedule added successfully!';
     }
-    async updateScheduleFromDB(id, doctorId, locationId, date, time, createdAt) {
-        const refDB = await this.servicesDB.doc(id).get();
-        if (refDB.exists) {
-            refDB.ref.update({
-                doctorId: doctorId,
-                locationId: locationId,
-                date: date,
-                time: time,
-                createdAt: createdAt
-            });
-            return 'Schedule updated successfully!';
+    async updateScheduleFromDB(id, data, userId) {
+        const refDB = this.servicesDB.doc(id);
+        const docRef = await this.servicesDB.doc(id).get();
+        if (!docRef.exists) {
+            throw new Error('Schedule not found!');
         }
-        else {
-            throw new Error('Document not found!');
+        const dataAppointment = docRef.data();
+        if (dataAppointment.userId !== userId) {
+            throw new Error('Unauthorized to update this schedule!');
         }
+        refDB.update({
+            userId: userId,
+            doctorId: data.doctorId,
+            locationId: data.locationId,
+            date: data.date,
+            time: data.time,
+            createdAt: data.createdAt
+        });
+        return 'Schedule updated successfully!';
     }
-    async removeScheduleFromDB(id) {
-        const refDB = await this.servicesDB.doc(id).get();
-        if (refDB.exists) {
-            refDB.ref.delete();
+    async removeScheduleFromDB(id, userId) {
+        const refDB = this.servicesDB.doc(id);
+        const doc = await refDB.get();
+        if (doc.exists && doc.data()?.userId === userId) {
+            await refDB.delete();
             return 'Schedule removed successfully!';
         }
         else {
             throw new Error('Document not found!');
         }
     }
-    async confirmScheduleFromDB(id, confirmed) {
+    async confirmScheduleFromDB(id, confirmed, userId) {
         const refDB = await this.servicesDB.doc(id).get();
         const data = refDB.data();
         if (refDB.exists) {

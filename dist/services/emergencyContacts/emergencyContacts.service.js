@@ -17,36 +17,36 @@ let EmergencyContactsService = class EmergencyContactsService {
     constructor(emergencyContactsFromDBRepository) {
         this.emergencyContactsFromDBRepository = emergencyContactsFromDBRepository;
     }
-    async getEmergencyContacts() {
-        const contactListFromDB = await this.emergencyContactsFromDBRepository.getEmergencyContactsFromDB();
+    async getEmergencyContacts(userId) {
+        const contactListFromDB = await this.emergencyContactsFromDBRepository.getEmergencyContactsFromDB(userId);
         if (!contactListFromDB) {
             throw new Error('Contact list not found!');
         }
         return contactListFromDB || [];
     }
-    async getEmergencyContactById(id) {
-        const contactFromDB = await this.emergencyContactsFromDBRepository.getEmergencyContactByIdFromDB(id);
+    async getEmergencyContactById(id, userId) {
+        const contactFromDB = await this.emergencyContactsFromDBRepository.getEmergencyContactByIdFromDB(id, userId);
         if (!contactFromDB) {
             throw new Error('Contact not found!');
         }
         return contactFromDB;
     }
-    async addEmergencyContact(name, phone, relationship, isMainContact) {
-        const addContactOnDB = await this.emergencyContactsFromDBRepository.addEmergencyContactFromDB(name, phone, relationship, isMainContact);
+    async addEmergencyContact(data, userId) {
+        const addContactOnDB = await this.emergencyContactsFromDBRepository.addEmergencyContactFromDB(data, userId);
         if (!addContactOnDB) {
             throw new Error('The contact has not been added. Please try again!');
         }
         return addContactOnDB;
     }
-    async updateEmergencyContact(id, name, phone, relationship, isMainContact) {
-        const updateContactOnDB = await this.emergencyContactsFromDBRepository.updateEmergencyContactFromDB(id, name, phone, relationship, isMainContact);
+    async updateEmergencyContact(id, data, userId) {
+        const updateContactOnDB = await this.emergencyContactsFromDBRepository.updateEmergencyContactFromDB(id, data, userId);
         if (!updateContactOnDB) {
             throw new Error('Contact updated successfully!');
         }
         return updateContactOnDB;
     }
-    async removeEmergencyContact(id) {
-        const updateContactOnDB = await this.emergencyContactsFromDBRepository.removeEmergencyContactFromDB(id);
+    async removeEmergencyContact(id, userId) {
+        const updateContactOnDB = await this.emergencyContactsFromDBRepository.removeEmergencyContactFromDB(id, userId);
         if (!updateContactOnDB) {
             throw new Error('Contact removed successfully!');
         }

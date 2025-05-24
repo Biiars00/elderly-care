@@ -13,21 +13,34 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const tsyringe_1 = require("tsyringe");
+const jwtAuthentication_1 = require("../../middlewares/jwtAuthentication");
 let UserService = class UserService {
     constructor(userFromDBRepository) {
         this.userFromDBRepository = userFromDBRepository;
     }
-    async addUser(userFirstName, userLastName, phone, email, password) {
-        const responseDB = await this.userFromDBRepository.addUserFromDB(userFirstName, userLastName, phone, email, password);
+    async addUser(data) {
+        const responseDB = await this.userFromDBRepository.addUserFromDB(data);
         if (!responseDB) {
             throw new Error('Data not found!');
         }
         return responseDB;
     }
-    async loginUser(accessToken, email, password) {
-        const responseDB = await this.userFromDBRepository.getUserCheckFromDB(email, password);
+    async loginUser(data) {
+        let accessToken = "";
+        const responseDB = await this.userFromDBRepository.getUserCheckFromDB(data);
         if (!responseDB) {
-            throw new Error('User not exists!');
+            throw new Error("User not exists!");
+        }
+        if (responseDB.userId &&
+            responseDB.email === data.email &&
+            responseDB.password === data.password) {
+            accessToken = (0, jwtAuthentication_1.generateToken)({
+                userId: responseDB.userId,
+                email: responseDB.email,
+            });
+        }
+        if (!accessToken) {
+            throw new Error("Invalid credentials!");
         }
         return accessToken;
     }
@@ -36,14 +49,31 @@ let UserService = class UserService {
         if (!responseDB) {
             throw new Error('Data not found!');
         }
-        return responseDB;
+        const data = responseDB.map((user) => {
+            const userData = {
+                userId: user.userId,
+                userFirstName: user.userFirstName,
+                userLastName: user.userLastName,
+                phone: user.phone,
+                email: user.email
+            };
+            return userData;
+        });
+        return data;
     }
     async getUserById(userId) {
         const responseDB = await this.userFromDBRepository.getUserByIdFromDB(userId);
         if (!responseDB) {
             throw new Error('Data not found!');
         }
-        return responseDB;
+        const data = {
+            userId: responseDB.userId,
+            userFirstName: responseDB.userFirstName,
+            userLastName: responseDB.userLastName,
+            phone: responseDB.phone,
+            email: responseDB.email
+        };
+        return data;
     }
 };
 UserService = __decorate([

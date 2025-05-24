@@ -18,23 +18,23 @@ let UserFromDBRepository = class UserFromDBRepository {
     constructor() {
         this.db = databaseConfig_1.default.firestore().collection('users');
     }
-    async addUserFromDB(userFirstName, userLastName, phone, email, password) {
+    async addUserFromDB(data) {
         const refDB = this.db;
         const docRef = await refDB.add({
-            userFirstName: userFirstName,
-            userLastName: userLastName,
-            phone: phone,
-            email: email,
-            password: password
+            userFirstName: data.userFirstName,
+            userLastName: data.userLastName,
+            phone: data.phone,
+            email: data.email,
+            password: data.password
         });
         docRef.update({ userId: docRef.id });
         return {
             userId: docRef.id,
-            userFirstName: userFirstName,
-            userLastName: userLastName,
-            phone: phone,
-            email: email,
-            password: password
+            userFirstName: data.userFirstName,
+            userLastName: data.userLastName,
+            phone: data.phone,
+            email: data.email,
+            password: data.password
         };
     }
     async getUsersFromDB() {
@@ -42,7 +42,7 @@ let UserFromDBRepository = class UserFromDBRepository {
         const usersList = refDB.docs.map((doc) => {
             const docData = doc.data();
             if (docData) {
-                return docData;
+                return { ...docData, password: docData.password };
             }
             else {
                 throw new Error('Document not found!');
@@ -65,17 +65,18 @@ let UserFromDBRepository = class UserFromDBRepository {
             throw new Error('Document not found!');
         }
     }
-    async getUserCheckFromDB(email, password) {
+    async getUserCheckFromDB(data) {
         const refDB = this.db
-            .where('email', '==', email)
-            .where('password', '==', password);
+            .where('email', '==', data.email)
+            .where('password', '==', data.password);
         const snapshot = await refDB.get();
         const doc = snapshot.docs[0];
-        const data = doc.data();
+        const dataDoc = doc.data();
         if (data) {
             return {
-                userId: data.userId,
+                userId: dataDoc.userId,
                 email: data.email,
+                password: data.password,
             };
         }
         else {

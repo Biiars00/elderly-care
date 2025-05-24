@@ -19,10 +19,10 @@ let AppointmentScheduleService = class AppointmentScheduleService {
         this.doctorFromDBRepository = doctorFromDBRepository;
         this.locationFromDBRepository = locationFromDBRepository;
     }
-    async getSchedule() {
+    async getSchedule(userId) {
         const doctorData = await this.doctorFromDBRepository.getDoctorsFromDB();
         const locationData = await this.locationFromDBRepository.getLocationsFromDB();
-        const appointmentData = await this.appointmentScheduleFromDBRepository.getScheduleFromDB();
+        const appointmentData = await this.appointmentScheduleFromDBRepository.getScheduleFromDB(userId);
         if (!appointmentData && !doctorData && !locationData) {
             throw new Error('Data not found!');
         }
@@ -43,8 +43,8 @@ let AppointmentScheduleService = class AppointmentScheduleService {
         });
         return appointmentList || [];
     }
-    async getScheduleById(id) {
-        const appointment = await this.appointmentScheduleFromDBRepository.getScheduleByIdFromDB(id);
+    async getScheduleById(id, userId) {
+        const appointment = await this.appointmentScheduleFromDBRepository.getScheduleByIdFromDB(id, userId);
         const doctorData = await this.doctorFromDBRepository.getDoctorByIdFromDB(appointment.doctorId);
         const locationData = await this.locationFromDBRepository.getLocationByIdFromDB(appointment.locationId);
         if (!appointment && !doctorData && !locationData) {
@@ -59,29 +59,29 @@ let AppointmentScheduleService = class AppointmentScheduleService {
             locationCity: locationData.locationCity,
         };
     }
-    async addSchedule(doctorId, locationId, date, time, createdAt) {
-        const addScheduleOnDB = await this.appointmentScheduleFromDBRepository.addScheduleFromDB(doctorId, locationId, date, time, createdAt);
+    async addSchedule(data, userId) {
+        const addScheduleOnDB = await this.appointmentScheduleFromDBRepository.addScheduleFromDB(data, userId);
         if (!addScheduleOnDB) {
             throw new Error('Data not found!');
         }
         return 'Appointment added successfully!';
     }
-    async updateSchedule(id, doctorId, locationId, date, time, createdAt) {
-        const updateScheduleOnDB = await this.appointmentScheduleFromDBRepository.updateScheduleFromDB(id, doctorId, locationId, date, time, createdAt);
+    async updateSchedule(id, data, userId) {
+        const updateScheduleOnDB = await this.appointmentScheduleFromDBRepository.updateScheduleFromDB(id, data, userId);
         if (!updateScheduleOnDB) {
             throw new Error('Data not found!');
         }
         return 'Appointment schedule updated successfully!';
     }
-    async removeSchedule(id) {
-        const removeScheduleFromDB = await this.appointmentScheduleFromDBRepository.removeScheduleFromDB(id);
+    async removeSchedule(id, userId) {
+        const removeScheduleFromDB = await this.appointmentScheduleFromDBRepository.removeScheduleFromDB(id, userId);
         if (!removeScheduleFromDB) {
             throw new Error('Data not found!');
         }
         return 'Appointment schedule removed successfully!';
     }
-    async confirmSchedule(id, confirmed) {
-        const confirmAppointmentFromDB = await this.appointmentScheduleFromDBRepository.confirmScheduleFromDB(id, confirmed);
+    async confirmSchedule(id, confirmed, userId) {
+        const confirmAppointmentFromDB = await this.appointmentScheduleFromDBRepository.confirmScheduleFromDB(id, confirmed, userId);
         if (!confirmAppointmentFromDB) {
             throw new Error('Data not found!');
         }

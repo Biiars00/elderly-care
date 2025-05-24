@@ -14,8 +14,13 @@ async function expressAuthentication(request, securityName, scopes) {
             throw new Error('JWT_SECRET is not defined');
         }
         const decoded = (0, jsonwebtoken_1.verify)(token, JWT_SECRET_KEY);
-        request.userId = decoded.userId;
-        request.email = decoded.email;
+        if (!decoded) {
+            throw new Error("Invalid token");
+        }
+        request.user = {
+            userId: decoded.userId,
+            email: decoded.email,
+        };
         return decoded;
     }
     catch (error) {

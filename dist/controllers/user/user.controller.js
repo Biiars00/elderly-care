@@ -18,15 +18,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tsyringe_1 = require("tsyringe");
 const tsoa_1 = require("tsoa");
 const user_service_1 = __importDefault(require("../../services/user/user.service"));
-const jwtAuthentication_1 = require("../../middlewares/jwtAuthentication");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
     async addUser(body) {
-        const { userFirstName, userLastName, phone, email, password } = body;
         try {
-            const response = await this.userService.addUser(userFirstName, userLastName, phone, email, password);
+            const { userFirstName, userLastName, phone, email, password } = body;
+            if (!userFirstName || !userLastName || !phone || !email || !password) {
+                throw new Error('Resource is missing!');
+            }
+            const response = await this.userService.addUser(body);
             if (!response) {
                 throw new Error('Resource not found!');
             }
@@ -42,13 +44,7 @@ let UserController = class UserController {
             if (typeof email !== 'string' || typeof password !== 'string') {
                 throw new Error('Email and password are required.');
             }
-            const accessToken = (0, jwtAuthentication_1.generateToken)({
-                email: email,
-            });
-            if (!accessToken) {
-                throw new Error('Invalid credentials!');
-            }
-            const response = await this.userService.loginUser(accessToken, email, password);
+            const response = await this.userService.loginUser(body);
             if (!response) {
                 throw new Error('Resource not found!');
             }
@@ -102,14 +98,12 @@ __decorate([
 ], UserController.prototype, "loginUser", null);
 __decorate([
     (0, tsoa_1.Get)('/'),
-    (0, tsoa_1.Security)('jwt'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getUsers", null);
 __decorate([
     (0, tsoa_1.Get)('/:userId'),
-    (0, tsoa_1.Security)('jwt'),
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

@@ -18,8 +18,8 @@ let EmergencyContactsFromDBRepository = class EmergencyContactsFromDBRepository 
     constructor() {
         this.contactsDB = databaseConfig_1.default.firestore().collection('contacts');
     }
-    async getEmergencyContactsFromDB() {
-        const refDB = await this.contactsDB.get();
+    async getEmergencyContactsFromDB(userId) {
+        const refDB = await this.contactsDB.where('userId', '==', userId).get();
         const contactList = refDB.docs.map((doc) => {
             const docData = doc.data();
             if (docData) {
@@ -31,9 +31,11 @@ let EmergencyContactsFromDBRepository = class EmergencyContactsFromDBRepository 
         });
         return contactList;
     }
-    async getEmergencyContactByIdFromDB(id) {
+    async getEmergencyContactByIdFromDB(id, userId) {
         const refDB = await this.contactsDB.doc(id).get();
-        if (refDB.exists) {
+        const data = refDB.data();
+        const userRefDB = await this.contactsDB.where('userId', '==', userId).get();
+        if (refDB.exists && userRefDB.docs.length > 0) {
             const data = refDB.data();
             if (data) {
                 return {
@@ -52,41 +54,41 @@ let EmergencyContactsFromDBRepository = class EmergencyContactsFromDBRepository 
             throw new Error('Document not found!');
         }
     }
-    async addEmergencyContactFromDB(name, phone, relationship, isMainContact) {
+    async addEmergencyContactFromDB(data, userId) {
         const refDB = this.contactsDB;
         const docRef = await refDB.add({
-            name: name,
-            phone: phone,
-            relationship: relationship,
-            isMainContact: isMainContact,
+            userId: userId,
+            name: data.name,
+            phone: data.phone,
+            relationship: data.relationship,
+            isMainContact: data.isMainContact,
         });
         docRef.update({ id: docRef.id });
         return 'Contact added successfully!';
     }
-    async updateEmergencyContactFromDB(id, name, phone, relationship, isMainContact) {
-        const refDB = await this.contactsDB.doc(id).get();
-        if (refDB.exists) {
-            refDB.ref.update({
-                name: name,
-                phone: phone,
-                relationship: relationship,
-                isMainContact: isMainContact,
-            });
-            return 'Contact updated successfully!';
-        }
-        else {
-            throw new Error('Document not found!');
-        }
+    async updateEmergencyContactFromDB(id, data, userId) {
+        const refDB = this.contactsDB;
+        refDB.where('userId', '==', userId).get();
+        refDB.doc(id).update({
+            name: data.name,
+            phone: data.phone,
+            relationship: data.relationship,
+            isMainContact: data.isMainContact,
+        });
+        return 'Playlist name updated successfully!';
     }
-    async removeEmergencyContactFromDB(id) {
-        const refDB = await this.contactsDB.doc(id).get();
-        if (refDB.exists) {
-            refDB.ref.delete();
-            return 'Contact removed successfully!';
-        }
-        else {
+    async removeEmergencyContactFromDB(id, userId) {
+        const refDB = this.contactsDB.doc(id);
+        const docSnap = await refDB.get();
+        if (!docSnap.exists) {
             throw new Error('Document not found!');
         }
+        const data = docSnap.data();
+        if (data?.userId !== userId) {
+            throw new Error('Unauthorized to delete this contact!');
+        }
+        await refDB.delete();
+        return 'Contact removed successfully!';
     }
 };
 EmergencyContactsFromDBRepository = __decorate([

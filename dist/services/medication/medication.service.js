@@ -17,50 +17,50 @@ let MedicationService = class MedicationService {
     constructor(medicationFromDBRepository) {
         this.medicationFromDBRepository = medicationFromDBRepository;
     }
-    async getMedications() {
-        const responseDB = await this.medicationFromDBRepository.getMedicationsFromDB();
+    async getMedications(userId) {
+        const responseDB = await this.medicationFromDBRepository.getMedicationsFromDB(userId);
         if (!responseDB) {
             throw new Error('Data not found!');
         }
         return responseDB || [];
     }
-    async getMedicationById(id) {
-        const responseDB = await this.medicationFromDBRepository.getMedicationByIdFromDB(id);
+    async getMedicationById(id, userId) {
+        const responseDB = await this.medicationFromDBRepository.getMedicationByIdFromDB(id, userId);
         if (!responseDB) {
             throw new Error('Data not found!');
         }
         return responseDB;
     }
-    async addMedication(name, dosage, time) {
-        const responseDB = await this.medicationFromDBRepository.addMedicationFromDB(name, dosage, time);
+    async addMedication(data, userId) {
+        const responseDB = await this.medicationFromDBRepository.addMedicationFromDB(data, userId);
         if (!responseDB) {
             throw new Error('Data not found!');
         }
         return responseDB;
     }
-    async removeMedication(id) {
-        const responseDB = await this.medicationFromDBRepository.removeMedicationFromDB(id);
+    async removeMedication(id, userId) {
+        const responseDB = await this.medicationFromDBRepository.removeMedicationFromDB(id, userId);
         if (!responseDB) {
             throw new Error('Data not found!');
         }
         return responseDB;
     }
-    async updateMedicationReminder(id, reminder) {
-        const responseDB = await this.medicationFromDBRepository.updateMedicationReminderFromDB(id, reminder);
+    async updateMedicationReminder(id, reminder, userId) {
+        const responseDB = await this.medicationFromDBRepository.updateMedicationReminderFromDB(id, reminder, userId);
         if (!responseDB) {
             throw new Error('Data not found!');
         }
         return responseDB;
     }
-    async updateMedicationTaken(id, taken) {
-        const responseDB = await this.medicationFromDBRepository.updateMedicationTakenFromDB(id, taken);
+    async updateMedicationTaken(id, taken, userId) {
+        const responseDB = await this.medicationFromDBRepository.updateMedicationTakenFromDB(id, taken, userId);
         if (!responseDB) {
             throw new Error('Data not found!');
         }
         return responseDB;
     }
-    async resetMedications() {
-        const responseDB = await this.medicationFromDBRepository.resetMedicationsFromDB();
+    async resetMedications(userId) {
+        const responseDB = await this.medicationFromDBRepository.resetMedicationsFromDB(userId);
         if (!responseDB) {
             throw new Error('Data not found!');
         }
